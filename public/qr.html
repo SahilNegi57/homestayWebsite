@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>📱 Scan to open on phone</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: #1a3a4a; color: #e8f4f8; padding: 1.5rem;
+    }
+    .card {
+      background: white; color: #1c2b35; border-radius: 16px;
+      padding: 2.5rem 2rem; text-align: center; max-width: 420px; width: 100%;
+      box-shadow: 0 16px 64px rgba(0,0,0,0.3);
+    }
+    h1 { font-size: 1.3rem; margin-bottom: 1.25rem; }
+    #qr { display: flex; justify-content: center; margin-bottom: 1rem; }
+    #qr canvas { border: 1px solid #d0e4ec; border-radius: 12px; padding: 10px; }
+    .url { font-size: 1rem; font-weight: 600; color: #1a3a4a; word-break: break-all; margin-bottom: 0.75rem; }
+    .hint { font-size: 0.8rem; color: #5a7380; margin-bottom: 1.25rem; }
+    .warn { display: none; background: #fff4e5; border: 1px solid #e0a845; color: #8a5a10;
+            font-size: 0.8rem; padding: 0.6rem 0.9rem; border-radius: 8px; margin-bottom: 1rem; }
+    .override { display: flex; gap: 0.5rem; justify-content: center; }
+    .override input {
+      border: 1.5px solid #d0e4ec; border-radius: 8px; padding: 0.5rem 0.75rem;
+      font-size: 0.85rem; width: 160px; outline: none;
+    }
+    .override input:focus { border-color: #1a3a4a; }
+    .override button {
+      background: #c8963e; color: white; border: none; border-radius: 8px;
+      padding: 0.5rem 1rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+    }
+    .fallback { font-size: 1.4rem; font-weight: 700; color: #1a3a4a; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>📱 Scan to open Shivalik Ice Hills on your phone</h1>
+    <div id="warn" class="warn">
+      ⚠️ This page was opened via <b>localhost</b>. The QR below uses the last known network IP.
+      For a guaranteed-correct QR, open this page via the <i>Network</i> URL shown in the dev server log.
+    </div>
+    <div id="qr"></div>
+    <p class="url" id="url"></p>
+    <p class="hint">Phone must be on the <b>same Wi-Fi</b> as this PC.<br/>If the IP changed, enter it below and regenerate:</p>
+    <div class="override">
+      <input id="ip" placeholder="e.g. 192.168.1.7" />
+      <button onclick="regen()">↻ Update</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    const BASE_PATH = "/shivalik-ice-hills";
+    const FALLBACK_IP = "192.168.1.7"; // update if your PC's IP changes
+    const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
+
+    function currentUrl() {
+      const ipInput = document.getElementById("ip").value.trim();
+      if (ipInput) return "http://" + ipInput + ":3000" + BASE_PATH;
+      const origin = isLocal ? "http://" + FALLBACK_IP + ":3000" : location.origin;
+      return origin + BASE_PATH;
+    }
+
+    function render() {
+      const url = currentUrl();
+      document.getElementById("url").textContent = url;
+      const holder = document.getElementById("qr");
+      holder.innerHTML = "";
+      if (typeof QRCode === "undefined") {
+        holder.innerHTML = '<div class="fallback">' + url + "</div>"; // offline fallback: just show URL
+        return;
+      }
+      new QRCode(holder, {
+        text: url,
+        width: 300,
+        height: 300,
+        colorDark: "#1a3a4a",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+
+    function regen() { render(); }
+
+    if (isLocal) document.getElementById("warn").style.display = "block";
+    render();
+  </script>
+</body>
+</html>

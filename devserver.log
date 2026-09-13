@@ -1,0 +1,969 @@
+
+> shivalik-ice-hills@0.1.0 start
+> react-scripts start
+
+(node:11364) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:11364) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:11364) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+Starting the development server...
+
+Compiled successfully!
+
+You can now view shivalik-ice-hills in the browser.
+
+  Local:            http://localhost:3000/shivalik-ice-hills
+  On Your Network:  http://192.168.1.7:3000/shivalik-ice-hills
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+
+webpack compiled [1m[32msuccessfully[39m[22m
+Compiling...
+Failed to compile.
+
+[eslint] 
+src\App.js
+  Line 1012:14:   'cats' is not defined      no-undef
+  Line 1013:56:   'cat' is not defined       no-undef
+  Line 1013:101:  'setCat' is not defined    no-undef
+  Line 1017:14:   'items' is not defined     no-undef
+  Line 1018:68:   'setLight' is not defined  no-undef
+  Line 1028:8:    'light' is not defined     no-undef
+  Line 1029:50:   'setLight' is not defined  no-undef
+  Line 1030:21:   'light' is not defined     no-undef
+  Line 1030:37:   'light' is not defined     no-undef
+  Line 1031:61:   'setLight' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 661:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 694:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 984:10:   'idx' is assigned a value but never used                                                                                                                                                                                                                                                                                                                           no-unused-vars
+  Line 985:18:   'setPaused' is assigned a value but never used                                                                                                                                                                                                                                                                                                                     no-unused-vars
+  Line 988:9:    'goTo' is assigned a value but never used                                                                                                                                                                                                                                                                                                                          no-unused-vars
+  Line 1472:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1473:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+[1m[31mERROR[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1012:14:   'cats' is not defined      no-undef
+  Line 1013:56:   'cat' is not defined       no-undef
+  Line 1013:101:  'setCat' is not defined    no-undef
+  Line 1017:14:   'items' is not defined     no-undef
+  Line 1018:68:   'setLight' is not defined  no-undef
+  Line 1028:8:    'light' is not defined     no-undef
+  Line 1029:50:   'setLight' is not defined  no-undef
+  Line 1030:21:   'light' is not defined     no-undef
+  Line 1030:37:   'light' is not defined     no-undef
+  Line 1031:61:   'setLight' is not defined  no-undef
+
+Search for the keywords to learn more about each [1m[31merror[39m[22m[1m.[39m[22m
+
+webpack compiled with [1m[31m1 error[39m[22m and [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 661:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 694:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1473:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1474:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 661:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 694:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1473:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1474:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 659:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 692:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1471:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1472:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 659:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 692:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1471:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1472:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 660:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 693:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1472:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1473:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 660:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 693:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1472:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1473:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 634:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 667:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1421:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1422:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 634:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 667:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1421:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1422:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 635:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 668:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1422:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1423:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 635:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 668:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1422:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1423:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 650:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 683:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1437:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1438:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 650:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 683:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1437:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1438:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 651:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 686:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1442:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1443:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 651:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 686:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1442:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1443:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 653:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 688:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1444:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1445:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 653:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 688:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1444:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1445:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 653:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 688:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1444:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1445:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 653:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 688:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1444:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1445:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 654:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 689:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1447:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1448:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 654:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 689:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1447:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1448:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 654:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 689:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1447:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1448:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 654:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 689:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1447:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1448:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 654:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 689:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1447:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1448:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 654:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 689:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1447:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1448:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 654:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 689:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1447:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1448:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 654:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 689:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1447:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1448:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 654:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 689:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1447:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1448:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 654:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 689:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1447:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1448:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Failed to compile.
+
+[eslint] 
+src\App.js
+Syntax error: This experimental syntax requires enabling one of the following parser plugin(s): "decorators", "decorators-legacy". (132:2) (132:2)
+[1m[31mERROR[39m[22m in [1m./src/App.js[39m[22m
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\src\App.js: Support for the experimental syntax 'decorators' isn't currently enabled (132:3):
+
+[0m [90m 130 |[39m
+ [90m 131 |[39m [90m// ─── STYLES ──────────────────────────────────────────────────────────────────  const CSS = `[39m
+[31m[1m>[22m[39m[90m 132 |[39m   [33m@[39m[36mimport[39m url([32m'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap'[39m)[33m;[39m
+ [90m     |[39m   [31m[1m^[22m[39m
+ [90m 133 |[39m
+ [90m 134 |[39m
+ [90m 135 |[39m   [33m*[39m[33m,[39m [33m*[39m[33m:[39m[33m:[39mbefore[33m,[39m [33m*[39m[33m:[39m[33m:[39mafter { box[33m-[39msizing[33m:[39m border[33m-[39mbox[33m;[39m margin[33m:[39m [35m0[39m[33m;[39m padding[33m:[39m [35m0[39m[33m;[39m }[0m
+
+Add @babel/plugin-proposal-decorators (https://github.com/babel/babel/tree/main/packages/babel-plugin-proposal-decorators) to the 'plugins' section of your Babel config to enable transformation.
+If you want to leave it as-is, add @babel/plugin-syntax-decorators (https://github.com/babel/babel/tree/main/packages/babel-plugin-syntax-decorators) to the 'plugins' section to enable parsing.
+
+If you already added the plugin for this syntax to your config, it's possible that your config isn't being loaded.
+You can re-run Babel with the BABEL_SHOW_CONFIG_FOR environment variable to show the loaded configuration:
+	npx cross-env BABEL_SHOW_CONFIG_FOR=C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\src\App.js <your build command>
+See https://babeljs.io/docs/configuration#print-effective-configs for more info.
+
+    at constructor (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:365:19)
+    at FlowParserMixin.raise (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6599:19)
+    at FlowParserMixin.expectOnePlugin (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6633:18)
+    at FlowParserMixin.parseDecorator (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12948:10)
+    at FlowParserMixin.parseDecorators (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12933:28)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12765:25)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13309:10)
+    at FlowParserMixin.parseProgram (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3685:28)
+    at FlowParserMixin.parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14488:25)
+    at parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14522:38)
+    at parser (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\parser\index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:261:32)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:223:11)
+
+[1m[31mERROR[39m[22m in [1m[eslint] 
+src\App.js
+  Line 132:2:  Parsing [1m[31merror[39m[22m[1m: This experimental syntax requires enabling one of the following parser plugin(s): "decorators", "decorators-legacy". (132:2)
+
+[39m[22m
+
+webpack compiled with [1m[31m2 errors[39m[22m
+Compiling...
+Failed to compile.
+
+[eslint] 
+src\App.js
+Syntax error: Unexpected token (135:2) (135:2)
+[1m[31mERROR[39m[22m in [1m./src/App.js[39m[22m
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\src\App.js: Unexpected token (135:2)
+
+[0m [90m 133 |[39m
+ [90m 134 |[39m
+[31m[1m>[22m[39m[90m 135 |[39m   [33m*[39m[33m,[39m [33m*[39m[33m:[39m[33m:[39mbefore[33m,[39m [33m*[39m[33m:[39m[33m:[39mafter { box[33m-[39msizing[33m:[39m border[33m-[39mbox[33m;[39m margin[33m:[39m [35m0[39m[33m;[39m padding[33m:[39m [35m0[39m[33m;[39m }
+ [90m     |[39m   [31m[1m^[22m[39m
+ [90m 136 |[39m
+ [90m 137 |[39m   html[33m,[39m body[33m,[39m [33m#[39mroot {
+ [90m 138 |[39m     width[33m:[39m [35m100[39m[33m%[39m[33m;[39m[0m
+    at constructor (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:365:19)
+    at FlowParserMixin.raise (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6599:19)
+    at FlowParserMixin.unexpected (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6619:16)
+    at FlowParserMixin.parseExprAtom (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11442:22)
+    at FlowParserMixin.parseExprAtom (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:4764:20)
+    at FlowParserMixin.parseExprSubscripts (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11081:23)
+    at FlowParserMixin.parseUpdate (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10899:61)
+    at FlowParserMixin.parseExprOps (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10831:21)
+    at FlowParserMixin.parseMaybeAssign (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3549:18)
+    at FlowParserMixin.parseExpressionBase (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10784:23)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10780:39
+    at FlowParserMixin.allowInAnd (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12421:16)
+    at FlowParserMixin.parseExpression (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10780:17)
+    at FlowParserMixin.parseStatementContent (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12895:23)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13309:10)
+    at FlowParserMixin.parseProgram (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3685:28)
+    at FlowParserMixin.parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14488:25)
+    at parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14522:38)
+    at parser (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\parser\index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:261:32)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:223:11)
+
+[1m[31mERROR[39m[22m in [1m[eslint] 
+src\App.js
+  Line 135:2:  Parsing [1m[31merror[39m[22m[1m: [1m[31mUnexpected[39m[22m[1m token (135:2)
+
+[39m[22m
+
+webpack compiled with [1m[31m2 errors[39m[22m
+Compiling...
+Failed to compile.
+
+[eslint] 
+src\App.js
+Syntax error: Unexpected token (135:2) (135:2)
+[1m[31mERROR[39m[22m in [1m./src/App.js[39m[22m
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\src\App.js: Unexpected token (135:2)
+
+[0m [90m 133 |[39m
+ [90m 134 |[39m
+[31m[1m>[22m[39m[90m 135 |[39m   [33m*[39m[33m,[39m [33m*[39m[33m:[39m[33m:[39mbefore[33m,[39m [33m*[39m[33m:[39m[33m:[39mafter { box[33m-[39msizing[33m:[39m border[33m-[39mbox[33m;[39m margin[33m:[39m [35m0[39m[33m;[39m padding[33m:[39m [35m0[39m[33m;[39m }
+ [90m     |[39m   [31m[1m^[22m[39m
+ [90m 136 |[39m
+ [90m 137 |[39m   html[33m,[39m body[33m,[39m [33m#[39mroot {
+ [90m 138 |[39m     width[33m:[39m [35m100[39m[33m%[39m[33m;[39m[0m
+    at constructor (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:365:19)
+    at FlowParserMixin.raise (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6599:19)
+    at FlowParserMixin.unexpected (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6619:16)
+    at FlowParserMixin.parseExprAtom (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11442:22)
+    at FlowParserMixin.parseExprAtom (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:4764:20)
+    at FlowParserMixin.parseExprSubscripts (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11081:23)
+    at FlowParserMixin.parseUpdate (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10899:61)
+    at FlowParserMixin.parseExprOps (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10831:21)
+    at FlowParserMixin.parseMaybeAssign (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3549:18)
+    at FlowParserMixin.parseExpressionBase (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10784:23)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10780:39
+    at FlowParserMixin.allowInAnd (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12421:16)
+    at FlowParserMixin.parseExpression (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10780:17)
+    at FlowParserMixin.parseStatementContent (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12895:23)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13309:10)
+    at FlowParserMixin.parseProgram (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3685:28)
+    at FlowParserMixin.parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14488:25)
+    at parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14522:38)
+    at parser (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\parser\index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:261:32)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:223:11)
+
+[1m[31mERROR[39m[22m in [1m[eslint] 
+src\App.js
+  Line 135:2:  Parsing [1m[31merror[39m[22m[1m: [1m[31mUnexpected[39m[22m[1m token (135:2)
+
+[39m[22m
+
+webpack compiled with [1m[31m2 errors[39m[22m
+Compiling...
+Failed to compile.
+
+[eslint] 
+src\App.js
+Syntax error: Unexpected token (135:2) (135:2)
+[1m[31mERROR[39m[22m in [1m./src/App.js[39m[22m
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\src\App.js: Unexpected token (135:2)
+
+[0m [90m 133 |[39m
+ [90m 134 |[39m
+[31m[1m>[22m[39m[90m 135 |[39m   [33m*[39m[33m,[39m [33m*[39m[33m:[39m[33m:[39mbefore[33m,[39m [33m*[39m[33m:[39m[33m:[39mafter { box[33m-[39msizing[33m:[39m border[33m-[39mbox[33m;[39m margin[33m:[39m [35m0[39m[33m;[39m padding[33m:[39m [35m0[39m[33m;[39m }
+ [90m     |[39m   [31m[1m^[22m[39m
+ [90m 136 |[39m
+ [90m 137 |[39m   html[33m,[39m body[33m,[39m [33m#[39mroot {
+ [90m 138 |[39m     width[33m:[39m [35m100[39m[33m%[39m[33m;[39m[0m
+    at constructor (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:365:19)
+    at FlowParserMixin.raise (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6599:19)
+    at FlowParserMixin.unexpected (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6619:16)
+    at FlowParserMixin.parseExprAtom (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11442:22)
+    at FlowParserMixin.parseExprAtom (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:4764:20)
+    at FlowParserMixin.parseExprSubscripts (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11081:23)
+    at FlowParserMixin.parseUpdate (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10899:61)
+    at FlowParserMixin.parseExprOps (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10831:21)
+    at FlowParserMixin.parseMaybeAssign (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3549:18)
+    at FlowParserMixin.parseExpressionBase (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10784:23)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10780:39
+    at FlowParserMixin.allowInAnd (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12421:16)
+    at FlowParserMixin.parseExpression (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10780:17)
+    at FlowParserMixin.parseStatementContent (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12895:23)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13309:10)
+    at FlowParserMixin.parseProgram (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3685:28)
+    at FlowParserMixin.parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14488:25)
+    at parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14522:38)
+    at parser (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\parser\index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:261:32)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:223:11)
+
+[1m[31mERROR[39m[22m in [1m[eslint] 
+src\App.js
+  Line 135:2:  Parsing [1m[31merror[39m[22m[1m: [1m[31mUnexpected[39m[22m[1m token (135:2)
+
+[39m[22m
+
+webpack compiled with [1m[31m2 errors[39m[22m
+Compiling...
+Failed to compile.
+
+[eslint] 
+src\App.js
+Syntax error: Unexpected token (135:2) (135:2)
+[1m[31mERROR[39m[22m in [1m./src/App.js[39m[22m
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\src\App.js: Unexpected token (135:2)
+
+[0m [90m 133 |[39m
+ [90m 134 |[39m
+[31m[1m>[22m[39m[90m 135 |[39m   [33m*[39m[33m,[39m [33m*[39m[33m:[39m[33m:[39mbefore[33m,[39m [33m*[39m[33m:[39m[33m:[39mafter { box[33m-[39msizing[33m:[39m border[33m-[39mbox[33m;[39m margin[33m:[39m [35m0[39m[33m;[39m padding[33m:[39m [35m0[39m[33m;[39m }
+ [90m     |[39m   [31m[1m^[22m[39m
+ [90m 136 |[39m
+ [90m 137 |[39m   html[33m,[39m body[33m,[39m [33m#[39mroot {
+ [90m 138 |[39m     width[33m:[39m [35m100[39m[33m%[39m[33m;[39m[0m
+    at constructor (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:365:19)
+    at FlowParserMixin.raise (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6599:19)
+    at FlowParserMixin.unexpected (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6619:16)
+    at FlowParserMixin.parseExprAtom (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11442:22)
+    at FlowParserMixin.parseExprAtom (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:4764:20)
+    at FlowParserMixin.parseExprSubscripts (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11081:23)
+    at FlowParserMixin.parseUpdate (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10899:61)
+    at FlowParserMixin.parseExprOps (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10831:21)
+    at FlowParserMixin.parseMaybeAssign (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3549:18)
+    at FlowParserMixin.parseExpressionBase (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10784:23)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10780:39
+    at FlowParserMixin.allowInAnd (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12421:16)
+    at FlowParserMixin.parseExpression (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10780:17)
+    at FlowParserMixin.parseStatementContent (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12895:23)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13309:10)
+    at FlowParserMixin.parseProgram (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3685:28)
+    at FlowParserMixin.parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14488:25)
+    at parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14522:38)
+    at parser (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\parser\index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:261:32)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:223:11)
+
+[1m[31mERROR[39m[22m in [1m[eslint] 
+src\App.js
+  Line 135:2:  Parsing [1m[31merror[39m[22m[1m: [1m[31mUnexpected[39m[22m[1m token (135:2)
+
+[39m[22m
+
+webpack compiled with [1m[31m2 errors[39m[22m
+Compiling...
+Failed to compile.
+
+[eslint] 
+src\App.js
+Syntax error: Unexpected token (135:2) (135:2)
+[1m[31mERROR[39m[22m in [1m./src/App.js[39m[22m
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\src\App.js: Unexpected token (135:2)
+
+[0m [90m 133 |[39m
+ [90m 134 |[39m
+[31m[1m>[22m[39m[90m 135 |[39m   [33m*[39m[33m,[39m [33m*[39m[33m:[39m[33m:[39mbefore[33m,[39m [33m*[39m[33m:[39m[33m:[39mafter { box[33m-[39msizing[33m:[39m border[33m-[39mbox[33m;[39m margin[33m:[39m [35m0[39m[33m;[39m padding[33m:[39m [35m0[39m[33m;[39m }
+ [90m     |[39m   [31m[1m^[22m[39m
+ [90m 136 |[39m
+ [90m 137 |[39m   html[33m,[39m body[33m,[39m [33m#[39mroot {
+ [90m 138 |[39m     width[33m:[39m [35m100[39m[33m%[39m[33m;[39m[0m
+    at constructor (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:365:19)
+    at FlowParserMixin.raise (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6599:19)
+    at FlowParserMixin.unexpected (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6619:16)
+    at FlowParserMixin.parseExprAtom (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11442:22)
+    at FlowParserMixin.parseExprAtom (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:4764:20)
+    at FlowParserMixin.parseExprSubscripts (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11081:23)
+    at FlowParserMixin.parseUpdate (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10899:61)
+    at FlowParserMixin.parseExprOps (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10831:21)
+    at FlowParserMixin.parseMaybeAssign (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3549:18)
+    at FlowParserMixin.parseExpressionBase (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10784:23)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10780:39
+    at FlowParserMixin.allowInAnd (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12421:16)
+    at FlowParserMixin.parseExpression (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10780:17)
+    at FlowParserMixin.parseStatementContent (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12895:23)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13309:10)
+    at FlowParserMixin.parseProgram (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3685:28)
+    at FlowParserMixin.parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14488:25)
+    at parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14522:38)
+    at parser (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\parser\index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:261:32)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:223:11)
+
+[1m[31mERROR[39m[22m in [1m[eslint] 
+src\App.js
+  Line 135:2:  Parsing [1m[31merror[39m[22m[1m: [1m[31mUnexpected[39m[22m[1m token (135:2)
+
+[39m[22m
+
+webpack compiled with [1m[31m2 errors[39m[22m
+Compiling...
+Failed to compile.
+
+[eslint] 
+src\App.js
+Syntax error: Unexpected token (135:2) (135:2)
+[1m[31mERROR[39m[22m in [1m./src/App.js[39m[22m
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\src\App.js: Unexpected token (135:2)
+
+[0m [90m 133 |[39m
+ [90m 134 |[39m
+[31m[1m>[22m[39m[90m 135 |[39m   [33m*[39m[33m,[39m [33m*[39m[33m:[39m[33m:[39mbefore[33m,[39m [33m*[39m[33m:[39m[33m:[39mafter { box[33m-[39msizing[33m:[39m border[33m-[39mbox[33m;[39m margin[33m:[39m [35m0[39m[33m;[39m padding[33m:[39m [35m0[39m[33m;[39m }
+ [90m     |[39m   [31m[1m^[22m[39m
+ [90m 136 |[39m
+ [90m 137 |[39m   html[33m,[39m body[33m,[39m [33m#[39mroot {
+ [90m 138 |[39m     width[33m:[39m [35m100[39m[33m%[39m[33m;[39m[0m
+    at constructor (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:365:19)
+    at FlowParserMixin.raise (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6599:19)
+    at FlowParserMixin.unexpected (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:6619:16)
+    at FlowParserMixin.parseExprAtom (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11442:22)
+    at FlowParserMixin.parseExprAtom (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:4764:20)
+    at FlowParserMixin.parseExprSubscripts (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11081:23)
+    at FlowParserMixin.parseUpdate (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11066:21)
+    at FlowParserMixin.parseMaybeUnary (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:11046:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10899:61)
+    at FlowParserMixin.parseExprOps (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10904:23)
+    at FlowParserMixin.parseMaybeConditional (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10881:23)
+    at FlowParserMixin.parseMaybeAssign (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10831:21)
+    at FlowParserMixin.parseMaybeAssign (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3549:18)
+    at FlowParserMixin.parseExpressionBase (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10784:23)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10780:39
+    at FlowParserMixin.allowInAnd (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12421:16)
+    at FlowParserMixin.parseExpression (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:10780:17)
+    at FlowParserMixin.parseStatementContent (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12895:23)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12767:17)
+    at FlowParserMixin.parseStatementLike (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:2918:24)
+    at FlowParserMixin.parseModuleItem (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12744:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13316:36)
+    at FlowParserMixin.parseBlockBody (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:13309:10)
+    at FlowParserMixin.parseProgram (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12622:10)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:12612:25)
+    at FlowParserMixin.parseTopLevel (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:3685:28)
+    at FlowParserMixin.parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14488:25)
+    at parse (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\parser\lib\index.js:14522:38)
+    at parser (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\parser\index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transformation\index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\@babel\core\lib\transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:261:32)
+    at C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (C:\Users\HP\Desktop\shivalik\shivalik-ice-hills\node_modules\gensync\index.js:223:11)
+
+[1m[31mERROR[39m[22m in [1m[eslint] 
+src\App.js
+  Line 135:2:  Parsing [1m[31merror[39m[22m[1m: [1m[31mUnexpected[39m[22m[1m token (135:2)
+
+[39m[22m
+
+webpack compiled with [1m[31m2 errors[39m[22m
+Compiling...
+Failed to compile.
+
+[eslint] 
+src\App.js
+  Line 1053:47:  's' is not defined  no-undef
+  Line 1054:46:  's' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 2:102:    'Trees' is defined but never used                                                                                                                                                                                                                                                                                                                                  no-unused-vars
+  Line 2:260:    'MessageSquareHeart' is defined but never used                                                                                                                                                                                                                                                                                                                     no-unused-vars
+  Line 657:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 692:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1449:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1450:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+[1m[31mERROR[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1053:47:  's' is not defined  no-undef
+  Line 1054:46:  's' is not defined  no-undef
+
+Search for the keywords to learn more about each [1m[31merror[39m[22m[1m.[39m[22m
+
+webpack compiled with [1m[31m1 error[39m[22m and [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 2:102:    'Trees' is defined but never used                                                                                                                                                                                                                                                                                                                                  no-unused-vars
+  Line 2:260:    'MessageSquareHeart' is defined but never used                                                                                                                                                                                                                                                                                                                     no-unused-vars
+  Line 657:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 692:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1449:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1450:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 2:102:    'Trees' is defined but never used                                                                                                                                                                                                                                                                                                                                  no-unused-vars
+  Line 2:260:    'MessageSquareHeart' is defined but never used                                                                                                                                                                                                                                                                                                                     no-unused-vars
+  Line 657:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 692:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1449:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1450:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 2:102:    'Trees' is defined but never used                                                                                                                                                                                                                                                                                                                                  no-unused-vars
+  Line 2:260:    'MessageSquareHeart' is defined but never used                                                                                                                                                                                                                                                                                                                     no-unused-vars
+  Line 657:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 692:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1449:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1450:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 1:31:     'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+  Line 2:102:    'Trees' is defined but never used                                                                                                                                                                                                                                                                                                                                  no-unused-vars
+  Line 2:260:    'MessageSquareHeart' is defined but never used                                                                                                                                                                                                                                                                                                                     no-unused-vars
+  Line 657:10:   'StarRating' is defined but never used                                                                                                                                                                                                                                                                                                                             no-unused-vars
+  Line 692:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1449:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1450:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src\App.js
+  Line 688:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1445:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1446:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m[eslint] 
+src\App.js
+  Line 688:9:    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1445:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  Line 1446:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+[39m[22m
+
+webpack compiled with [1m[33m1 warning[39m[22m

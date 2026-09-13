@@ -1,10 +1,56 @@
 import { useState, useEffect, useRef } from "react";
+import { BedDouble, Camera, Sparkles, Home as HomeIcon, MessageSquare, Film, Mountain, MountainSnow, ShieldCheck, Recycle, MapPin, Phone, Mail, Clock, MessageCircle, Lock, CheckCircle2, Send, CalendarDays, Star, Handshake, UtensilsCrossed, Helicopter, CarFront, FlameKindling, SquareParking, Leaf, Sun, Flower2, Heart, ChevronLeft, ChevronRight, Users, ScrollText, CalendarX, Baby, PawPrint, Wrench, Ban, AlertTriangle } from "lucide-react";
 import homestayVideo from "./assets/videos/homestay-tour.mp4";
+import logoImg from "./assets/images/logo-opt.png";
+// ─── LOCAL IMAGES (optimized copies — see scripts/optimize-images.js) ──────
+import imgGuest1 from "./assets/images/galllery-opt/guest1.jpg";
+import imgGuest2 from "./assets/images/galllery-opt/guest2.jpg";
+import imgGuest3 from "./assets/images/galllery-opt/guest3.jpg";
+import imgGuest4 from "./assets/images/galllery-opt/guest4.jpg";
+import imgIce1 from "./assets/images/galllery-opt/ice1.jpg";
+import imgIce3 from "./assets/images/galllery-opt/ice3.jpg";
+import imgIce4 from "./assets/images/galllery-opt/ice4.jpg";
+import imgAround1 from "./assets/images/galllery-opt/img-20250324-112231-jpg.jpg";
+import imgAround2 from "./assets/images/galllery-opt/img-20250324-112526-jpg.jpg";
+import roomImg1 from "./assets/images/Rooms-opt/img-20250324-111957-jpg.jpg";
+import roomImg2 from "./assets/images/Rooms-opt/img-20250324-112045-jpg.jpg";
+import roomImg3 from "./assets/images/Rooms-opt/img-20250324-112130-jpg.jpg";
+import roomImg4 from "./assets/images/Rooms-opt/img-20250324-112214-jpg.jpg";
+import roomImg5 from "./assets/images/Rooms-opt/img-20250324-112335-jpg.jpg";
+import roomImg6 from "./assets/images/Rooms-opt/img-20250324-112351-jpg.jpg";
+import roomImg7 from "./assets/images/Rooms-opt/img-20250324-112626-jpg.jpg";
+import roomImg8 from "./assets/images/Rooms-opt/img-20250324-112644-jpg.jpg";
+import roomImg9 from "./assets/images/Rooms-opt/img-20250324-112649-jpg.jpg";
+import roomImgHero from "./assets/images/Rooms-opt/hero.jpg";
+import roomImg10 from "./assets/images/Rooms-opt/img-20250324-112231-jpg.jpg";
+import roomImg11 from "./assets/images/Rooms-opt/img-20250324-112526-jpg.jpg";
+// Room card images — one per room type, from Rooms/room_front (exact names kept)
+import imgDelux from "./assets/images/Rooms-opt/room_front/delux.jpeg";
+import imgSuperDelux from "./assets/images/Rooms-opt/room_front/superDelux.jpeg";
+import imgStandard from "./assets/images/Rooms-opt/room_front/Standard.jpeg";
+import imgShared from "./assets/images/Rooms-opt/room_front/shared.jpeg";
 // ─── EMAILJS CONFIG ───────────────────────────────────────────────────────────
 const EMAILJS_SERVICE_ID       = "service_e4gi90r";          
 const EMAILJS_PUBLIC_KEY       = "cqWBlZliX0aLNQQDB";        
 const EMAILJS_BOOKING_TEMPLATE = "template_r4zfcvr"; 
 const EMAILJS_CONTACT_TEMPLATE = "template_poipe2s"; 
+
+// ─── WHATSAPP BOOKING ───────────────────────────────────────────────────────
+const WA_NUMBER = "919084956304";
+const WA_BOOKING_MESSAGE = [
+  "Hello! I'd like to book a stay at Shivalik Ice Hills, Guptkashi.",
+  "",
+  "Room Type: ",
+  "📅 Check-in: ",
+  "📅 Check-out: ",
+  "👥 Guests: ",
+  "",
+  "Please share availability and best rates. Thank you!"
+].join("\n");
+const WA_BOOKING_URL = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WA_BOOKING_MESSAGE)}`;
+
+// Exact Google Maps listing for the property (footer "Directions" + contact "Open in Google Maps")
+const MAPS_URL = "https://www.google.com/maps/place/Shivalik+ice+hills/@30.5208225,79.0676562,15z/data=!4m14!1m7!3m6!1s0x39083528eb09d773:0x57460e45a1e158ae!2sShivalik+ice+hills!8m2!3d30.5207834!4d79.0676048!16s%2Fg%2F11s3bmcvr9!3m5!1s0x39083528eb09d773:0x57460e45a1e158ae!8m2!3d30.5207834!4d79.0676048!16s%2Fg%2F11s3bmcvr9";
 
 // Helper: sends email via EmailJS REST API (no npm package needed)
 async function sendEmail(templateId, templateParams) {
@@ -24,58 +70,36 @@ async function sendEmail(templateId, templateParams) {
 // ─── DATA ────────────────────────────────────────────────────────────────────
 const ROOMS = [
   {
-    id: 1, name: "Himalayan Suite", type: "Suite", price: 3500,
+    id: 1, name: "Himalayan Suite", type: "Deluxe", price: 3500,
     available: true, maxGuests: 3,
     description: "Wake up to breathtaking Kedarnath peaks. Spacious suite with panoramic mountain views, premium bedding, and a private sit-out.",
     amenities: ["Mountain View", "WiFi", "Hot Water", "Heater", "Attached Bath", "Room Service"],
-    images: ["https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
-             "https://images.unsplash.com/photo-1540202404-a2f29016b523?w=800&q=80"],
+    images: [imgDelux],
     badge: "Most Popular"
   },
   {
-    id: 2, name: "Valley Retreat", type: "Deluxe", price: 2200,
+    id: 2, name: "Valley Retreat", type: "Standard", price: 2200,
     available: true, maxGuests: 2,
-    description: "Cozy deluxe room overlooking the lush Mandakini valley. Perfect for couples seeking peace and warmth.",
+    description: "Cozy, budget-friendly room overlooking the lush Mandakini valley. Perfect for couples seeking peace and warmth.",
     amenities: ["Valley View", "WiFi", "Hot Water", "Heater", "Attached Bath"],
-    images: ["https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80",
-             "https://images.unsplash.com/photo-1601701119533-fde78d20f76c?w=800&q=80"],
+    images: [imgStandard],
     badge: null
   },
   {
-    id: 3, name: "Pilgrim's Nest", type: "Standard", price: 1400,
+    id: 3, name: "Pilgrim's Nest", type: "Shared", price: 1400,
     available: true, maxGuests: 2,
-    description: "Simple, warm and comfortable. Ideal for Kedarnath pilgrims needing a clean restful stay before the yatra.",
+    description: "Simple, warm and comfortable shared accommodation. Ideal for Kedarnath pilgrims needing a clean restful stay before the yatra.",
     amenities: ["WiFi", "Hot Water", "Heater", "Common Bath"],
-    images: ["https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80",
-             "https://images.unsplash.com/photo-1595576508898-0ad5c879a061?w=800&q=80"],
+    images: [imgShared],
     badge: "Best Value"
   },
   {
-    id: 4, name: "Forest Cottage", type: "Cottage", price: 4200,
+    id: 4, name: "Forest Cottage", type: "Super Deluxe", price: 4200,
     available: false, maxGuests: 4,
     description: "Private wooden cottage nestled in deodar forest. Complete privacy with fireplace, sit-out and family capacity.",
     amenities: ["Forest View", "WiFi", "Hot Water", "Fireplace", "Parking", "Kitchenette"],
-    images: ["https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80",
-             "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800&q=80"],
+    images: [imgSuperDelux],
     badge: "Private"
-  },
-  {
-    id: 5, name: "Sky Loft", type: "Deluxe", price: 2800,
-    available: true, maxGuests: 2,
-    description: "Top-floor loft with a 270° panoramic view. Stargazing from bed, modern interiors, and premium amenities.",
-    amenities: ["360° View", "WiFi", "Hot Water", "Heater", "Telescope", "Mini Bar"],
-    images: ["https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=800&q=80",
-             "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&q=80"],
-    badge: "Stargazing"
-  },
-  {
-    id: 6, name: "Family Meadow Room", type: "Family", price: 3800,
-    available: true, maxGuests: 5,
-    description: "Spacious family room with two queen beds, a kids corner, and meadow-facing balcony. Perfect for family pilgrimages.",
-    amenities: ["Meadow View", "WiFi", "Hot Water", "Heater", "Extra Beds", "Balcony"],
-    images: ["https://images.unsplash.com/photo-1541971875076-8f970d573be6?w=800&q=80",
-             "https://images.unsplash.com/photo-1555854877-bab8e564b8d5?w=800&q=80"],
-    badge: "Family"
   }
 ];
 
@@ -87,34 +111,35 @@ const TESTIMONIALS = [
 ];
 
 const GALLERY = [
-  { url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80", cat: "Views", label: "Kedarnath Peaks" },
-  { url: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&q=80", cat: "Rooms", label: "Deluxe Room" },
-  { url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80", cat: "Views", label: "Mountain Dawn" },
-  { url: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80", cat: "Rooms", label: "Forest Cottage" },
-  { url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80", cat: "Food", label: "Local Cuisine" },
-  { url: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600&q=80", cat: "Views", label: "Starry Nights" },
-  { url: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&q=80", cat: "Surroundings", label: "Deodar Forest" },
-  { url: "https://images.unsplash.com/photo-1541971875076-8f970d573be6?w=600&q=80", cat: "Rooms", label: "Family Room" },
-  { url: "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=600&q=80", cat: "Food", label: "Breakfast View" },
-  { url: "https://images.unsplash.com/photo-1601701119533-fde78d20f76c?w=600&q=80", cat: "Rooms", label: "Valley Retreat" },
-  { url: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600&q=80", cat: "Surroundings", label: "River Mandakini" },
-  { url: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600&q=80", cat: "Surroundings", label: "Temple Trail" },
+  { url: imgIce1,     cat: "Views",        label: "Shivalik Ice Hills" },
+  { url: imgIce3,     cat: "Views",        label: "Mountain Vistas" },
+  { url: imgIce4,     cat: "Views",        label: "Chaukhamba View" },
+  { url: imgGuest1,   cat: "Guests",       label: "Happy Guests" },
+  { url: imgGuest2,   cat: "Guests",       label: "Guest Moments" },
+  { url: imgGuest3,   cat: "Guests",       label: "Memories at the Homestay" },
+  { url: imgGuest4,   cat: "Guests",       label: "Our Visitors" },
+  { url: imgAround1,  cat: "Surroundings", label: "Village and Peak View" },
+  { url: imgAround2,  cat: "Surroundings", label: "Nearby Trails" },
 ];
+
+// All room photos shown on the "See More Images" page
+const ROOM_PHOTOS = [roomImg1, roomImg2, roomImg3, roomImg4, roomImg5, roomImg6, roomImg7, roomImg8, roomImg9, roomImgHero, roomImg10, roomImg11];
 
 const SERVICES = [
-  { icon: "🍲", title: "Home-Cooked Meals", desc: "Authentic Garhwali cuisine made with local ingredients. Breakfast, lunch & dinner available." },
-  { icon: "🥾", title: "Trek Guidance", desc: "Expert local guides for Kedarnath, Vasuki Tal, and nearby treks. All difficulty levels." },
-  { icon: "🚗", title: "Pickup & Drop", desc: "Comfortable transfers from Sonprayag, Guptkashi bus stand, or Rishikesh on request." },
-  { icon: "🔥", title: "Bonfire Evenings", desc: "Cozy evening bonfires under the stars with chai, local music and mountain stories." },
-  { icon: "🅿️", title: "Free Parking", desc: "Secure on-site parking for cars and bikes. EV charging point available." },
-  { icon: "🌿", title: "Nature Walks", desc: "Guided morning walks through deodar forests and village trails with local flora insights." },
-  { icon: "📿", title: "Puja Arrangements", desc: "Help with Kedarnath darshan bookings, puja materials and pandit coordination." },
-  { icon: "🧘", title: "Yoga & Meditation", desc: "Morning sessions on the mountain terrace with certified instructor on request." },
+  { Icon: UtensilsCrossed, title: "Home-Cooked Meals", desc: "Authentic Garhwali cuisine made with local ingredients. Breakfast, lunch & dinner available." },
+  { Icon: Helicopter, title: "Helipad Near: 4 km", desc: "Helipad just 4 km from the property — perfect for heli-yatra to Kedarnath and quick mountain transfers." },
+  { Icon: CarFront, title: "Pickup & Drop", desc: "We can arrange a cab for local visits and nearby sightseeing on request." },
+  { Icon: FlameKindling, title: "Bonfire Evenings", desc: "Cozy evening bonfires under the stars with chai, local music and mountain stories." },
+  { Icon: SquareParking, title: "Free Parking", desc: "Secure on-site parking for cars and bikes." },
+  { Icon: Leaf, title: "Nature Walks", desc: "Guided morning walks through the village and to the local temple, with stories of mountain life." },
+  { Icon: Mountain, title: "Serene Chaukhamba Peak View", desc: "Wake up to a serene, unobstructed view of the Chaukhamba peak right from the property." },
+  { Icon: Flower2, title: "Nature & Serenity", desc: "Enjoy a peaceful stay surrounded by greenery, mountains, and the sounds of nature." },
 ];
 
-// ─── STYLES ──────────────────────────────────────────────────────────────────
+// ─── STYLES ─────────────────────────────────────────────────────────────────
 const CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+  /* Google Fonts are loaded via <link> in public/index.html (non-blocking) */
+
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -178,7 +203,8 @@ const CSS = `
     box-shadow: 0 2px 20px rgba(0,0,0,0.2);
   }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .nav-logo-icon { font-size: 1.6rem; }
+  .nav-logo-icon { font-size: 1.6rem; display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; background: #ffffff; border-radius: 50%; padding: 5px; box-shadow: 0 3px 10px rgba(0,0,0,0.35); flex-shrink: 0; }
+  .nav-logo-img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .nav-logo-text { color: white; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; line-height: 1.1; }
   .nav-logo-sub { font-size: 0.65rem; letter-spacing: 0.15em; font-family: 'DM Sans', sans-serif; font-weight: 300; opacity: 0.8; color:white; }
   .nav-links { display: flex; gap: 2rem; align-items: center; }
@@ -209,11 +235,45 @@ const CSS = `
     overflow: hidden;
     width: 100%;
     max-width: 100%;
+    padding: 110px 0 3rem; /* keeps hero content clear of the fixed 70px navbar */
   }
   .hero-bg {
-    position: absolute; inset: 0;
+    position: absolute; inset: -3%;
     background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80') center/cover no-repeat;
-    width: 100%;
+    width: 104%;
+    animation: heroKenBurns 28s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  /* Slow cinematic zoom-pan over the SAME image — feels like a moving camera, no video needed */
+  @keyframes heroKenBurns {
+    from { transform: scale(1)    translate(0, 0); }
+    40%  { transform: scale(1.08) translate(-1.2%, 0.6%); }
+    75%  { transform: scale(1.14) translate(1%, -0.8%); }
+    to   { transform: scale(1.18) translate(-0.6%, 0.4%); }
+  }
+  /* Drifting snow particles layer */
+  .hero-snow {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .hero-snow span {
+    position: absolute; top: -4%;
+    display: block; width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.7);
+    box-shadow: 0 0 6px 1px rgba(255,255,255,0.35);
+    animation: snowFall linear infinite;
+  }
+  @keyframes snowFall {
+    0%   { transform: translate3d(0, -10px, 0) ; opacity: 0; }
+    8%   { opacity: 0.9; }
+    50%  { transform: translate3d(14px, 55vh, 0); }
+    100% { transform: translate3d(-10px, 108vh, 0); opacity: 0.2; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-bg { animation: none; }
+    .hero-snow { display: none; }
   }
   .hero-overlay {
     position: absolute; inset: 0;
@@ -254,48 +314,30 @@ const CSS = `
   .hero-scroll-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; margin: 0 auto; }
   @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
 
-  /* ── BOOKING FORM ── */
-  .booking-strip {
-    background: white; border-radius: var(--radius);
-    box-shadow: var(--shadow-lg); padding: 0.5rem;
-    display: flex; gap: 0.5rem; flex-wrap: wrap;
-    max-width: 780px; margin: 0 auto;
-    width: 100%;
-  }
-  .booking-field {
-    flex: 1; min-width: 140px; display: flex; flex-direction: column;
-    padding: 0.6rem 1rem; border-radius: 12px; background: var(--snow);
-    border: 1px solid var(--border); cursor: pointer; transition: var(--transition);
-  }
-  .booking-field:hover { border-color: var(--glacier); background: var(--ice); }
-  .booking-field label { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
-  .booking-field input, .booking-field select {
-    border: none; background: transparent; font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem; color: var(--text); font-weight: 500; outline: none; cursor: pointer;
-  }
-  .booking-btn {
-    background: var(--gold); color: white; border: none; border-radius: 12px;
-    padding: 0.75rem 1.5rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
-    font-weight: 600; cursor: pointer; white-space: nowrap; transition: var(--transition);
-  }
-  .booking-btn:hover { background: #e0a845; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,150,62,0.4); }
-
   /* ── SECTIONS ── */
-  .section { padding: 5rem 1.5rem; max-width: 1200px; margin: 0 auto; }
-  .section-full { padding: 5rem 1.5rem; }
+  .section { padding: 4rem 1.5rem; max-width: 1200px; margin: 0 auto; }
+  .section-full { padding: 4rem 1.5rem; }
   .section-label {
     font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--gold); font-weight: 600; margin-bottom: 0.5rem; display: block;
+    color: #a1761f; font-weight: 600; margin-bottom: 0.5rem; display: inline-flex; align-items: center;
   }
+  .testimonials-inner .section-label, .video-inner .section-label { color: var(--gold); }
   .section-title { font-size: clamp(2rem, 4vw, 3rem); color: var(--peak); margin-bottom: 0.75rem; }
-  .section-sub { color: var(--muted); max-width: 560px; font-size: 1.05rem; line-height: 1.7; margin-bottom: 2.5rem; }
-  .section-header-row { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem; }
+  .section-sub { color: var(--muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.25rem; }
+  .section-header-row { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem; }
+  /* Rooms section: tighter flow from heading → chips → slider */
+  #rooms .section-sub { margin-bottom: 1rem; }
+  #rooms .section-header-row { margin-bottom: 0.9rem; }
+  #rooms .filter-bar { margin-bottom: 2rem; }
+  /* Tighten the dead space between the Why Stay cards and Our Rooms heading */
+  #why { padding-bottom: 2.5rem; }
+  #rooms { padding-top: 3rem; }
 
   /* ── DIVIDER ── */
   .divider { height: 1px; background: linear-gradient(to right, transparent, var(--glacier), transparent); max-width: 1200px; margin: 0 auto; }
 
   /* ── ROOMS ── */
-  .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
   .filter-chip {
     padding: 0.45rem 1.1rem; border-radius: 50px; border: 1.5px solid var(--border);
     background: white; font-size: 0.82rem; font-weight: 500; cursor: pointer;
@@ -303,37 +345,204 @@ const CSS = `
   }
   .filter-chip:hover { border-color: var(--peak); color: var(--peak); }
   .filter-chip.active { background: var(--peak); color: white; border-color: var(--peak); }
-  .rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
-  .room-card {
-    background: white; border-radius: var(--radius); overflow: hidden;
-    box-shadow: var(--shadow); transition: var(--transition); border: 1px solid var(--border);
+  /* ── Premium center-focus room slider ── */
+  .rooms-slider {
+    --room-w: 760px;
+    position: relative; max-width: 1280px; margin: 0 auto;
+    /* Hugs the card height (~470px) so no dead space sits between the heading and slider */
+    height: 490px; outline: none;
   }
-  .room-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
-  .room-img { position: relative; height: 220px; overflow: hidden; }
-  .room-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-  .room-card:hover .room-img img { transform: scale(1.05); }
+  .room-card {
+    position: absolute; top: 50%; left: 50%;
+    width: min(var(--room-w), 94vw);
+    display: flex; flex-direction: column;
+    background: white; border-radius: 20px; overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    transform: translate(-50%, -50%) scale(0.72);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    /* Smooth glide: transform + blur + opacity all tween together as a card
+       changes role (active ↔ side), so neighbours never snap or pop.
+       No will-change here — promoting 4 large blurred cards tanks scroll perf. */
+    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.6s ease, visibility 0s linear 0.6s,
+                box-shadow 0.6s ease, filter 0.6s ease;
+  }
+  .room-card.is-active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1; visibility: visible; pointer-events: auto; z-index: 3;
+    /* Appearing states flip visibility instantly so cards fade in, not pop */
+    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.6s ease, visibility 0s,
+                box-shadow 0.6s ease, filter 0.6s ease;
+  }
+  .room-card.is-left, .room-card.is-right {
+    opacity: 0.38; visibility: visible; z-index: 1;
+    filter: blur(2.5px) saturate(0.85);
+    box-shadow: var(--shadow);
+    pointer-events: auto; cursor: pointer;
+    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.6s ease, visibility 0s,
+                box-shadow 0.6s ease, filter 0.6s ease;
+  }
+  .room-card.is-left  { transform: translate(calc(-50% - 160px), -50%) scale(0.8); }
+  .room-card.is-right { transform: translate(calc(-50% + 160px), -50%) scale(0.8); }
+  .room-card.is-left:hover, .room-card.is-right:hover { opacity: 0.45; filter: blur(1.5px) saturate(0.9); }
+  .room-img { position: relative; height: 240px; overflow: hidden; flex-shrink: 0; }
+  .room-img img { width: 100%; height: 100%; object-fit: cover; }
+  .rooms-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px; border-radius: 50%;
+    background: white; color: var(--peak); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 5; box-shadow: var(--shadow); transition: var(--transition);
+  }
+  .rooms-arrow:hover { background: var(--peak); color: white; }
+  .rooms-arrow.prev { left: calc(50% - var(--room-w) / 2 - 70px); }
+  .rooms-arrow.next { right: calc(50% - var(--room-w) / 2 - 70px); }
+  .rooms-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1.25rem; }
+  .room-dot {
+    width: 9px; height: 9px; border-radius: 50%; border: none; padding: 0;
+    background: var(--glacier); cursor: pointer; transition: var(--transition);
+  }
+  .room-dot.active { background: var(--peak); transform: scale(1.3); }
   .room-badge {
     position: absolute; top: 12px; left: 12px;
     background: var(--gold); color: white; font-size: 0.68rem; font-weight: 700;
     letter-spacing: 0.06em; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 50px;
   }
-  .room-status {
-    position: absolute; top: 12px; right: 12px;
-    padding: 0.3rem 0.75rem; border-radius: 50px; font-size: 0.7rem; font-weight: 600;
-    letter-spacing: 0.05em; text-transform: uppercase;
-  }
-  .room-status.avail { background: rgba(45,90,61,0.9); color: #90e6a8; }
-  .room-status.unavail { background: rgba(181,69,27,0.9); color: #ffb39a; }
-  .room-body { padding: 1.25rem 1.5rem 1.5rem; }
-  .room-type { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .room-body { padding: 1.1rem 1.5rem 1.25rem; display: flex; flex-direction: column; flex: 1; }
+  .room-topline { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; gap: 0.5rem; }
+  .room-type { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .room-guests { display: inline-flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
   .room-name { font-size: 1.3rem; color: var(--peak); margin-bottom: 0.5rem; }
-  .room-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; }
-  .room-amenities { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
+  .room-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.75rem; }
+  .room-amenities { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
   .amenity-tag {
     background: var(--ice); color: var(--peak); font-size: 0.72rem;
     padding: 0.25rem 0.65rem; border-radius: 50px; border: 1px solid var(--glacier);
   }
-  .room-footer { display: flex; align-items: center; justify-content: space-between; }
+  .room-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-top: auto; }
+  .room-book-btn { min-width: 150px; text-align: center; flex-shrink: 0; }
+  @media (max-width: 860px) {
+    .rooms-arrow { width: 42px; height: 42px; background: rgba(255,255,255,0.95); }
+    .rooms-arrow.prev { left: 8px; }
+    .rooms-arrow.next { right: 8px; }
+  }
+  @media (max-width: 720px) {
+    .rooms-slider { height: auto; }
+    .room-card, .room-card.is-left, .room-card.is-right {
+      position: relative; top: auto; left: auto; display: none;
+      width: 100%; transform: none; filter: none; opacity: 1;
+    }
+    .room-card.is-active { display: flex; visibility: visible; pointer-events: auto; }
+    .room-img { height: 200px; }
+    .room-footer { flex-wrap: wrap; }
+  }
+  /* ── ROOM PHOTOS PAGE (See More Images) ── */
+  .rg-page {
+    position: fixed; inset: 0; z-index: 1200; overflow-y: auto;
+    background:
+      radial-gradient(1100px 500px at 85% -10%, rgba(77,120,150,0.22), transparent 60%),
+      radial-gradient(900px 500px at 10% 110%, rgba(200,150,62,0.10), transparent 55%),
+      linear-gradient(165deg, #0c2231 0%, #0e2a3c 45%, #0a1e2b 100%);
+    padding: 0 1.5rem 4rem;
+    /* Opacity-only entrance: animating transform on the full-screen fixed layer
+       makes the topbar's backdrop-filter re-blur every frame and stutters */
+    animation: rgPageIn 0.35s ease both;
+  }
+  .rg-page.is-closing { animation: rgPageOut 0.32s ease-in both; }
+  @keyframes rgPageIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes rgPageOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(18px) scale(0.985); } }
+  .rg-topbar {
+    position: sticky; top: 0; z-index: 5;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    background: rgba(10,30,43,0.75); backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin: 0 -1.5rem 2.25rem; padding: 1rem 1.5rem;
+  }
+  .rg-brand {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600;
+    letter-spacing: 0.06em; color: rgba(255,255,255,0.75);
+  }
+  .rg-back {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 50px; padding: 0.55rem 1.25rem 0.55rem 0.95rem;
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  }
+  .rg-back:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.45); transform: translateX(-2px); }
+  .rg-hero {
+    text-align: center; max-width: 700px; margin: 0 auto 2.5rem;
+    animation: rgHeroIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+  }
+  @keyframes rgHeroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  .rg-hero .section-label { color: var(--gold); }
+  .rg-title {
+    font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem);
+    color: white; margin: 0.4rem 0 0.6rem;
+  }
+  .rg-sub { color: rgba(255,255,255,0.65); margin-bottom: 0; }
+  .rg-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.1rem; max-width: 1200px; margin: 0 auto;
+  }
+  .rg-item {
+    position: relative; border: 1px solid rgba(255,255,255,0.12); padding: 0; background: rgba(255,255,255,0.04);
+    border-radius: 16px; overflow: hidden; cursor: zoom-in;
+    /* Motion lives on the small tiles, not the big fixed layer → stays buttery */
+    animation: rgItemIn 0.55s cubic-bezier(0.22, 1, 0.9, 1) 0.12s both;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease, border-color 0.45s ease;
+    will-change: transform, opacity;
+  }
+  @keyframes rgItemIn { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+  .rg-item img { width: 100%; height: 230px; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.45s ease; }
+  .rg-item:hover { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,0.45); border-color: rgba(255,255,255,0.3); }
+  .rg-item:hover img { transform: scale(1.06); }
+  .rg-view {
+    position: absolute; left: 50%; bottom: 0.9rem; transform: translate(-50%, 12px);
+    background: rgba(10,30,43,0.78); backdrop-filter: blur(8px); color: white;
+    font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.4rem 1.05rem; border-radius: 50px; border: 1px solid rgba(255,255,255,0.25);
+    opacity: 0; transition: opacity 0.35s ease, transform 0.35s ease; pointer-events: none;
+  }
+  .rg-item:hover .rg-view, .rg-item:focus-visible .rg-view { opacity: 1; transform: translate(-50%, 0); }
+  .rg-lightbox {
+    position: fixed; inset: 0; z-index: 1300; background: rgba(5,16,24,0.94);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center; cursor: zoom-out; padding: 2rem;
+    animation: rgFade 0.3s ease both;
+  }
+  @keyframes rgFade { from { opacity: 0; } to { opacity: 1; } }
+  .rg-lightbox img {
+    max-width: min(92vw, 1100px); max-height: 86vh; object-fit: contain;
+    border-radius: 10px; box-shadow: 0 24px 70px rgba(0,0,0,0.6);
+    animation: rgZoom 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes rgZoom { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+  .rg-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1); color: white; font-size: 1.5rem; line-height: 1;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition);
+  }
+  .rg-arrow:hover { background: rgba(255,255,255,0.28); }
+  .rg-arrow-prev { left: 1rem; }
+  .rg-arrow-next { right: 1rem; }
+  .rg-count {
+    position: absolute; bottom: 1.25rem; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,0.85); font-size: 0.85rem; letter-spacing: 0.08em;
+  }
+  @media (max-width: 720px) {
+    .rg-page { padding: 0 1rem 3rem; }
+    .rg-topbar { margin: 0 -1rem 1.75rem; padding: 0.85rem 1rem; }
+    .rg-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.6rem; }
+    .rg-item img { height: 140px; }
+    .rg-arrow { width: 40px; height: 40px; }
+    .rg-arrow-prev { left: 0.5rem; }
+    .rg-arrow-next { right: 0.5rem; }
+  }
   .room-price { font-family: 'Cormorant Garamond', serif; }
   .room-price-num { font-size: 1.6rem; font-weight: 700; color: var(--peak); }
   .room-price-per { font-size: 0.75rem; color: var(--muted); }
@@ -353,7 +562,7 @@ const CSS = `
   .btn-outline:hover { background: var(--peak); color: white; }
 
   /* ── ABOUT ── */
-  .about-bg { background: linear-gradient(135deg, var(--peak) 0%, #0d2535 100%); padding: 5rem 1.5rem; }
+  .about-bg { background: linear-gradient(135deg, var(--peak) 0%, #0d2535 100%); padding: 4rem 1.5rem; }
   .about-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
   .about-img-stack { position: relative; height: 500px; }
   .about-img-main {
@@ -389,6 +598,63 @@ const CSS = `
     .about-card { left: 55%; }
   }
 
+  /* ── WHY STAY WITH US ── */
+  .why-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+  }
+  .why-card {
+    position: relative; overflow: hidden;
+    background: white; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 1.75rem 1.25rem; text-align: center;
+    cursor: pointer; outline: none;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.55s ease, border-color 0.55s ease;
+  }
+  .why-card:hover, .why-card:focus-visible { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--glacier); }
+  .why-media {
+    position: absolute; inset: 0; z-index: 2;
+    transform: translateY(-101%);
+    /* Exit (mouse leaves): slow, symmetrical ease-in-out so the curtain glides away gently */
+    transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: transform;
+  }
+  .why-media img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    /* Long, lazy zoom that keeps drifting after the panel lands — premium documentary feel */
+    transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .why-media::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(13,37,53,0.88) 0%, rgba(13,37,53,0.3) 55%, rgba(13,37,53,0.12) 100%);
+  }
+  .why-media-caption {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+    padding: 1rem 0.9rem; color: white; text-align: center;
+    font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.95rem;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+  .why-media-caption span { display: block; font-weight: 400; font-size: 0.74rem; opacity: 0.85; margin-top: 3px; letter-spacing: 0.02em; }
+  /* Entry (mouse enters): slightly quicker than exit but with a soft start — feels intentional, not snappy */
+  .why-card:hover .why-media, .why-card:focus-visible .why-media {
+    transform: translateY(0);
+    transition: transform 0.85s cubic-bezier(0.33, 0, 0.2, 1);
+  }
+  .why-card:hover .why-media img, .why-card:focus-visible .why-media img { transform: scale(1.08); }
+  @media (prefers-reduced-motion: reduce) {
+    .why-card, .why-media, .why-media img { transition: none; }
+    .why-card:hover .why-media, .why-card:focus-visible .why-media { transform: translateY(-101%); }
+  }
+  .why-icon {
+    width: 58px; height: 58px; margin: 0 auto 1rem; border-radius: 50%;
+    background: linear-gradient(135deg, var(--ice), var(--glacier));
+    display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+  }
+  .why-title {
+    font-family: 'DM Sans', sans-serif; font-size: 0.98rem; font-weight: 700;
+    color: var(--peak); margin-bottom: 0.5rem;
+  }
+  .why-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
   /* ── SERVICES ── */
   .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
   .service-card {
@@ -397,69 +663,77 @@ const CSS = `
     display: flex; gap: 1rem; align-items: flex-start;
   }
   .service-card:hover { border-color: var(--glacier); box-shadow: var(--shadow); transform: translateY(-3px); }
-  .service-icon { font-size: 2rem; flex-shrink: 0; }
+  .service-icon { font-size: 2rem; flex-shrink: 0; color: var(--pine); display: flex; align-items: center; margin-top: 2px; }
   .service-title { font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--peak); margin-bottom: 0.35rem; }
   .service-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
 
   /* ── GALLERY ── */
-  .gallery-bg { background: var(--ice); padding: 5rem 1.5rem; }
+  .gallery-bg { background: var(--ice); padding: 4rem 1.5rem; }
   .gallery-inner { max-width: 1200px; margin: 0 auto; }
-  .gallery-cats { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.75rem; }
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 200px;
-    gap: 0.75rem;
+  .slider {
+    position: relative; max-width: 1000px; margin: 0 auto;
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow-lg); background: var(--peak);
   }
-  .gallery-item {
-    border-radius: var(--radius-sm); overflow: hidden; position: relative; cursor: pointer;
-    transition: var(--transition);
+  .slider-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-  .gallery-item:nth-child(5) { grid-column: span 2; }
-  .gallery-item:nth-child(9) { grid-column: span 2; }
-  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-  .gallery-item:hover img { transform: scale(1.07); }
-  .gallery-item:hover .gallery-overlay { opacity: 1; }
-  .gallery-overlay {
-    position: absolute; inset: 0; background: rgba(26,58,74,0.5);
-    display: flex; align-items: flex-end; padding: 1rem;
-    opacity: 0; transition: opacity 0.3s;
+  .slider-slide { position: relative; flex: 0 0 100%; height: 380px; }
+  /* Blurred copy of the same photo fills the box; the real photo sits on top fully visible */
+  .slider-slide img.slider-img-blur {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; filter: blur(22px) brightness(0.55);
+    transform: scale(1.12);
   }
-  .gallery-label { color: white; font-size: 0.8rem; font-weight: 500; background: rgba(0,0,0,0.4); padding: 0.3rem 0.75rem; border-radius: 50px; }
+  .slider-slide img.slider-img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: contain; display: block;
+  }
+  .slider-caption {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 2.5rem 1.5rem 1.25rem;
+    background: linear-gradient(to top, rgba(10,30,42,0.75), transparent);
+  }
+  .slider-cat {
+    background: var(--gold); color: white; font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; padding: 0.25rem 0.75rem; border-radius: 50px;
+  }
+  .slider-label { color: white; font-size: 0.95rem; font-weight: 500; text-shadow: 0 1px 8px rgba(0,0,0,0.4); }
+  .slider-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+    width: 48px; height: 48px; border-radius: 50%; border: none; cursor: pointer;
+    background: rgba(255,255,255,0.15); color: white; font-size: 1.6rem; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(6px); transition: var(--transition);
+  }
+  .slider-arrow:hover { background: var(--gold); }
+  .slider-prev { left: 1.25rem; }
+  .slider-next { right: 1.25rem; }
+  .slider-dots {
+    position: absolute; bottom: 1.25rem; left: 50%; transform: translateX(-50%); z-index: 2;
+    display: flex; gap: 0.5rem;
+  }
+  .slider-dot {
+    width: 9px; height: 9px; border-radius: 50%; border: none; cursor: pointer;
+    background: rgba(255,255,255,0.45); transition: var(--transition); padding: 0;
+  }
+  .slider-dot.active { background: var(--gold); transform: scale(1.25); }
 
   @media (max-width: 768px) {
-    .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
-    .gallery-item:nth-child(n) { grid-column: span 1; grid-row: span 1; }
-    .gallery-item:nth-child(1), .gallery-item:nth-child(5), .gallery-item:nth-child(9) { grid-column: span 2; }
+    .slider-slide { height: 270px; }
+    .slider-arrow { width: 38px; height: 38px; font-size: 1.3rem; }
+    .slider-prev { left: 0.6rem; }
+    .slider-next { right: 0.6rem; }
+    .slider-dots { bottom: 0.9rem; }
+    .slider-caption { padding-bottom: 3rem; }
   }
 
-  /* ── LIGHTBOX ── */
-  .lightbox {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 2000;
-    display: flex; align-items: center; justify-content: center;
-    animation: fadeIn 0.2s ease;
-  }
   @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-  .lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: var(--radius-sm); }
-  .lightbox-close {
-    position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.1);
-    border: none; color: white; font-size: 1.5rem; width: 44px; height: 44px; border-radius: 50%;
-    cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition);
-  }
-  .lightbox-close:hover { background: rgba(255,255,255,0.2); }
-  .lightbox-nav {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    background: rgba(255,255,255,0.1); border: none; color: white; font-size: 1.4rem;
-    width: 50px; height: 50px; border-radius: 50%; cursor: pointer; transition: var(--transition);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .lightbox-nav:hover { background: rgba(255,255,255,0.2); }
-  .lightbox-prev { left: 1.5rem; }
-  .lightbox-next { right: 1.5rem; }
 
   /* ── TESTIMONIALS ── */
-  .testimonials-bg { background: var(--peak); padding: 5rem 1.5rem; }
+  .testimonials-bg { background: var(--peak); padding: 4rem 1.5rem; }
   .testimonials-inner { max-width: 1200px; margin: 0 auto; }
   .testimonials-inner .section-label { color: var(--gold); }
   .testimonials-inner .section-title { color: white; }
@@ -528,14 +802,6 @@ const CSS = `
     font-size: 0.9rem; margin-top: 1.5rem; width: fit-content; transition: var(--transition);
   }
   .whatsapp-btn:hover { background: #1da851; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,211,102,0.4); }
-  .map-placeholder {
-    width: 100%; height: 280px; background: var(--ice); border-radius: var(--radius);
-    display: flex; align-items: center; justify-content: center; flex-direction: column;
-    gap: 0.75rem; color: var(--muted); margin-top: 1.5rem; border: 1px solid var(--border);
-    font-size: 0.9rem; text-align: center;
-  }
-  .map-placeholder a { color: var(--peak); font-weight: 600; text-decoration: none; }
-  .map-placeholder a:hover { text-decoration: underline; }
 
   @media (max-width: 768px) {
     .contact-grid { grid-template-columns: 1fr; }
@@ -545,14 +811,15 @@ const CSS = `
   .footer { background: #0a1e2b; padding: 3.5rem 1.5rem 1.5rem; }
   .footer-inner { max-width: 1200px; margin: 0 auto; }
   .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 3rem; }
-  .footer-brand-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: white; margin-bottom: 0.75rem; }
-  .footer-brand-desc { font-size: 0.85rem; color: rgba(255,255,255,0.45); line-height: 1.7; }
-  .footer-col h4 { color: rgba(255,255,255,0.7); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; font-family: 'DM Sans', sans-serif; font-weight: 600; }
-  .footer-col a { display: block; color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.85rem; margin-bottom: 0.6rem; transition: color 0.2s; }
+  .footer-brand-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: white; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 10px; }
+  .footer-brand-img { width: 58px; height: 58px; object-fit: contain; background: #ffffff; border-radius: 50%; padding: 4px; box-shadow: 0 3px 12px rgba(0,0,0,0.45); border: 2px solid rgba(255,255,255,0.9); flex-shrink: 0; }
+  .footer-brand-desc { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+  .footer-col h4 { color: rgba(255,255,255,0.75); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+  .footer-col a { display: block; color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.85rem; margin-bottom: 0.6rem; transition: color 0.2s; }
   .footer-col a:hover { color: var(--gold); }
   .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
-  .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
-  .footer-love { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+  .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+  .footer-love { font-size: 0.8rem; color: rgba(255,255,255,0.45); display: flex; align-items: center; }
 
   @media (max-width: 768px) {
     .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -561,28 +828,30 @@ const CSS = `
     .footer-grid { grid-template-columns: 1fr; }
   }
 
-  /* ── WHATSAPP FLOAT ── */
-  .wa-float {
+  /* ── FLOATING BOOK NOW ── */
+  .book-float {
     position: fixed; bottom: 2rem; right: 1.5rem; z-index: 999;
-    width: 56px; height: 56px; background: #25D366; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
-    box-shadow: 0 6px 24px rgba(37,211,102,0.5); cursor: pointer; transition: var(--transition);
+    display: flex; align-items: center; gap: 0.5rem;
+    background: var(--gold); color: white; border: none; border-radius: 50px;
+    padding: 0.95rem 1.5rem; font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 600; letter-spacing: 0.02em;
+    box-shadow: 0 6px 24px rgba(200,150,62,0.5); cursor: pointer; transition: var(--transition);
     text-decoration: none;
   }
-  .wa-float:hover { transform: scale(1.1); box-shadow: 0 10px 32px rgba(37,211,102,0.6); }
-  .wa-tooltip {
-    position: absolute; right: 64px; background: var(--peak); color: white;
+  .book-float:hover { background: #e0a845; transform: translateY(-3px); box-shadow: 0 10px 32px rgba(200,150,62,0.6); }
+  .book-tooltip {
+    position: absolute; right: calc(100% + 12px); background: var(--peak); color: white;
     font-size: 0.78rem; padding: 0.4rem 0.75rem; border-radius: 6px; white-space: nowrap;
     pointer-events: none; opacity: 0; transition: opacity 0.2s;
   }
-  .wa-float:hover .wa-tooltip { opacity: 1; }
+  .book-float:hover .book-tooltip { opacity: 1; }
 
   /* ── VIDEO SECTION ── */
-  .video-bg { background: linear-gradient(135deg, #0a1e2b 0%, var(--peak) 100%); padding: 5rem 1.5rem; }
+  .video-bg { background: linear-gradient(135deg, #0a1e2b 0%, var(--peak) 100%); padding: 4rem 1.5rem; }
   .video-inner { max-width: 900px; margin: 0 auto; text-align: center; }
   .video-inner .section-label { color: var(--gold); }
   .video-inner .section-title { color: white; }
-  .video-inner .section-sub { color: rgba(255,255,255,0.6); margin: 0 auto 2rem; }
+  .video-inner .section-sub { color: rgba(255,255,255,0.6); margin: 0 auto 1.25rem; }
   .video-frame {
     border-radius: var(--radius); overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,0.5);
     position: relative; padding-bottom: 56.25%; height: 0;
@@ -591,7 +860,8 @@ const CSS = `
   .video-frame iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
   /* ── LOCATION HIGHLIGHTS ── */
-  .highlights { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .highlights { display: flex; gap: 1rem; margin-top: 1.5rem; }
+  @media (max-width: 720px) { .highlights { flex-wrap: wrap; } }
   .highlight { display: flex; align-items: center; gap: 0.5rem; background: var(--ice); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.82rem; color: var(--peak); border: 1px solid var(--glacier); }
 
   /* ── MISC ── */
@@ -602,67 +872,113 @@ const CSS = `
   .flex-center { display: flex; align-items: center; justify-content: center; }
   .gap-1 { gap: 0.5rem; }
 
-  /* ── ADMIN ── */
-  .admin-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 4000;
-    display: flex; animation: fadeIn 0.2s ease;
+  /* ── POLICY PAGE (footer links) ── */
+  .pol-page {
+    position: fixed; inset: 0; z-index: 1200; overflow-y: auto;
+    background:
+      radial-gradient(1100px 500px at 85% -10%, rgba(77,120,150,0.22), transparent 60%),
+      radial-gradient(900px 500px at 10% 110%, rgba(200,150,62,0.10), transparent 55%),
+      linear-gradient(165deg, #0c2231 0%, #0e2a3c 45%, #0a1e2b 100%);
+    padding: 0 1.5rem 4rem;
+    animation: rgPageIn 0.35s ease both;
   }
-  .admin-sidebar {
-    width: 240px; background: var(--peak); padding: 2rem 0; flex-shrink: 0;
-    display: flex; flex-direction: column;
+  .pol-page.is-closing { animation: rgPageOut 0.32s ease-in both; }
+  .pol-hero { text-align: center; max-width: 760px; margin: 0 auto 2.5rem; animation: rgHeroIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both; }
+  .pol-hero .section-label { color: var(--gold); }
+  .pol-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.1rem; max-width: 1100px; margin: 0 auto;
   }
-  .admin-logo { padding: 0 1.5rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
-  .admin-logo-text { color: white; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; }
-  .admin-nav { padding: 1rem 0; flex: 1; }
-  .admin-nav-item {
-    display: flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1.5rem;
-    color: rgba(255,255,255,0.6); cursor: pointer; transition: var(--transition); font-size: 0.9rem;
+  .pol-card {
+    background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px; padding: 1.5rem 1.5rem 1.25rem;
+    animation: rgItemIn 0.55s cubic-bezier(0.22, 1, 0.9, 1) 0.12s both;
+    scroll-margin-top: 96px; transition: border-color 0.3s ease;
   }
-  .admin-nav-item:hover, .admin-nav-item.active { background: rgba(255,255,255,0.1); color: white; }
-  .admin-main { flex: 1; background: var(--snow); overflow-y: auto; padding: 2.5rem; }
-  .admin-header { margin-bottom: 2rem; }
-  .admin-header h2 { font-size: 1.8rem; color: var(--peak); }
-  .admin-header p { color: var(--muted); font-size: 0.9rem; }
-  .admin-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
-  .admin-stat-card {
-    background: white; border-radius: var(--radius-sm); padding: 1.25rem;
-    border: 1px solid var(--border); text-align: center;
+  .pol-card:hover { border-color: rgba(255,255,255,0.22); }
+  .pol-card-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem; }
+  .pol-icon {
+    width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(200,150,62,0.25), rgba(200,150,62,0.08));
+    border: 1px solid rgba(200,150,62,0.35); color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
   }
-  .admin-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--peak); }
-  .admin-stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
-  .bookings-table { background: white; border-radius: var(--radius-sm); border: 1px solid var(--border); overflow: hidden; }
-  .bookings-table table { width: 100%; border-collapse: collapse; }
-  .bookings-table th { background: var(--ice); padding: 0.75rem 1rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); text-align: left; }
-  .bookings-table td { padding: 0.85rem 1rem; border-top: 1px solid var(--border); font-size: 0.875rem; color: var(--text); }
-  .status-badge { display: inline-block; padding: 0.25rem 0.65rem; border-radius: 50px; font-size: 0.7rem; font-weight: 600; }
-  .status-confirmed { background: rgba(45,90,61,0.1); color: var(--pine); }
-  .status-pending { background: rgba(200,150,62,0.1); color: var(--gold); }
-  .admin-close-btn {
-    background: rgba(255,255,255,0.1); border: none; color: rgba(255,255,255,0.6);
-    padding: 0.75rem 1.5rem; cursor: pointer; font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem; margin: 0 1.5rem 1rem; border-radius: var(--radius-sm);
-    transition: var(--transition); display: flex; align-items: center; gap: 0.5rem;
+  .pol-card h3 { font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 700; color: white; }
+  .pol-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+  .pol-card li { display: flex; gap: 0.65rem; font-size: 0.88rem; color: rgba(255,255,255,0.72); line-height: 1.6; }
+  .pol-num { font-family: 'Cormorant Garamond', serif; font-weight: 700; color: var(--gold); font-size: 0.85rem; min-width: 1.4em; padding-top: 1px; }
+  .pol-contact {
+    max-width: 760px; margin: 3rem auto 0; text-align: center;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px; padding: 2.5rem 1.5rem;
+    animation: rgItemIn 0.55s cubic-bezier(0.22, 1, 0.9, 1) 0.3s both;
   }
-  .admin-close-btn:hover { background: rgba(255,255,255,0.15); color: white; }
+  .pol-contact h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; color: white; margin-bottom: 0.4rem; }
+  .pol-contact p { color: rgba(255,255,255,0.65); font-size: 0.95rem; margin-bottom: 1.5rem; }
+  .pol-contact-btns { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  @media (max-width: 720px) {
+    .pol-page { padding: 0 1rem 3rem; }
+    .pol-card { padding: 1.25rem 1.1rem 1.1rem; }
+    .pol-contact { padding: 2rem 1.25rem; }
+  }
 `;
 
-// ─── SAMPLE BOOKINGS FOR ADMIN ────────────────────────────────────────────────
-const SAMPLE_BOOKINGS = [
-  { id: "SIH-001", guest: "Rahul Verma", room: "Himalayan Suite", checkin: "2025-06-10", checkout: "2025-06-13", guests: 2, amount: "₹10,500", status: "confirmed" },
-  { id: "SIH-002", guest: "Pooja Mehta", room: "Sky Loft", checkin: "2025-06-14", checkout: "2025-06-16", guests: 2, amount: "₹5,600", status: "confirmed" },
-  { id: "SIH-003", guest: "Amit Singh", room: "Pilgrim's Nest", checkin: "2025-06-15", checkout: "2025-06-16", guests: 1, amount: "₹1,400", status: "pending" },
-  { id: "SIH-004", guest: "Neha Joshi", room: "Family Meadow Room", checkin: "2025-06-20", checkout: "2025-06-24", guests: 4, amount: "₹15,200", status: "confirmed" },
+// ─── HOTEL POLICIES (footer → policy page) ───────────────────────────────
+const POLICY_SECTIONS = [
+  { id: "checkin", Icon: Clock, title: "Check-in / Check-out", items: [
+    "Check-in time: 12:00 PM",
+    "Check-out time: 10:00 AM",
+    "Early check-in and late check-out are subject to availability.",
+  ]},
+  { id: "booking", Icon: ScrollText, title: "Booking & Payment", items: [
+    "Advance booking is recommended.",
+    "A partial or full payment may be required to confirm your reservation.",
+    "Accepted payment modes: Cash, UPI, and bank transfer.",
+  ]},
+  { id: "cancellation", Icon: CalendarX, title: "Cancellation Policy", items: [
+    "Free cancellation up to 5 days before check-in.",
+    "Cancellations within 5 days may be subject to charges.",
+    "No-show bookings are non-refundable.",
+  ]},
+  { id: "guests", Icon: Users, title: "Guest & Visitor Policy", items: [
+    "Valid ID proof required at check-in.",
+    "Only registered guests are allowed to stay.",
+    "Outside visitors require prior permission.",
+    "Guests must maintain peaceful surroundings.",
+  ]},
+  { id: "children", Icon: Baby, title: "Child Policy", items: [
+    "Children below 5 years can stay free (without extra bedding).",
+    "Extra charges may apply for additional bedding.",
+  ]},
+  { id: "pets", Icon: PawPrint, title: "Pet Policy", items: [
+    "Pets are allowed only with prior approval.",
+    "Guests are responsible for their pet's behavior and cleanliness.",
+  ]},
+  { id: "damage", Icon: Wrench, title: "Damage Policy", items: [
+    "Any property damage will be charged to the guest.",
+    "Please inform staff immediately in case of any issues.",
+  ]},
+  { id: "rules", Icon: Ban, title: "House Rules", items: [
+    "Smoking is allowed only in designated areas.",
+    "Loud music and parties are not permitted.",
+    "Outside visitors are not allowed in rooms without permission.",
+  ]},
+  { id: "vacation", Icon: HomeIcon, title: "Vacation Home Usage", items: [
+    "The entire property (if booked) is for registered guests only.",
+    "Parties, loud music, or events are not allowed without approval.",
+    "Guests are expected to maintain the cleanliness and care of the space.",
+  ]},
+  { id: "safety", Icon: AlertTriangle, title: "Safety & Liability", items: [
+    "Guests are responsible for their personal belongings.",
+    "The property is not liable for any loss, theft, or unforeseen events.",
+  ]},
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // COMPONENTS
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function StarRating({ n }) {
-  return <span style={{ color: "#c8963e", letterSpacing: "2px" }}>{"★".repeat(n)}{"☆".repeat(5 - n)}</span>;
-}
-
-function Navbar({ onAdminClick }) {
+function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -680,7 +996,9 @@ function Navbar({ onAdminClick }) {
   return (
     <nav className={`nav${scrolled ? " scrolled" : ""}`}>
       <a href="#hero" className="nav-logo">
-        <span className="nav-logo-icon">🏔️</span>
+        <span className="nav-logo-icon">
+          <img src={logoImg} alt="Shivalik Ice Hills logo" className="nav-logo-img" />
+        </span>
         <div>
           <div className="nav-logo-text">Shivalik Ice Hills</div>
           <div className="nav-logo-sub">Guptkashi, Uttarakhand</div>
@@ -690,9 +1008,7 @@ function Navbar({ onAdminClick }) {
         {links.map(([href, label]) => (
           <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
         ))}
-        <a href="#rooms" className="nav-cta" onClick={() => setOpen(false)}>Book Now</a>
-        <a href="#" className="nav-cta" style={{ background: "rgba(255,255,255,0.15)", color: "white" }}
-           onClick={e => { e.preventDefault(); setOpen(false); onAdminClick(); }}>Admin</a>
+        <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" className="nav-cta" onClick={() => setOpen(false)}>Directions</a>
       </div>
       <button className="nav-hamburger" onClick={() => setOpen(o => !o)}>
         {open ? "✕" : "☰"}
@@ -701,47 +1017,41 @@ function Navbar({ onAdminClick }) {
   );
 }
 
-function Hero({ onBookNow }) {
-  const [checkin, setCheckin] = useState("");
-  const [checkout, setCheckout] = useState("");
-  const [guests, setGuests] = useState("2");
+const HERO_SNOWFLAKES = Array.from({ length: 28 }, (_, i) => ({
+  left: (i * 37 + 11) % 100,               // spread pseudo-randomly across 0-99%
+  size: 3 + ((i * 7) % 5),                  // 3-7px
+  duration: 9 + ((i * 13) % 12),            // 9-20s fall time
+  delay: -((i * 5) % 20),                   // negative delay so snow is already falling on load
+  drift: ((i * 29) % 60) - 30               // horizontal sway amplitude
+}));
 
-  const today = new Date().toISOString().split("T")[0];
-
+function Hero() {
   return (
     <section className="hero" id="hero">
       <div className="hero-bg" />
       <div className="hero-overlay" />
+      <div className="hero-snow" aria-hidden="true">
+        {HERO_SNOWFLAKES.map((f, i) => (
+          <span key={i} style={{
+            left: `${f.left}%`,
+            width: f.size, height: f.size,
+            animationDuration: `${f.duration}s`,
+            animationDelay: `${f.delay}s`,
+            marginLeft: f.drift
+          }} />
+        ))}
+      </div>
       <div className="hero-content">
-        <div className="hero-badge">🌟 Top-Rated Homestay in Guptkashi</div>
+        <div className="hero-badge"><Star size={13} strokeWidth={2.2} fill="currentColor" /> Top-Rated Homestay in Guptkashi</div>
         <h1>Stay Where the<br /><span>Himalayas Begin</span></h1>
         <p className="hero-tagline">Best stay for nature lovers & Kedarnath travelers · Guptkashi, Uttarakhand</p>
         <div className="hero-stats">
-          {[["500+", "Happy Guests"], ["6", "Unique Rooms"], ["3200m", "Altitude"], ["4.9★", "Avg Rating"]].map(([n, l]) => (
+          {[["500+", "Happy Guests"], ["6", "Unique Rooms"], ["4,327 ft", "Altitude"], ["4.9★", "Avg Rating"]].map(([n, l]) => (
             <div className="hero-stat" key={l}>
               <div className="hero-stat-num">{n}</div>
               <div className="hero-stat-label">{l}</div>
             </div>
           ))}
-        </div>
-        <div className="booking-strip">
-          <div className="booking-field">
-            <label>Check-in</label>
-            <input type="date" min={today} value={checkin} onChange={e => setCheckin(e.target.value)} />
-          </div>
-          <div className="booking-field">
-            <label>Check-out</label>
-            <input type="date" min={checkin || today} value={checkout} onChange={e => setCheckout(e.target.value)} />
-          </div>
-          <div className="booking-field">
-            <label>Guests</label>
-            <select value={guests} onChange={e => setGuests(e.target.value)}>
-              {[1,2,3,4,5].map(n => <option key={n} value={n}>{n} Guest{n > 1 ? "s" : ""}</option>)}
-            </select>
-          </div>
-          <button className="booking-btn" onClick={() => onBookNow(null, checkin, checkout, guests)}>
-            🔍 Search Rooms
-          </button>
         </div>
       </div>
       <div className="hero-scroll">
@@ -754,58 +1064,184 @@ function Hero({ onBookNow }) {
 
 function Rooms({ onBook }) {
   const [filter, setFilter] = useState("All");
-  const [sortBy, setSortBy] = useState("default");
+  const [active, setActive] = useState(0);
+  const [showGallery, setShowGallery] = useState(false);
+  const touchX = useRef(null);
 
-  const types = ["All", "Suite", "Deluxe", "Standard", "Cottage", "Family"];
+  const types = ["All", "Super Deluxe", "Deluxe", "Standard", "Shared"];
 
-  let filtered = filter === "All" ? ROOMS : ROOMS.filter(r => r.type === filter);
-  if (sortBy === "price-asc") filtered = [...filtered].sort((a, b) => a.price - b.price);
-  if (sortBy === "price-desc") filtered = [...filtered].sort((a, b) => b.price - a.price);
-  if (sortBy === "avail") filtered = [...filtered].sort((a, b) => (b.available ? 1 : 0) - (a.available ? 1 : 0));
+  // All rooms always stay in the track — filter chips navigate the slider to the
+  // matching room instead of shrinking it, so sliding + blurred neighbours never go away.
+  const rooms = ROOMS;
+
+  const count = rooms.length;
+  const safeActive = count ? ((active % count) + count) % count : 0;
+  const go = i => { if (count) setActive(((i % count) + count) % count); };
+  const prevRoom = () => go(safeActive - 1);
+  const nextRoom = () => go(safeActive + 1);
+
+  const onChipClick = t => {
+    setFilter(t);
+    if (t !== "All") {
+      const idx = rooms.findIndex(r => r.type === t);
+      if (idx >= 0) go(idx);
+    }
+  };
+
+  // Touch swipe navigation
+  const onTouchStart = e => { touchX.current = e.touches[0].clientX; };
+  const onTouchEnd = e => {
+    if (touchX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchX.current;
+    if (Math.abs(dx) > 45) (dx < 0 ? nextRoom : prevRoom)();
+    touchX.current = null;
+  };
+
+  // Keyboard navigation (works once focus is inside the section)
+  const onKeyDown = e => {
+    if (e.key === "ArrowLeft") { e.preventDefault(); prevRoom(); }
+    if (e.key === "ArrowRight") { e.preventDefault(); nextRoom(); }
+  };
 
   return (
-    <section className="section" id="rooms">
+    <section className="section" id="rooms" tabIndex={-1} onKeyDown={onKeyDown}
+             onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       <div className="section-header-row">
         <div>
-          <span className="section-label">🛏 Our Rooms</span>
+          <span className="section-label"><BedDouble size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Our Rooms</span>
           <h2 className="section-title">Find Your Perfect Stay</h2>
           <p className="section-sub">Each room is thoughtfully designed to immerse you in the beauty of the Himalayas.</p>
         </div>
-        <select className="filter-chip" style={{ padding: "0.45rem 1rem" }}
-                value={sortBy} onChange={e => setSortBy(e.target.value)}>
-          <option value="default">Sort: Default</option>
-          <option value="price-asc">Price: Low to High</option>
-          <option value="price-desc">Price: High to Low</option>
-          <option value="avail">Availability</option>
-        </select>
       </div>
       <div className="filter-bar">
         {types.map(t => (
           <button key={t} className={`filter-chip${filter === t ? " active" : ""}`}
-                  onClick={() => setFilter(t)}>{t}</button>
+                  onClick={() => onChipClick(t)}>{t}</button>
         ))}
       </div>
-      <div className="rooms-grid">
-        {filtered.map(room => (
-          <RoomCard key={room.id} room={room} onBook={onBook} />
-        ))}
-      </div>
+      <>
+        <div className="rooms-slider">
+          {rooms.map((room, i) => {
+            const pos = ((i - safeActive) % count + count) % count; // 0 = focused, 1 = right peek, count-1 = left peek
+            const posClass = pos === 0 ? "is-active" : pos === 1 ? "is-right" : pos === count - 1 ? "is-left" : "";
+            return (
+              <RoomCard key={room.id} room={room} onBook={onBook}
+                        posClass={posClass} onClick={() => setActive(i)} />
+            );
+          })}
+            {count > 1 && (
+              <>
+                <button className="rooms-arrow prev" aria-label="Previous room" onClick={prevRoom}>
+                  <ChevronLeft size={22} />
+                </button>
+                <button className="rooms-arrow next" aria-label="Next room" onClick={nextRoom}>
+                  <ChevronRight size={22} />
+                </button>
+              </>
+            )}
+          </div>
+        <div className="rooms-dots">
+          {rooms.map((room, i) => (
+            <button key={room.id} aria-label={`Go to ${room.name}`}
+                    className={`room-dot${i === safeActive ? " active" : ""}`}
+                    onClick={() => go(i)} />
+          ))}
+        </div>
+        <div style={{ textAlign: "center", marginTop: "1.25rem" }}>
+          <button className="btn-outline" onClick={() => setShowGallery(true)}>
+            See More Images
+          </button>
+        </div>
+      </>
+      {showGallery && <RoomGalleryPage onClose={() => setShowGallery(false)} />}
     </section>
   );
 }
 
-function RoomCard({ room, onBook }) {
-  const [imgIdx, setImgIdx] = useState(0);
+// ── Full-screen room photos page (opened via "See More Images") ──
+function RoomGalleryPage({ onClose }) {
+  const [lightbox, setLightbox] = useState(-1);
+  const [closing, setClosing] = useState(false);
+
+  const requestClose = () => {
+    if (closing) return;
+    setClosing(true);
+    setTimeout(onClose, 340); // wait for the exit animation to finish
+  };
+
+  useEffect(() => {
+    const fn = e => {
+      if (e.key === "Escape") { lightbox >= 0 ? setLightbox(-1) : requestClose(); }
+      if (lightbox >= 0 && e.key === "ArrowRight") setLightbox(i => (i + 1) % ROOM_PHOTOS.length);
+      if (lightbox >= 0 && e.key === "ArrowLeft") setLightbox(i => (i - 1 + ROOM_PHOTOS.length) % ROOM_PHOTOS.length);
+    };
+    window.addEventListener("keydown", fn);
+    // Lock page scroll but compensate for the scrollbar so the site doesn't shift behind us
+    const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = "hidden";
+    if (scrollbarW > 0) document.body.style.paddingRight = `${scrollbarW}px`;
+    return () => {
+      window.removeEventListener("keydown", fn);
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lightbox, closing]);
 
   return (
-    <div className="room-card">
-      <div className="room-img" onClick={() => setImgIdx(i => (i + 1) % room.images.length)}
-           style={{ cursor: "pointer" }}>
-        <img src={room.images[imgIdx]} alt={room.name} loading="lazy" />
+    <div className={`rg-page${closing ? " is-closing" : ""}`} role="dialog" aria-modal="true" aria-label="Room photos">
+      <div className="rg-topbar">
+        <button className="rg-back" aria-label="Back to site" onClick={requestClose}>
+          <ChevronLeft size={16} strokeWidth={2.4} /> Back
+        </button>
+        <span className="rg-brand">Shivalik Ice Hills</span>
+      </div>
+      <div className="rg-hero">
+        <span className="section-label"><Camera size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Room Photos</span>
+        <h2 className="rg-title">Inside Our Rooms</h2>
+        <p className="rg-sub">A closer look at the comfort waiting for you at Shivalik Ice Hills.</p>
+      </div>
+      <div className="rg-grid">
+        {ROOM_PHOTOS.map((src, i) => (
+          <button key={i} className="rg-item" style={{ animationDelay: `${i * 70}ms` }}
+                  onClick={() => setLightbox(i)} aria-label={`View photo ${i + 1}`}>
+            <img src={src} alt={`Room photo ${i + 1}`} loading="lazy" decoding="async" />
+            <span className="rg-view">View</span>
+          </button>
+        ))}
+      </div>
+
+      {lightbox >= 0 && (
+        <div className="rg-lightbox" onClick={() => setLightbox(-1)}>
+          <button className="rg-arrow rg-arrow-prev" aria-label="Previous photo"
+                  onClick={e => { e.stopPropagation(); setLightbox(i => (i - 1 + ROOM_PHOTOS.length) % ROOM_PHOTOS.length); }}>‹</button>
+          <img src={ROOM_PHOTOS[lightbox]} alt={`Room photo ${lightbox + 1}`} onClick={e => e.stopPropagation()} />
+          <button className="rg-arrow rg-arrow-next" aria-label="Next photo"
+                  onClick={e => { e.stopPropagation(); setLightbox(i => (i + 1) % ROOM_PHOTOS.length); }}>›</button>
+          <div className="rg-count">{lightbox + 1} / {ROOM_PHOTOS.length}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RoomCard({ room, onBook, posClass = "", onClick }) {
+  const [imgIdx, setImgIdx] = useState(0);
+  const isActive = posClass === "is-active";
+
+  // Show first photo when a room comes into focus
+  useEffect(() => { if (isActive) setImgIdx(0); }, [isActive]);
+
+  return (
+    <div className={`room-card ${posClass}`} onClick={onClick}>
+      <div className="room-img"
+           onClick={e => {
+             if (!isActive) return;               // inactive cards just activate on click
+             e.stopPropagation();
+             setImgIdx(i => (i + 1) % room.images.length);
+           }}>
+        <img src={room.images[imgIdx]} alt={room.name} loading={isActive ? "eager" : "lazy"} decoding="async" />
         {room.badge && <span className="room-badge">{room.badge}</span>}
-        <span className={`room-status ${room.available ? "avail" : "unavail"}`}>
-          {room.available ? "● Available" : "● Booked"}
-        </span>
         {room.images.length > 1 && (
           <div style={{ position: "absolute", bottom: "10px", left: "50%", transform: "translateX(-50%)", display: "flex", gap: "5px" }}>
             {room.images.map((_, i) => (
@@ -815,7 +1251,10 @@ function RoomCard({ room, onBook }) {
         )}
       </div>
       <div className="room-body">
-        <div className="room-type">{room.type} · Up to {room.maxGuests} Guests</div>
+        <div className="room-topline">
+          <span className="room-type">{room.type}</span>
+          <span className="room-guests"><Users size={13} /> Up to {room.maxGuests} guests</span>
+        </div>
         <div className="room-name">{room.name}</div>
         <p className="room-desc">{room.description}</p>
         <div className="room-amenities">
@@ -826,7 +1265,9 @@ function RoomCard({ room, onBook }) {
             <div><span className="room-price-num">₹{room.price.toLocaleString()}</span><span className="room-price-per"> /night</span></div>
             <div className="room-price-guests">Max {room.maxGuests} guests</div>
           </div>
-          <button className="btn-primary" onClick={() => onBook(room)} disabled={!room.available}>
+          <button className="btn-primary room-book-btn"
+                  onClick={e => { e.stopPropagation(); if (room.available) window.open(WA_BOOKING_URL, "_blank", "noopener"); }}
+                  disabled={!room.available}>
             {room.available ? "Book Now" : "Not Available"}
           </button>
         </div>
@@ -895,7 +1336,7 @@ function BookingModal({ room, preCheckin, preCheckout, preGuests, onClose }) {
       <div className="modal">
         {submitted ? (
           <div className="success-box">
-            <div className="success-icon">✅</div>
+            <div className="success-icon"><CheckCircle2 size={56} strokeWidth={1.6} color="#2d5a3d" /></div>
             <h3>Booking Confirmed!</h3>
             <p>Booking ID: <strong>{bookingId}</strong><br />
               Thank you, <strong>{form.name}</strong>! Your stay at <strong>{selectedRoom?.name}</strong> is confirmed.<br /><br />
@@ -971,7 +1412,7 @@ function BookingModal({ room, preCheckin, preCheckout, preGuests, onClose }) {
               </button>
             </div>
             <p style={{ fontSize: "0.73rem", color: "var(--muted)", marginTop: "1rem", textAlign: "center" }}>
-              🔒 Secure booking · No payment required now · Free cancellation 48h before check-in
+              <Lock size={12} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "4px" }} />Secure booking · No payment required now · Free cancellation 48h before check-in
             </p>
           </>
         )}
@@ -981,64 +1422,104 @@ function BookingModal({ room, preCheckin, preCheckout, preGuests, onClose }) {
 }
 
 function Gallery() {
-  const [cat, setCat] = useState("All");
-  const [light, setLight] = useState(null);
-  const cats = ["All", "Views", "Rooms", "Food", "Surroundings"];
-  const items = cat === "All" ? GALLERY : GALLERY.filter(g => g.cat === cat);
+  const SLIDE_MS = 600; // must match .slider-track transition duration
+  const N = GALLERY.length;
+  const [idx, setIdx] = useState(0);        // real slides 0..N-1, clones at N (first) and -1 (last)
+  const [anim, setAnim] = useState(true);   // transition on/off for seamless snapping
+  const [paused, setPaused] = useState(false);
+
+  const norm = i => ((i % N) + N) % N;
 
   const move = (dir) => {
-    const idx = items.findIndex(i => i.url === light.url);
-    const next = (idx + dir + items.length) % items.length;
-    setLight(items[next]);
+    setAnim(true);
+    setIdx(i => {
+      const next = i + dir;
+      if (next > N || next < -1) return i;  // ignore while standing on a clone
+      return next;
+    });
   };
 
+  const goTo = (i) => { setAnim(true); setIdx(norm(i)); };
+
+  // After gliding onto a clone (first-slide clone at the end, last-slide clone at
+  // the front), silently jump to the matching real slide with the transition off —
+  // so the loop reads as endless forward motion, never a long slide backwards.
   useEffect(() => {
-    const fn = (e) => { if (e.key === "Escape") setLight(null); if (e.key === "ArrowRight") move(1); if (e.key === "ArrowLeft") move(-1); };
+    if (idx === N || idx === -1) {
+      const t = setTimeout(() => {
+        setAnim(false);
+        setIdx(idx === N ? 0 : N - 1);
+      }, SLIDE_MS + 20);
+      return () => clearTimeout(t);
+    }
+  }, [idx, N]);
+
+  // Re-enable transitions a couple of frames after an instant snap
+  useEffect(() => {
+    if (!anim) {
+      const r = requestAnimationFrame(() => requestAnimationFrame(() => setAnim(true)));
+      return () => cancelAnimationFrame(r);
+    }
+  }, [anim]);
+
+  // Autoplay every 2s unless the user is hovering/touching the slider
+  useEffect(() => {
+    if (paused) return;
+    const t = setInterval(() => move(1), 2000);
+    return () => clearInterval(t);
+  }, [paused]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const fn = (e) => { if (e.key === "ArrowRight") move(1); if (e.key === "ArrowLeft") move(-1); };
     window.addEventListener("keydown", fn);
     return () => window.removeEventListener("keydown", fn);
-  }, [light, items]);
+  }, []);
 
   return (
-    <>
-      <div className="gallery-bg" id="gallery">
-        <div className="gallery-inner">
-          <span className="section-label">📸 Gallery</span>
+    <div className="gallery-bg" id="gallery">
+      <div className="gallery-inner">
+          <span className="section-label"><Camera size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Gallery</span>
           <h2 className="section-title">A Glimpse of Paradise</h2>
           <p className="section-sub">Every corner of Shivalik Ice Hills tells a story of mountains, warmth and wonder.</p>
-          <div className="gallery-cats">
-            {cats.map(c => (
-              <button key={c} className={`filter-chip${cat === c ? " active" : ""}`} onClick={() => setCat(c)}>{c}</button>
-            ))}
-          </div>
-          <div className="gallery-grid">
-            {items.map((img, i) => (
-              <div key={i} className="gallery-item" onClick={() => setLight(img)}>
-                <img src={img.url} alt={img.label} loading="lazy" />
-                <div className="gallery-overlay">
-                  <span className="gallery-label">{img.label}</span>
+        <div
+          className="slider"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onTouchStart={() => setPaused(true)}
+          onTouchEnd={() => setPaused(false)}
+        >
+          {/* Track = [clone of last] + real slides + [clone of first] → seamless circular loop */}
+          <div className="slider-track"
+               style={{ transform: `translateX(-${(idx + 1) * 100}%)`, transition: anim ? undefined : "none" }}>
+            {[GALLERY[N - 1], ...GALLERY, GALLERY[0]].map((img, i) => (
+              <div className="slider-slide" key={i}>
+                <img className="slider-img-blur" src={img.url} alt="" aria-hidden="true" loading="lazy" />
+                <img className="slider-img" src={img.url} alt={img.label} loading={i === 1 ? "eager" : "lazy"} />
+                <div className="slider-caption">
+                  <span className="slider-cat">{img.cat}</span>
+                  <span className="slider-label">{img.label}</span>
                 </div>
               </div>
             ))}
           </div>
+          <button className="slider-arrow slider-prev" onClick={() => move(-1)} aria-label="Previous slide">‹</button>
+          <button className="slider-arrow slider-next" onClick={() => move(1)} aria-label="Next slide">›</button>
+          <div className="slider-dots">
+            {GALLERY.map((_, i) => (
+              <button key={i} className={`slider-dot${norm(idx) === i ? " active" : ""}`} onClick={() => goTo(i)} aria-label={`Go to slide ${i + 1}`} />
+            ))}
+          </div>
         </div>
       </div>
-      {light && (
-        <div className="lightbox" onClick={() => setLight(null)}>
-          <img src={light.url} alt={light.label} onClick={e => e.stopPropagation()} />
-          <button className="lightbox-close" onClick={() => setLight(null)}>✕</button>
-          <button className="lightbox-nav lightbox-prev" onClick={e => { e.stopPropagation(); move(-1); }}>‹</button>
-          <button className="lightbox-nav lightbox-next" onClick={e => { e.stopPropagation(); move(1); }}>›</button>
-        </div>
-      )}
-    </>
+    </div>
   );
 }
 
 function VideoSection() {
   return (
     <div className="video-bg" id="video">
-      <div className="video-inner">
-        <span className="section-label">🎬 Experience</span>
+      <div className="video-inner">          <span className="section-label"><Film size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Experience</span>
         <h2 className="section-title">See It Before You Visit</h2>
         <p className="section-sub">
           Take a real tour of Shivalik Ice Hills and the breathtaking 
@@ -1066,16 +1547,16 @@ function VideoSection() {
 function Services() {
   return (
     <section className="section" id="services">
-      <span className="section-label">✨ Services</span>
+      <span className="section-label"><Sparkles size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Services</span>
       <h2 className="section-title">Everything You Need</h2>
       <p className="section-sub">Beyond comfortable rooms, we offer experiences that make your Himalayan journey unforgettable.</p>
       <div className="services-grid">
-        {SERVICES.map(s => (
-          <div key={s.title} className="service-card">
-            <span className="service-icon">{s.icon}</span>
+        {SERVICES.map(({ Icon, title, desc }) => (
+          <div key={title} className="service-card">
+            <span className="service-icon"><Icon size={28} strokeWidth={1.8} /></span>
             <div>
-              <div className="service-title">{s.title}</div>
-              <div className="service-desc">{s.desc}</div>
+              <div className="service-title">{title}</div>
+              <div className="service-desc">{desc}</div>
             </div>
           </div>
         ))}
@@ -1090,35 +1571,35 @@ function About() {
       <div className="about-grid">
         <div className="about-img-stack">
           <div className="about-img-main">
-            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80" alt="Mountain views" />
+            <img src={imgIce4} alt="Chaukhamba view from Shivalik Ice Hills" />
           </div>
           <div className="about-img-accent">
-            <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&q=80" alt="Forest" />
+            <img src={imgIce1} alt="View of Shivalik Ice Hills" />
           </div>
           <div className="about-card">
-            <div className="about-card-num">8+</div>
+            <div className="about-card-num">5</div>
             <div className="about-card-label">Years of Hosting</div>
           </div>
         </div>
         <div className="about-text">
-          <span className="section-label">🏡 Our Story</span>
+          <span className="section-label"><HomeIcon size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Our Story</span>
           <h2 className="section-title">Born from a Love of Mountains</h2>
           <p>Shivalik Ice Hills began as a dream of Ram Prasad Negi — a local Garhwali who wanted to share the magic of his homeland with the world. What started as two rooms in a family home has grown into a beloved boutique homestay.</p>
-          <p>Perched at 3200m above sea level in the sacred town of Guptkashi, we're ideally placed on the route to Kedarnath Dham — one of the holiest shrines in India. Our guests aren't just visitors; they become part of our mountain family.</p>
+          <p>Perched at 4,327 feet above sea level in the sacred town of Guptkashi, we're ideally placed on the route to Kedarnath Dham — one of the holiest shrines in India. Our guests aren't just visitors; they become part of our mountain family.</p>
           <div className="highlights">
-            {["12km from Kedarnath", "On NH-7 Highway", "Mandakini Riverside", "Deodar Forest"].map(h => (
-              <span key={h} className="highlight">📍 {h}</span>
+            {["28 km from Sonprayag", "On NH-107 Highway", "Mandakini Riverside"].map(h => (
+              <span key={h} className="highlight"><MapPin size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "4px" }} />{h}</span>
             ))}
           </div>
           <div className="about-features">
             {[
-              ["🏔️", "Panoramic Views", "Unobstructed Himalayan vista from every room"],
-              ["🏡", "Family-Run", "Personal care and authentic local hospitality"],
-              ["♻️", "Eco-Friendly", "Solar power, rainwater harvesting, organic garden"],
-              ["🛡️", "Safe & Clean", "Sanitized rooms, filtered water, fire safety certified"],
-            ].map(([icon, title, desc]) => (
+              [MountainSnow, "Panoramic Views", "Unobstructed Himalayan vista from every room"],
+              [Handshake, "Family-Run", "Personal care and authentic local hospitality"],
+              [Recycle, "Eco-Friendly", "Solar power, rainwater harvesting, organic garden"],
+              [ShieldCheck, "Safe & Clean", "Sanitized rooms, filtered water, fire safety certified"],
+            ].map(([Icon, title, desc]) => (
               <div key={title} className="about-feature">
-                <span className="about-feature-icon">{icon}</span>
+                <span className="about-feature-icon"><Icon size={20} strokeWidth={1.8} /></span>
                 <div className="about-feature-text">
                   <h4>{title}</h4>
                   <p>{desc}</p>
@@ -1132,13 +1613,62 @@ function About() {
   );
 }
 
+function WhyStay() {
+  const reasons = [
+    {
+      icon: "🏔️", title: "Himalayan Views", desc: "Wake up to snow-capped Kedarnath peaks right from your window.",
+      img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80", caption: "Kedarnath peaks, from your bed"
+    },
+    {
+      icon: "🛏️", title: "Comfortable Rooms", desc: "Cozy, heated rooms with premium bedding and 24×7 hot water.",
+      img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1000&q=80", caption: "Warm, cozy & spotless"
+    },
+    {
+      icon: "🍛", title: "Uttarakhand Cuisine", desc: "Authentic home-cooked Garhwali meals from our organic garden.",
+      img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=80", caption: "Fresh Garhwali thali"
+    },
+    {
+      icon: "📍", title: "Near Kedarnath", desc: "Perfect base on the yatra route — just 28 km from Sonprayag.",
+      img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1000&q=80", caption: "28 km from Sonprayag"
+    },
+    {
+      icon: "❤️", title: "Peaceful Environment", desc: "Deodar forests, river sounds and starry skies — pure mountain calm.",
+      img: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1000&q=80", caption: "Deodar forests & stillness"
+    },
+  ];
+
+  return (
+    <section className="section" id="why">
+      <span className="section-label"><Heart size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Why Stay With Us</span>
+      <h2 className="section-title">Why Stay With Us?</h2>
+      <p className="section-sub">Five reasons travelers choose Shivalik Ice Hills — and keep coming back.</p>
+      <div className="why-grid">
+        {reasons.map(({ icon, title, desc, img, caption }) => (
+          <div key={title} className="why-card" tabIndex={0}>
+            <div className="why-icon">{icon}</div>
+            <div className="why-title">{title}</div>
+            <div className="why-desc">{desc}</div>
+            <div className="why-media" aria-hidden="true">
+              <img src={img} alt="" loading="lazy" />
+              <div className="why-media-caption">
+                {icon} {title}
+                <span>{caption}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function Testimonials() {
   return (
     <div className="testimonials-bg">
       <div className="testimonials-inner">
-        <span className="section-label">💬 Reviews</span>
+        <span className="section-label"><MessageSquare size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Reviews</span>
         <h2 className="section-title" style={{ marginBottom: "0.5rem" }}>What Our Guests Say</h2>
-        <p style={{ color: "rgba(255,255,255,0.55)", margin: "0 0 2.5rem", fontSize: "1rem" }}>
+        <p style={{ color: "rgba(255,255,255,0.55)", margin: "0 0 1.25rem", fontSize: "1rem" }}>
           Real stories from the travelers who've stayed with us
         </p>
         <div className="testi-grid">
@@ -1195,47 +1725,37 @@ function Contact() {
 
   return (
     <section className="section" id="contact">
-      <span className="section-label">📬 Contact</span>
+      <span className="section-label"><Mail size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Contact</span>
       <h2 className="section-title">Get in Touch</h2>
       <p className="section-sub">Have questions? We're always happy to help you plan the perfect mountain getaway.</p>
       <div className="contact-grid">
         <div className="contact-info">
           <h3>Reach Us Directly</h3>
           {[
-            ["📍", "Address", "Shivalik Ice Hills, Village Dewar, Guptkashi, Rudraprayag, Uttarakhand – 246439"],
-            ["📞", "Phone", "+91 8439381703 · +91 96342 XXXXX"],
-            ["✉️", "Email", "shivalikicehills77@gmail.com"],
-            ["🕐", "Check-in / Check-out", "Check-in: 12:00 PM · Check-out: 11:00 AM"],
-            ["🏔️", "Altitude", "3,200 meters above sea level"],
-          ].map(([icon, title, val]) => (
+            [MapPin, "Address", "Shivalik Ice Hills, Village Dewar, Guptkashi, Rudraprayag, Uttarakhand – 246439"],
+            [Phone, "Phone", "+91 9084956304 · +91 8439381703"],
+            [Mail, "Email", "shivalikicehills77@gmail.com"],
+            [Clock, "Check-in / Check-out", "Check-in: 12:00 PM · Check-out: 11:00 AM"],
+            [Mountain, "Altitude", "4,327 feet above sea level"],
+          ].map(([Icon, title, val]) => (
             <div key={title} className="contact-item">
-              <div className="contact-icon">{icon}</div>
+              <div className="contact-icon"><Icon size={20} strokeWidth={1.8} /></div>
               <div>
                 <div className="contact-item-title">{title}</div>
                 <div className="contact-item-val">{val}</div>
               </div>
             </div>
           ))}
-          <a href="https://wa.me/918439381703?text=Hello! I want to book a room at Shivalik Ice Hills, Guptkashi."
+          <a href={WA_BOOKING_URL}
              target="_blank" rel="noopener noreferrer" className="whatsapp-btn">
-            <span>💬</span> Chat on WhatsApp
+            <MessageCircle size={18} strokeWidth={2} /> Chat on WhatsApp
           </a>
-          <div className="map-placeholder">
-            <span style={{ fontSize: "2rem" }}>🗺️</span>
-            <div>
-              <strong>Shivalik Ice Hills, Guptkashi</strong><br />
-              <span style={{ fontSize: "0.82rem" }}>Rudraprayag District, Uttarakhand</span>
-            </div>
-            <a href="https://maps.google.com/?q=Guptkashi+Uttarakhand" target="_blank" rel="noopener noreferrer">
-              Open in Google Maps →
-            </a>
-          </div>
         </div>
         <div>
           <h3 style={{ fontSize: "1.4rem", color: "var(--peak)", marginBottom: "1.5rem" }}>Send a Message</h3>
           {sent ? (
             <div style={{ textAlign: "center", padding: "3rem 1rem", background: "var(--ice)", borderRadius: "var(--radius)", border: "1px solid var(--glacier)" }}>
-              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🙏</div>
+              <Handshake size={40} strokeWidth={1.4} color="var(--gold)" />
               <h4 style={{ color: "var(--peak)", marginBottom: "0.5rem" }}>Message Received!</h4>
               <p style={{ color: "var(--muted)", fontSize: "0.9rem" }}>Thank you {form.name}! We'll get back to you shortly.</p>
             </div>
@@ -1260,7 +1780,7 @@ function Contact() {
                 </div>
               </div>
               <button type="submit" className="btn-primary" style={{ marginTop: "1rem", width: "100%", padding: "0.85rem" }} disabled={sending}>
-                {sending ? "Sending..." : "Send Message 📩"}
+                {sending ? "Sending..." : <>Send Message <Send size={15} strokeWidth={2} style={{ verticalAlign: "-2px", marginLeft: "4px" }} /></>}
               </button>
             </form>
           )}
@@ -1270,190 +1790,15 @@ function Contact() {
   );
 }
 
-function AdminPanel({ onClose }) {
-  const [tab, setTab] = useState("dashboard");
-  const [adminUser, setAdminUser] = useState(null);
-  const [loginForm, setLoginForm] = useState({ user: "", pass: "" });
-  const [loginErr, setLoginErr] = useState("");
-
-  const handleLogin = () => {
-    if (loginForm.user === "admin" && loginForm.pass === "shivalik2024") {
-      setAdminUser("Admin");
-    } else {
-      setLoginErr("Invalid credentials. Try admin / shivalik2024");
-    }
-  };
-
-  if (!adminUser) {
-    return (
-      <div className="admin-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
-        <div style={{ margin: "auto", background: "white", borderRadius: "var(--radius)", padding: "2.5rem", maxWidth: "400px", width: "100%" }}>
-          <h2 style={{ fontSize: "1.6rem", color: "var(--peak)", marginBottom: "0.25rem" }}>Admin Login</h2>
-          <p style={{ color: "var(--muted)", fontSize: "0.85rem", marginBottom: "1.5rem" }}>Shivalik Ice Hills · Management</p>
-          <div className="form-group" style={{ marginBottom: "1rem" }}>
-            <label>Username</label>
-            <input placeholder="admin" value={loginForm.user} onChange={e => setLoginForm(f => ({ ...f, user: e.target.value }))} />
-          </div>
-          <div className="form-group" style={{ marginBottom: "1.25rem" }}>
-            <label>Password</label>
-            <input type="password" placeholder="••••••••" value={loginForm.pass} onChange={e => setLoginForm(f => ({ ...f, pass: e.target.value }))}
-                   onKeyDown={e => e.key === "Enter" && handleLogin()} />
-          </div>
-          {loginErr && <p style={{ color: "var(--rust)", fontSize: "0.82rem", marginBottom: "1rem" }}>{loginErr}</p>}
-          <button className="btn-primary" style={{ width: "100%", padding: "0.85rem" }} onClick={handleLogin}>Login →</button>
-          <button className="btn-outline" style={{ width: "100%", padding: "0.75rem", marginTop: "0.75rem" }} onClick={onClose}>Cancel</button>
-          <p style={{ fontSize: "0.75rem", color: "var(--muted)", marginTop: "1rem", textAlign: "center" }}>Demo: admin / shivalik2024</p>
-        </div>
-      </div>
-    );
-  }
-
-  const navItems = [
-    { id: "dashboard", icon: "📊", label: "Dashboard" },
-    { id: "bookings", icon: "📅", label: "Bookings" },
-    { id: "rooms", icon: "🛏", label: "Rooms" },
-    { id: "gallery", icon: "📸", label: "Media" },
-  ];
-
-  return (
-    <div className="admin-overlay">
-      <div className="admin-sidebar">
-        <div className="admin-logo">
-          <div className="admin-logo-text">🏔️ Shivalik Ice Hills</div>
-          <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.4)", marginTop: "4px" }}>Admin Panel</div>
-        </div>
-        <div className="admin-nav">
-          {navItems.map(n => (
-            <div key={n.id} className={`admin-nav-item${tab === n.id ? " active" : ""}`} onClick={() => setTab(n.id)}>
-              <span>{n.icon}</span> {n.label}
-            </div>
-          ))}
-        </div>
-        <button className="admin-close-btn" onClick={onClose}>← Back to Site</button>
-        <div style={{ padding: "0 1.5rem", fontSize: "0.78rem", color: "rgba(255,255,255,0.35)" }}>
-          Logged in as {adminUser}
-        </div>
-      </div>
-      <div className="admin-main">
-        {tab === "dashboard" && (
-          <>
-            <div className="admin-header">
-              <h2>Good day! 👋</h2>
-              <p>Here's what's happening at Shivalik Ice Hills today.</p>
-            </div>
-            <div className="admin-stats">
-              {[["4", "Total Bookings"], ["5", "Rooms Available"], ["₹32,700", "Revenue This Month"], ["4.9★", "Avg Rating"]].map(([n, l]) => (
-                <div key={l} className="admin-stat-card">
-                  <div className="admin-stat-num">{n}</div>
-                  <div className="admin-stat-label">{l}</div>
-                </div>
-              ))}
-            </div>
-            <h3 style={{ fontSize: "1.1rem", color: "var(--peak)", margin: "1.5rem 0 1rem" }}>Recent Bookings</h3>
-            <div className="bookings-table">
-              <table>
-                <thead><tr>
-                  {["ID", "Guest", "Room", "Check-in", "Guests", "Amount", "Status"].map(h => <th key={h}>{h}</th>)}
-                </tr></thead>
-                <tbody>
-                  {SAMPLE_BOOKINGS.map(b => (
-                    <tr key={b.id}>
-                      <td><strong>{b.id}</strong></td>
-                      <td>{b.guest}</td>
-                      <td>{b.room}</td>
-                      <td>{b.checkin}</td>
-                      <td>{b.guests}</td>
-                      <td><strong>{b.amount}</strong></td>
-                      <td><span className={`status-badge status-${b.status}`}>{b.status}</span></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </>
-        )}
-        {tab === "bookings" && (
-          <>
-            <div className="admin-header"><h2>Manage Bookings</h2><p>View and manage all reservations.</p></div>
-            <div className="bookings-table">
-              <table>
-                <thead><tr>
-                  {["ID", "Guest", "Room", "Check-in", "Check-out", "Guests", "Amount", "Status", "Actions"].map(h => <th key={h}>{h}</th>)}
-                </tr></thead>
-                <tbody>
-                  {SAMPLE_BOOKINGS.map(b => (
-                    <tr key={b.id}>
-                      <td><strong>{b.id}</strong></td>
-                      <td>{b.guest}</td>
-                      <td>{b.room}</td>
-                      <td>{b.checkin}</td>
-                      <td>{b.checkout}</td>
-                      <td>{b.guests}</td>
-                      <td><strong>{b.amount}</strong></td>
-                      <td><span className={`status-badge status-${b.status}`}>{b.status}</span></td>
-                      <td><button style={{ background: "var(--ice)", border: "1px solid var(--border)", borderRadius: "6px", padding: "0.3rem 0.6rem", cursor: "pointer", fontSize: "0.75rem" }}>Edit</button></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </>
-        )}
-        {tab === "rooms" && (
-          <>
-            <div className="admin-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-              <div><h2>Manage Rooms</h2><p>Add, edit or update room details and availability.</p></div>
-              <button className="btn-primary" style={{ fontSize: "0.85rem" }}>+ Add Room</button>
-            </div>
-            <div style={{ display: "grid", gap: "1rem" }}>
-              {ROOMS.map(r => (
-                <div key={r.id} style={{ background: "white", borderRadius: "var(--radius-sm)", border: "1px solid var(--border)", padding: "1.25rem", display: "flex", alignItems: "center", gap: "1rem" }}>
-                  <img src={r.images[0]} alt={r.name} style={{ width: "80px", height: "60px", objectFit: "cover", borderRadius: "8px" }} />
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 600, color: "var(--peak)" }}>{r.name}</div>
-                    <div style={{ fontSize: "0.8rem", color: "var(--muted)" }}>{r.type} · ₹{r.price}/night · Max {r.maxGuests} guests</div>
-                  </div>
-                  <span className={`status-badge status-${r.available ? "confirmed" : "pending"}`}>
-                    {r.available ? "Available" : "Booked"}
-                  </span>
-                  <button style={{ background: "var(--ice)", border: "1px solid var(--border)", borderRadius: "6px", padding: "0.4rem 0.8rem", cursor: "pointer", fontSize: "0.8rem" }}>Edit</button>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-        {tab === "gallery" && (
-          <>
-            <div className="admin-header"><h2>Media Manager</h2><p>Upload and manage photos and videos.</p></div>
-            <div style={{ background: "white", border: "2px dashed var(--glacier)", borderRadius: "var(--radius)", padding: "3rem", textAlign: "center", marginBottom: "1.5rem" }}>
-              <div style={{ fontSize: "2.5rem", marginBottom: "0.75rem" }}>☁️</div>
-              <h4 style={{ color: "var(--peak)", marginBottom: "0.5rem" }}>Upload Photos or Videos</h4>
-              <p style={{ color: "var(--muted)", fontSize: "0.85rem", marginBottom: "1.25rem" }}>Drag & drop or click to browse · JPG, PNG, MP4 supported · Max 10MB</p>
-              <button className="btn-outline">Choose Files</button>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: "0.75rem" }}>
-              {GALLERY.slice(0, 8).map((img, i) => (
-                <div key={i} style={{ position: "relative", borderRadius: "var(--radius-sm)", overflow: "hidden", height: "120px" }}>
-                  <img src={img.url} alt={img.label} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  <div style={{ position: "absolute", top: "6px", right: "6px", background: "rgba(0,0,0,0.5)", color: "white", border: "none", borderRadius: "50%", width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.75rem", cursor: "pointer" }}>✕</div>
-                  <div style={{ position: "absolute", bottom: "6px", left: "6px", background: "rgba(0,0,0,0.5)", color: "white", fontSize: "0.65rem", padding: "2px 6px", borderRadius: "4px" }}>{img.cat}</div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function Footer({ onBook }) {
+function Footer({ onBook, onPolicies }) {
   return (
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-grid">
           <div>
-            <div className="footer-brand-name">🏔️ Shivalik Ice Hills</div>
+            <div className="footer-brand-name">
+              <img src={logoImg} alt="Shivalik Ice Hills logo" className="footer-brand-img" /> Shivalik Ice Hills
+            </div>
             <p className="footer-brand-desc">A boutique mountain homestay in Guptkashi, Uttarakhand. The perfect base for Kedarnath pilgrims and Himalayan adventurers.</p>
           </div>
           <div className="footer-col">
@@ -1466,32 +1811,112 @@ function Footer({ onBook }) {
             <h4>Support</h4>
             <a href="#contact">Contact Us</a>
             <a href="#rooms">Book a Room</a>
-            <a href="#">Cancellation Policy</a>
-            <a href="#">Privacy Policy</a>
+            <a href="#" onClick={e => { e.preventDefault(); onPolicies("cancellation"); }}>Cancellation Policy</a>
+            <a href="#" onClick={e => { e.preventDefault(); onPolicies(); }}>Privacy Policy</a>
           </div>
           <div className="footer-col">
             <h4>Contact</h4>
-            <a href="tel:+918439381703">📞 +91 8439381703</a>
-            <a href="mailto:shivalikicehills77@gmail.com">✉️ Email Us</a>
-            <a href="https://wa.me/918439381703" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>
-            <a href="https://maps.google.com/?q=Guptkashi" target="_blank" rel="noopener noreferrer">📍 Directions</a>
+            <a href="tel:+919084956304"><Phone size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />+91 9084956304</a>
+            <a href="tel:+918439381703"><Phone size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />+91 8439381703</a>
+            <a href="mailto:shivalikicehills77@gmail.com"><Mail size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Email Us</a>
+            <a href={WA_BOOKING_URL} target="_blank" rel="noopener noreferrer"><MessageCircle size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />WhatsApp</a>
+            <a href={MAPS_URL} target="_blank" rel="noopener noreferrer"><MapPin size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Directions</a>
           </div>
         </div>
         <div className="footer-bottom">
           <div className="footer-copy">© 2025 Shivalik Ice Hills, Guptkashi, Uttarakhand. All rights reserved.</div>
-          <div className="footer-love">Made with ❤️ in the Himalayas</div>
+          <div className="footer-love">Made with <Heart size={12} strokeWidth={2.2} color="#e05656" style={{ verticalAlign: "-1px", margin: "0 2px" }} /> in the Himalayas</div>
         </div>
       </div>
     </footer>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
+// ── Hotel Policies page (opened from footer links) ──
+function PolicyPage({ section, onClose }) {
+  const [closing, setClosing] = useState(false);
+  const targetRef = useRef(null);
+
+  const requestClose = () => {
+    if (closing) return;
+    setClosing(true);
+    setTimeout(onClose, 320);
+  };
+
+  // Lock page scroll while open
+  useEffect(() => {
+    const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = "hidden";
+    if (scrollbarW > 0) document.body.style.paddingRight = `${scrollbarW}px`;
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+    };
+  }, []);
+
+  // Esc closes; arrow keys are left to the page scroll
+  useEffect(() => {
+    const fn = e => { if (e.key === "Escape") requestClose(); };
+    window.addEventListener("keydown", fn);
+    return () => window.removeEventListener("keydown", fn);
+  }, [closing]);
+
+  // Scroll to a deep-linked section (e.g. "cancellation") once mounted
+  useEffect(() => {
+    if (!section) return;
+    const t = setTimeout(() => {
+      const el = document.getElementById(`policy-${section}`);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 450); // after the entrance animation settles
+    return () => clearTimeout(t);
+  }, [section]);
+
+  return (
+    <div className={`pol-page${closing ? " is-closing" : ""}`} role="dialog" aria-modal="true" aria-label="Hotel policies">
+      <div className="rg-topbar">
+        <button className="rg-back" aria-label="Back to site" onClick={requestClose}>
+          <ChevronLeft size={16} strokeWidth={2.4} /> Back
+        </button>
+        <span className="rg-brand">Shivalik Ice Hills</span>
+      </div>
+      <div className="pol-hero">
+        <span className="section-label"><ScrollText size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Hotel Policies</span>
+        <h2 className="rg-title">Policies & House Rules</h2>
+        <p className="rg-sub">At Shivalik Ice Hills, we aim to provide a comfortable and hassle-free stay. Please review our policies before booking.</p>
+      </div>
+      <div className="pol-grid">
+        {POLICY_SECTIONS.map(({ id, Icon, title, items }) => (
+          <div key={id} id={`policy-${id}`} className="pol-card" ref={section === id ? targetRef : undefined}>
+            <div className="pol-card-head">
+              <span className="pol-icon"><Icon size={17} strokeWidth={1.9} /></span>
+              <h3>{title}</h3>
+            </div>
+            <ul>
+              {items.map((item, i) => (
+                <li key={i}><span className="pol-num">{i + 1}.</span><span>{item}</span></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div className="pol-contact">
+        <h3>Questions? We're here to help.</h3>
+        <p>For any queries or special requests, feel free to contact us anytime.</p>
+        <div className="pol-contact-btns">
+          <a className="btn-primary" href="tel:+919084956304">📞 +91 9084956304</a>
+          <a className="btn-outline" href="https://wa.me/919084956304?text=Hello!%20I%20have%20a%20question%20about%20your%20policies." target="_blank" rel="noopener noreferrer">WhatsApp Us</a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // APP
 // ═══════════════════════════════════════════════════════════════════════════════
 export default function App() {
   const [booking, setBooking] = useState(null);
-  const [showAdmin, setShowAdmin] = useState(false);
+  const [policies, setPolicies] = useState(null);
 
   // Inject viewport meta to prevent mobile zoom/overflow issues
   useEffect(() => {
@@ -1519,24 +1944,25 @@ export default function App() {
   return (
     <div style={{ width: "100%", maxWidth: "100%", overflowX: "hidden", position: "relative" }}>
       <style>{CSS}</style>
-      <Navbar onAdminClick={() => setShowAdmin(true)} />
-      <Hero onBookNow={openBooking} />
+      <Navbar />
+      <Hero />
+      <About />
+      <WhyStay />
       <Rooms onBook={(room) => setBooking({ room, checkin: "", checkout: "", guests: "1" })} />
       <div className="divider" />
       <Services />
       <div className="divider" />
       <Gallery />
       <VideoSection />
-      <About />
       <Testimonials />
       <Contact />
-      <Footer onBook={openBooking} />
+      <Footer onBook={openBooking} onPolicies={(section) => setPolicies({ section })} />
 
-      {/* WhatsApp Float */}
-      <a href="https://wa.me/918439381703?text=Hello! I'd like to know more about Shivalik Ice Hills, Guptkashi."
-         target="_blank" rel="noopener noreferrer" className="wa-float" title="Chat on WhatsApp">
-        <span style={{ fontSize: "1.5rem" }}>💬</span>
-        <span className="wa-tooltip">Chat with us</span>
+      {/* Floating Book Now → WhatsApp */}
+      <a href={WA_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="book-float" title="Book on WhatsApp">
+      <CalendarDays size={19} strokeWidth={2} />
+        <span>Book Now</span>
+        <span className="book-tooltip">Book instantly on WhatsApp</span>
       </a>
 
       {/* Booking Modal */}
@@ -1550,8 +1976,8 @@ export default function App() {
         />
       )}
 
-      {/* Admin Panel */}
-      {showAdmin && <AdminPanel onClose={() => setShowAdmin(false)} />}
+      {/* Hotel Policies page (footer links) */}
+      {policies && <PolicyPage section={policies.section} onClose={() => setPolicies(null)} />}
     </div>
   );
 }
