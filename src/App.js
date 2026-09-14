@@ -215,7 +215,7 @@ const CSS = `
     border-radius: 50px; font-weight: 600 !important; transition: var(--transition) !important;
   }
   .nav-cta:hover { background: #e0a845 !important; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(200,150,62,0.4); }
-  .nav-hamburger { display: none; background: none; border: none; cursor: pointer; color: white; font-size: 1.4rem; }
+  .nav-hamburger { display: none; background: none; border: none; cursor: pointer; color: white; font-size: 1.4rem; padding: 0.5rem; margin: -0.5rem; }
 
   @media (max-width: 768px) {
     .nav-links { display: none; }
@@ -226,6 +226,17 @@ const CSS = `
       background: rgba(26,58,74,0.98); backdrop-filter: blur(12px);
       gap: 1.25rem; align-items: flex-start;
     }
+    /* Mobile menu: each link stretches across the full row, so tapping the
+       blank space beside the label works too — not just the text itself.
+       Extra vertical padding also gives a comfortable thumb-sized target. */
+    .nav-links.open a {
+      display: block; width: 100%;
+      padding: 0.6rem 0;
+      border-radius: 8px;
+    }
+    .nav-links.open a:active { background: rgba(255,255,255,0.1); }
+    /* The Directions pill keeps its shape but also spans the full row */
+    .nav-links.open .nav-cta { text-align: center; padding: 0.6rem 1.25rem; }
   }
 
   /* ── HERO ── */
@@ -313,6 +324,19 @@ const CSS = `
   .hero-scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent); margin: 0 auto 6px; }
   .hero-scroll-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; margin: 0 auto; }
   @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+  /* Mobile: kill the huge centered dead-space — hero text starts just under the navbar */
+  @media (max-width: 768px) {
+    .hero {
+      height: auto; min-height: 100vh; min-height: 100svh;
+      align-items: flex-start;
+      padding: 92px 0 4rem;
+    }
+    .hero-content { padding: 0 1.25rem; }
+    .hero-badge { margin-bottom: 1rem; }
+    .hero-tagline { margin-bottom: 1.75rem; }
+    .hero-stats { gap: 1.1rem 1.6rem; margin-bottom: 1.75rem; }
+    .hero-stat-num { font-size: 1.6rem; }
+  }
 
   /* ── SECTIONS ── */
   .section { padding: 4rem 1.5rem; max-width: 1200px; margin: 0 auto; }
@@ -430,12 +454,23 @@ const CSS = `
     .rooms-arrow.next { right: 8px; }
   }
   @media (max-width: 720px) {
-    .rooms-slider { height: auto; }
-    .room-card, .room-card.is-left, .room-card.is-right {
-      position: relative; top: auto; left: auto; display: none;
-      width: 100%; transform: none; filter: none; opacity: 1;
+    /* Mobile rooms slider: cards stack in ONE grid cell — the active card sits
+       centered in normal flow while neighbours park just off-screen. Role
+       changes tween the transform, so the slide animation survives on phones,
+       and no card ends up half-off-screen overlapping the filter chips. */
+    .rooms-slider { display: grid; height: auto; }
+    .room-card, .room-card.is-active, .room-card.is-left, .room-card.is-right {
+      grid-area: 1 / 1;
+      position: relative; top: auto; left: auto;
+      width: 100%; transform: none;
     }
-    .room-card.is-active { display: flex; visibility: visible; pointer-events: auto; }
+    .room-card.is-active, .room-card.is-left, .room-card.is-right {
+      filter: none; opacity: 1; visibility: visible;
+    }
+    .room-card.is-active { transform: translateX(0); pointer-events: auto; z-index: 3; }
+    .room-card.is-left   { transform: translateX(-108%); }
+    .room-card.is-right  { transform: translateX(108%); }
+    .room-card:not(.is-active):not(.is-left):not(.is-right) { display: none; }
     .room-img { height: 200px; }
     .room-footer { flex-wrap: wrap; }
   }
@@ -595,7 +630,14 @@ const CSS = `
   @media (max-width: 768px) {
     .about-grid { grid-template-columns: 1fr; gap: 3rem; }
     .about-img-stack { height: 320px; }
-    .about-card { left: 55%; }
+    /* "5 Years Hosting" badge: compact and tucked into the corner so it
+       never dwarfs the photos on a phone screen */
+    .about-card {
+      top: auto; bottom: -14px; left: 14px; transform: none;
+      padding: 0.8rem 1rem; min-width: 96px;
+    }
+    .about-card-num { font-size: 1.5rem; }
+    .about-card-label { font-size: 0.6rem; letter-spacing: 0.08em; }
   }
 
   /* ── WHY STAY WITH US ── */
@@ -737,7 +779,34 @@ const CSS = `
   .testimonials-inner { max-width: 1200px; margin: 0 auto; }
   .testimonials-inner .section-label { color: var(--gold); }
   .testimonials-inner .section-title { color: white; }
-  .testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+  /* ── Announcement-style reviews ticker ──
+     Cards drift continuously in one direction (like a news/announcement bar).
+     Hovering pauses the drift; pressing/touching lets you drag the row
+     forward AND backward — it resumes drifting on its own after you let go. */
+  .testi-viewport {
+    overflow: hidden; border-radius: var(--radius);
+    cursor: grab; touch-action: pan-y;
+    user-select: none; -webkit-user-select: none;
+    /* Soft fade at both edges so cards never pop in/out at the seams */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  }
+  .testi-viewport:active { cursor: grabbing; }
+  .testi-track {
+    display: flex; width: max-content;
+    will-change: transform;
+  }
+  .testi-item { flex-shrink: 0; width: 360px; margin-right: 18px; display: flex; box-sizing: border-box; padding: 0.3rem 0; }
+  .testi-item .testi-card { flex: 1; }
+  @media (min-width: 1100px) {
+    /* Wide screens: slightly bigger cards so the strip doesn't look sparse */
+    .testi-item { width: 400px; }
+  }
+  @media (max-width: 720px) {
+    /* Small screens: cap the card to the visible width (minus section padding)
+     so even a 320px phone shows one full card with breathing room */
+    .testi-item { width: min(288px, calc(100vw - 56px)); margin-right: 14px; }
+  }
   .testi-card {
     background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
     border-radius: var(--radius); padding: 1.75rem; transition: var(--transition);
@@ -804,7 +873,16 @@ const CSS = `
   .whatsapp-btn:hover { background: #1da851; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,211,102,0.4); }
 
   @media (max-width: 768px) {
-    .contact-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2.25rem; }
+    /* Stop grid min-content blowout (long email/address) from squeezing the
+       form column and shoving the inputs to the right */
+    .contact-grid > * { min-width: 0; }
+    .contact-item-val { overflow-wrap: anywhere; }
+    /* Stack every form field full-width; 16px inputs stop iOS focus-zoom
+       from blowing the boxes out of place */
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid > * { min-width: 0; }
+    .form-group input, .form-group select, .form-group textarea { font-size: 16px; }
   }
 
   /* ── FOOTER ── */
@@ -863,6 +941,12 @@ const CSS = `
   .highlights { display: flex; gap: 1rem; margin-top: 1.5rem; }
   @media (max-width: 720px) { .highlights { flex-wrap: wrap; } }
   .highlight { display: flex; align-items: center; gap: 0.5rem; background: var(--ice); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.82rem; color: var(--peak); border: 1px solid var(--glacier); }
+
+  /* Mobile: trim the tall section padding so sections hug their content */
+  @media (max-width: 720px) {
+    .section, .section-full { padding: 3rem 1.25rem; }
+    .about-bg, .gallery-bg, .testimonials-bg, .video-bg { padding: 3rem 1.25rem; }
+  }
 
   /* ── MISC ── */
   .text-center { text-align: center; }
@@ -1120,7 +1204,7 @@ function Rooms({ onBook }) {
         ))}
       </div>
       <>
-        <div className="rooms-slider">
+        <div className="rooms-slider" style={{ touchAction: "pan-y" }}>
           {rooms.map((room, i) => {
             const pos = ((i - safeActive) % count + count) % count; // 0 = focused, 1 = right peek, count-1 = left peek
             const posClass = pos === 0 ? "is-active" : pos === 1 ? "is-right" : pos === count - 1 ? "is-left" : "";
@@ -1205,7 +1289,9 @@ function RoomGalleryPage({ onClose }) {
         {ROOM_PHOTOS.map((src, i) => (
           <button key={i} className="rg-item" style={{ animationDelay: `${i * 70}ms` }}
                   onClick={() => setLightbox(i)} aria-label={`View photo ${i + 1}`}>
-            <img src={src} alt={`Room photo ${i + 1}`} loading="lazy" decoding="async" />
+            <img src={src} alt={`Room photo ${i + 1}`} decoding="async"
+                 onError={e => { e.currentTarget.style.visibility = "hidden"; }}
+                 onLoad={e => { e.currentTarget.style.visibility = ""; }} />
             <span className="rg-view">View</span>
           </button>
         ))}
@@ -1240,7 +1326,11 @@ function RoomCard({ room, onBook, posClass = "", onClick }) {
              e.stopPropagation();
              setImgIdx(i => (i + 1) % room.images.length);
            }}>
-        <img src={room.images[imgIdx]} alt={room.name} loading={isActive ? "eager" : "lazy"} decoding="async" />
+        {/* Eager + onError fallback: inside the transformed carousel track a lazy
+            image can be deferred indefinitely and show as a blank card. */}
+        <img src={room.images[imgIdx]} alt={room.name} decoding="async"
+             onError={e => { e.currentTarget.style.visibility = "hidden"; }}
+             onLoad={e => { e.currentTarget.style.visibility = ""; }} />
         {room.badge && <span className="room-badge">{room.badge}</span>}
         {room.images.length > 1 && (
           <div style={{ position: "absolute", bottom: "10px", left: "50%", transform: "translateX(-50%)", display: "flex", gap: "5px" }}>
@@ -1494,8 +1584,11 @@ function Gallery() {
                style={{ transform: `translateX(-${(idx + 1) * 100}%)`, transition: anim ? undefined : "none" }}>
             {[GALLERY[N - 1], ...GALLERY, GALLERY[0]].map((img, i) => (
               <div className="slider-slide" key={i}>
-                <img className="slider-img-blur" src={img.url} alt="" aria-hidden="true" loading="lazy" />
-                <img className="slider-img" src={img.url} alt={img.label} loading={i === 1 ? "eager" : "lazy"} />
+                {/* No lazy-loading here: inside the translating carousel track the
+                    browser can defer these forever, leaving slides permanently blank.
+                    All 9 gallery photos load eagerly (they're the section's content). */}
+                <img className="slider-img-blur" src={img.url} alt="" aria-hidden="true" decoding="async" />
+                <img className="slider-img" src={img.url} alt={img.label} decoding="async" />
                 <div className="slider-caption">
                   <span className="slider-cat">{img.cat}</span>
                   <span className="slider-label">{img.label}</span>
@@ -1663,6 +1756,92 @@ function WhyStay() {
 }
 
 function Testimonials() {
+  const N = TESTIMONIALS.length;
+  const viewportRef = useRef(null);
+  const offset = useRef(0);      // current scroll position of the strip (px)
+  const wrapWidth = useRef(1);   // width of one full set of reviews (px)
+  const dragging = useRef(null); // { startX, startOffset, id } while pressing
+  const vel = useRef(0);         // px/frame from the last drag motion (for momentum)
+  const lastX = useRef(0);
+  const pausedRef = useRef(false);
+  const [, force] = useState(0); // re-render after we mutate offset
+
+  // Keep content on screen: normalise offset into [-wrapWidth, 0).
+  const normalize = () => {
+    const w = wrapWidth.current;
+    if (offset.current <= -w) offset.current += w;
+    if (offset.current > 0) offset.current -= w;
+  };
+
+  useEffect(() => {
+    const track = viewportRef.current?.firstElementChild;
+    if (!track) return;
+    const measure = () => {
+      // The track renders the set of reviews exactly twice; half of it = one loop length
+      wrapWidth.current = track.scrollWidth / 2 || 1;
+      normalize();
+      apply();
+    };
+    const apply = () => { track.style.transform = `translate3d(${offset.current}px, 0, 0)`; };
+
+    measure();
+    window.addEventListener("resize", measure);
+
+    let raf, last = performance.now();
+    const tick = (now) => {
+      const dt = Math.min(now - last, 50); // clamp tab-switch jumps
+      last = now;
+      if (!pausedRef.current && !dragging.current) {
+        // Announcement drift (~48px/s), or glide from the last drag (momentum)
+        const speed = Math.abs(vel.current) > 0.2 ? vel.current : -0.8;
+        offset.current += speed * (dt / 16.7);
+        vel.current *= 0.95;              // momentum decays back to base drift
+        if (vel.current > -0.2 && vel.current < 0.2) vel.current = 0;
+        normalize();
+        apply();
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", measure); };
+  }, []);
+
+  // Drag with mouse or finger — moves the row both directions while held.
+  const press = clientX => {
+    dragging.current = { startX: clientX, startOffset: offset.current, moved: false };
+    lastX.current = clientX;
+    vel.current = 0;
+    pausedRef.current = true;
+  };
+  const movePointer = clientX => {
+    if (!dragging.current) return;
+    const d = clientX - dragging.current.startX;
+    if (Math.abs(d) > 4) dragging.current.moved = true;
+    offset.current = dragging.current.startOffset + d;
+    vel.current = clientX - lastX.current; // remember direction/speed for momentum
+    lastX.current = clientX;
+    normalize();
+    viewportRef.current.firstElementChild.style.transform = `translate3d(${offset.current}px, 0, 0)`;
+  };
+  const release = () => { dragging.current = null; pausedRef.current = false; };
+
+  // Safety net: if mouse/touch is released outside the strip (or the tab loses
+  // focus mid-drag), stop dragging so the drift always resumes.
+  useEffect(() => {
+    const up = () => release();
+    const mv = e => { if (dragging.current) movePointer(e.clientX); };
+    window.addEventListener("mouseup", up);
+    window.addEventListener("mousemove", mv);
+    window.addEventListener("touchend", up);
+    return () => {
+      window.removeEventListener("mouseup", up);
+      window.removeEventListener("mousemove", mv);
+      window.removeEventListener("touchend", up);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="testimonials-bg">
       <div className="testimonials-inner">
@@ -1671,20 +1850,34 @@ function Testimonials() {
         <p style={{ color: "rgba(255,255,255,0.55)", margin: "0 0 1.25rem", fontSize: "1rem" }}>
           Real stories from the travelers who've stayed with us
         </p>
-        <div className="testi-grid">
-          {TESTIMONIALS.map(t => (
-            <div key={t.name} className="testi-card">
-              <div className="testi-stars">{"★".repeat(t.rating)}</div>
-              <p className="testi-text">"{t.text}"</p>
-              <div className="testi-author">
-                <div className="testi-avatar">{t.avatar}</div>
-                <div>
-                  <div className="testi-name">{t.name}</div>
-                  <div className="testi-loc">📍 {t.location}</div>
+        <div className="testi-viewport" ref={viewportRef}
+             onMouseEnter={() => { pausedRef.current = true; }}
+             onMouseLeave={() => { if (!dragging.current) pausedRef.current = false; }}
+             onMouseDown={e => { e.preventDefault(); press(e.clientX); }}
+             onMouseMove={e => { if (dragging.current) movePointer(e.clientX); }}
+             onMouseUp={release}
+             onTouchStart={e => press(e.touches[0].clientX)}
+             onTouchMove={e => movePointer(e.touches[0].clientX)}
+             onTouchEnd={release}>
+          {/* The set of reviews rendered twice back-to-back → the strip can
+              slide forever in either direction with no visible seam. */}
+          <div className="testi-track">
+            {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+              <div className="testi-item" key={i} draggable={false}>
+                <div className="testi-card">
+                  <div className="testi-stars">{"★".repeat(t.rating)}</div>
+                  <p className="testi-text">"{t.text}"</p>
+                  <div className="testi-author">
+                    <div className="testi-avatar">{t.avatar}</div>
+                    <div>
+                      <div className="testi-name">{t.name}</div>
+                      <div className="testi-loc">📍 {t.location}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
