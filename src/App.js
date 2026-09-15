@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { BedDouble, Camera, Sparkles, Home as HomeIcon, MessageSquare, Film, Mountain, MountainSnow, ShieldCheck, Recycle, MapPin, Phone, Mail, Clock, MessageCircle, Lock, CheckCircle2, Send, CalendarDays, Star, Handshake, UtensilsCrossed, Helicopter, CarFront, FlameKindling, SquareParking, Leaf, Sun, Flower2, Heart, ChevronLeft, ChevronRight, Users, ScrollText, CalendarX, Baby, PawPrint, Wrench, Ban, AlertTriangle } from "lucide-react";
-import homestayVideo from "./assets/videos/homestay-tour.mp4";
+// Web-optimized 720p copies (scripts/compress-videos.js) — originals kept in videos/
+import homestayVideo from "./assets/videos-opt/homestay-tour.mp4";
+import frontVideo from "./assets/videos-opt/front.mp4";
+import videoInside from "./assets/videos-opt/1000143760.mp4";
+import videoAround from "./assets/videos-opt/1000143765.mp4";
 import logoImg from "./assets/images/logo-opt.png";
 // ─── LOCAL IMAGES (optimized copies — see scripts/optimize-images.js) ──────
 import imgGuest1 from "./assets/images/galllery-opt/guest1.jpg";
@@ -105,7 +109,7 @@ const ROOMS = [
   },
   {
     id: 4, name: "Forest Cottage", type: "Super Deluxe", price: 4200,
-    available: false, maxGuests: 4,
+    available: true, maxGuests: 4,
     description: "Private wooden cottage nestled in deodar forest. Complete privacy with fireplace, sit-out and family capacity.",
     amenities: ["Forest View", "WiFi", "Hot Water", "Fireplace", "Parking", "Kitchenette"],
     images: [imgSuperDelux],
@@ -944,6 +948,17 @@ const CSS = `
   .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
   .footer-dev { font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-top: 0.35rem; }
   .footer-love { font-size: 0.8rem; color: rgba(255,255,255,0.45); display: flex; align-items: center; }
+  /* Book Now pill inside the Contact column (phones only): parked on the right
+     of the row, right beside the Directions link */
+  .footer-book-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.6rem; }
+  .footer-book-row > a { margin-bottom: 0; }
+  .footer-col .footer-book {
+    display: none; align-items: center; gap: 0.4rem;
+    background: var(--gold); color: white !important; border-radius: 50px;
+    padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 600;
+    box-shadow: 0 4px 14px rgba(200,150,62,0.45);
+  }
+  .footer-col .footer-book:active { background: #e0a845; }
 
   @media (max-width: 768px) {
     /* Phone footer: brand on its own row, then Explore | Support side by side,
@@ -951,6 +966,10 @@ const CSS = `
     .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem 1.5rem; }
     .footer-grid > div:first-child { grid-column: 1 / -1; }
     .footer-col-contact { grid-column: 1 / -1; }
+    /* Show the in-footer Book Now and hide the floating one — no double button,
+       and nothing covering the footer text while scrolling */
+    .footer-col .footer-book { display: inline-flex; }
+    .book-float { display: none; }
   }
 
   /* ── FLOATING BOOK NOW ── */
@@ -978,12 +997,29 @@ const CSS = `
   .video-inner .section-label { color: var(--gold); }
   .video-inner .section-title { color: white; }
   .video-inner .section-sub { color: rgba(255,255,255,0.6); margin: 0 auto 1.25rem; }
-  .video-frame {
-    border-radius: var(--radius); overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,0.5);
-    position: relative; padding-bottom: 56.25%; height: 0;
-    border: 1px solid rgba(255,255,255,0.1);
+  /* Video carousel: same 16:9 frame the single video used — now sliding
+     between all the property clips */
+  .video-slider {
+    position: relative; border-radius: var(--radius); overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1); background: #000;
   }
-  .video-frame iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+  .video-track { display: flex; transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1); }
+  .video-slide { position: relative; flex: 0 0 100%; aspect-ratio: 16 / 9; }
+  .video-slide video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: contain; display: block; background: #000;
+  }
+  .video-tag {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--gold); color: white; font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 50px;
+  }
+  .video-count {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(10,30,42,0.65); color: white; font-size: 0.72rem; font-weight: 600;
+    padding: 0.3rem 0.7rem; border-radius: 50px; backdrop-filter: blur(6px);
+  }
 
   /* ── LOCATION HIGHLIGHTS ── */
   .highlights { display: flex; gap: 1rem; margin-top: 1.5rem; }
@@ -1666,7 +1702,26 @@ function Gallery() {
   );
 }
 
+// All property clips shown in the "See It Before You Visit" slider.
+// Room/valley view leads; posters are property photos so nothing loads until play.
+const TOUR_VIDEOS = [
+  { src: frontVideo,    label: "Valley View from Room",            poster: imgIce1 },
+  { src: homestayVideo, label: "Village and Chaukhamba Peak View", poster: roomImgHero },
+  { src: videoInside,   label: "Inside the Homestay",              poster: roomImgHero },
+  { src: videoAround,   label: "Inside the Homestay",              poster: imgIce3 },
+];
+
 function VideoSection() {
+  const N = TOUR_VIDEOS.length;
+  const [idx, setIdx] = useState(0);
+  const videoRefs = useRef([]);
+  const go = i => setIdx(((i % N) + N) % N);
+
+  // Sliding away from a clip stops it — so only one video can play at a time
+  useEffect(() => {
+    videoRefs.current.forEach((v, i) => { if (v && i !== idx) v.pause(); });
+  }, [idx]);
+
   return (
     <div className="video-bg" id="video">
       <div className="video-inner">          <span className="section-label"><Film size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Experience</span>
@@ -1675,19 +1730,19 @@ function VideoSection() {
           Take a real tour of Shivalik Ice Hills and the breathtaking 
           surroundings of Guptkashi.
         </p>
-        <div className="video-frame" style={{ paddingBottom: "56.25%", position: "relative" }}>
-          <video
-            style={{
-              position: "absolute", top: 0, left: 0,
-              width: "100%", height: "100%",
-              borderRadius: "16px", objectFit: "cover"
-            }}
-            controls
-            poster="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80"
-          >
-            <source src={homestayVideo} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+        <div className="video-slider">
+          <div className="video-track" style={{ transform: `translateX(-${idx * 100}%)` }}>
+            {TOUR_VIDEOS.map((v, i) => (
+              <div className="video-slide" key={v.src}>
+                <video ref={el => (videoRefs.current[i] = el)}
+                       src={v.src} poster={v.poster} controls preload="metadata" playsInline />
+                <span className="video-tag">{v.label}</span>
+              </div>
+            ))}
+          </div>
+          <button className="slider-arrow slider-prev" onClick={() => go(idx - 1)} aria-label="Previous video">‹</button>
+          <button className="slider-arrow slider-next" onClick={() => go(idx + 1)} aria-label="Next video">›</button>
+          <div className="video-count">{idx + 1} / {N}</div>
         </div>
       </div>
     </div>
@@ -1727,7 +1782,7 @@ function About() {
             <img src={imgIce1} alt="View of Shivalik Ice Hills" />
           </div>
           <div className="about-card">
-            <div className="about-card-num">5</div>
+            <div className="about-card-num">5+</div>
             <div className="about-card-label">Years of Hosting</div>
           </div>
         </div>
@@ -2109,7 +2164,12 @@ function Footer({ onBook, onPolicies }) {
             <a href="tel:+918439381703"><Phone size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />+91 8439381703</a>
             <a href="mailto:shivalikicehills77@gmail.com"><Mail size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Email Us</a>
             <a href={WA_BOOKING_URL} target="_blank" rel="noopener noreferrer"><MessageCircle size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />WhatsApp</a>
-            <a href={MAPS_URL} target="_blank" rel="noopener noreferrer"><MapPin size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Directions</a>
+            <div className="footer-book-row">
+              <a href={MAPS_URL} target="_blank" rel="noopener noreferrer"><MapPin size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Directions</a>
+              <a href={WA_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="footer-book" title="Book on WhatsApp">
+                <CalendarDays size={15} strokeWidth={2} /> Book Now
+              </a>
+            </div>
           </div>
         </div>
         <div className="footer-bottom">
