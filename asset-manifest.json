@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/homestayWebsite/static/css/main.e6c13ad2.css",
-    "main.js": "/homestayWebsite/static/js/main.f73f7eff.js",
+    "main.js": "/homestayWebsite/static/js/main.674e847e.js",
     "static/js/453.4e829c9b.chunk.js": "/homestayWebsite/static/js/453.4e829c9b.chunk.js",
     "static/media/homestay-tour.mp4": "/homestayWebsite/static/media/homestay-tour.8f6a84fd7cb9b702261f.mp4",
     "static/media/img-20250324-112231-jpg.jpg": "/homestayWebsite/static/media/img-20250324-112231-jpg.b6d3ac3bcd860913ee55.jpg",
@@ -28,13 +28,19 @@
     "static/media/logo-opt.png": "/homestayWebsite/static/media/logo-opt.22ce73389fbc35f5c185.png",
     "static/media/guest1.jpg": "/homestayWebsite/static/media/guest1.5a6343fffcae343feb1d.jpg",
     "static/media/ice3.jpg": "/homestayWebsite/static/media/ice3.17fe7fd945f8bea000a2.jpg",
+    "static/media/priya.jpeg": "/homestayWebsite/static/media/priya.2c767529029edcad7a6b.jpeg",
+    "static/media/Ammi.jpeg": "/homestayWebsite/static/media/Ammi.67fe878a55256107e856.jpeg",
+    "static/media/juliana.jpeg": "/homestayWebsite/static/media/juliana.b2928a27b16fe4622d24.jpeg",
+    "static/media/Sweta.jpeg": "/homestayWebsite/static/media/Sweta.8ed8aac5e4a5b2e43d70.jpeg",
+    "static/media/sahil.jpeg": "/homestayWebsite/static/media/sahil.7cf047d2b82f4b903045.jpeg",
+    "static/media/prashant.jpeg": "/homestayWebsite/static/media/prashant.c7e36981fc27f861e06c.jpeg",
     "index.html": "/homestayWebsite/index.html",
     "main.e6c13ad2.css.map": "/homestayWebsite/static/css/main.e6c13ad2.css.map",
-    "main.f73f7eff.js.map": "/homestayWebsite/static/js/main.f73f7eff.js.map",
+    "main.674e847e.js.map": "/homestayWebsite/static/js/main.674e847e.js.map",
     "453.4e829c9b.chunk.js.map": "/homestayWebsite/static/js/453.4e829c9b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.f73f7eff.js"
+    "static/js/main.674e847e.js"
   ]
 }
