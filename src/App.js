@@ -29,6 +29,13 @@ import imgDelux from "./assets/images/Rooms-opt/room_front/delux.jpeg";
 import imgSuperDelux from "./assets/images/Rooms-opt/room_front/superDelux.jpeg";
 import imgStandard from "./assets/images/Rooms-opt/room_front/Standard.jpeg";
 import imgShared from "./assets/images/Rooms-opt/room_front/shared.jpeg";
+// Guest review avatars (src/assets/images/reviews — file name = reviewer name)
+import reviewAmmi from "./assets/images/reviews/Ammi.jpeg";
+import reviewJuliana from "./assets/images/reviews/juliana.jpeg";
+import reviewPrashant from "./assets/images/reviews/prashant.jpeg";
+import reviewPriya from "./assets/images/reviews/priya.jpeg";
+import reviewSahil from "./assets/images/reviews/sahil.jpeg";
+import reviewSweta from "./assets/images/reviews/Sweta.jpeg";
 // ─── EMAILJS CONFIG ───────────────────────────────────────────────────────────
 const EMAILJS_SERVICE_ID       = "service_e4gi90r";          
 const EMAILJS_PUBLIC_KEY       = "cqWBlZliX0aLNQQDB";        
@@ -51,6 +58,9 @@ const WA_BOOKING_URL = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WA_
 
 // Exact Google Maps listing for the property (footer "Directions" + contact "Open in Google Maps")
 const MAPS_URL = "https://www.google.com/maps/place/Shivalik+ice+hills/@30.5208225,79.0676562,15z/data=!4m14!1m7!3m6!1s0x39083528eb09d773:0x57460e45a1e158ae!2sShivalik+ice+hills!8m2!3d30.5207834!4d79.0676048!16s%2Fg%2F11s3bmcvr9!3m5!1s0x39083528eb09d773:0x57460e45a1e158ae!8m2!3d30.5207834!4d79.0676048!16s%2Fg%2F11s3bmcvr9";
+// Opens Google's pre-filled "write a review" dialog directly (placeid verified
+// against the Maps listing: Shivalik ice hills, Dewar, Guptkashi, Uttarakhand)
+const GOOGLE_REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJc9cJ6yg1CDkRrljhoUUORlc";
 
 // Helper: sends email via EmailJS REST API (no npm package needed)
 async function sendEmail(templateId, templateParams) {
@@ -104,10 +114,18 @@ const ROOMS = [
 ];
 
 const TESTIMONIALS = [
-  { name: "Aryan Sharma", location: "Delhi", rating: 5, text: "Absolutely magical stay! The mountain views from the Himalayan Suite were unreal. The host Ramesh ji was incredibly helpful with our Kedarnath trek planning. Will return every year!", avatar: "AS" },
-  { name: "Priya & Vikram", location: "Bengaluru", rating: 5, text: "We honeymooned at the Sky Loft. Stargazing from bed, fresh mountain air, bonfire at night — it felt like paradise. The food was home-cooked and delicious. 10/10!", avatar: "PV" },
-  { name: "Suresh Nair", location: "Mumbai", rating: 4, text: "Perfect base camp for Kedarnath yatra. Rooms are clean, hot water even at 5am before the trek. Pickup from Sonprayag was a lifesaver. Highly recommended.", avatar: "SN" },
-  { name: "Meera Iyer", location: "Chennai", rating: 5, text: "The Forest Cottage was beyond expectations. Complete privacy, crackling fireplace, deodar trees all around. My family loved every moment. Magical Uttarakhand!", avatar: "MI" },
+  { name: "Prashant Chauhan", location: "Delhi", rating: 5, photo: reviewPrashant,
+    text: "Perfect base for the Kedarnath yatra. The Chaukhamba peak view from our room was unreal, and the home-cooked Garhwali food after a long trek felt like a blessing. Clean rooms, kind hosts — I can't wait to come back." },
+  { name: "Sahil Negi", location: "Chandigarh", rating: 5, photo: reviewSahil,
+    text: "Hot water at 5am before the trek, honest advice on timings, and a bonfire with chai and mountain stories at night. Shivalik Ice Hills takes care of everything so you only have to enjoy the yatra." },
+  { name: "Priya", location: "Dehradun", rating: 5, photo: reviewPriya,
+    text: "I drove up from Dehradun with my parents for a quiet break and got so much more. We spent mornings on village walks and evenings around the bonfire, and the home-cooked food tasted just like a meal at my nani's place. None of us wanted to leave." },
+  { name: "Sweta", location: "Lucknow", rating: 4, photo: reviewSweta,
+    text: "Traveling solo from Lucknow, I was nervous about staying in a homestay — within a day, the family had me feeling like one of their own. They arranged my cab and helped plan every little detail. The network in my room was patchy, but honestly? It gave me the digital detox I didn't know I needed." },
+  { name: "Ammi", location: "USA", rating: 5, photo: reviewAmmi,
+    text: "I came here for yoga and found real peace and nature here. Morning practice with the Himalayas in view, birdsong instead of traffic, and meals straight from the garden. I'm leaving calmer than I've ever been." },
+  { name: "Juliana", location: "Goa", rating: 5, photo: reviewJuliana,
+    text: "I traded Goa's beaches for the Himalayas and I'd do it again tomorrow. What stays with me isn't just the Kedarnath darshan — it's the hot chai after long walks, dinner with the family, and sunsets over the valley. This place has a piece of my heart." },
 ];
 
 const GALLERY = [
@@ -218,11 +236,13 @@ const CSS = `
   .nav-hamburger { display: none; background: none; border: none; cursor: pointer; color: white; font-size: 1.4rem; padding: 0.5rem; margin: -0.5rem; }
 
   @media (max-width: 768px) {
+    /* Phone: extra breathing room so the logo and menu button don't hug the top edge */
+    .nav { height: 80px; padding: 8px 1.25rem; }
     .nav-links { display: none; }
     .nav-hamburger { display: block; }
     .nav-links.open {
       display: flex; flex-direction: column; position: absolute;
-      top: 70px; left: 0; right: 0; padding: 1.5rem 2rem 2rem;
+      top: 80px; left: 0; right: 0; padding: 1.5rem 2rem 2rem;
       background: rgba(26,58,74,0.98); backdrop-filter: blur(12px);
       gap: 1.25rem; align-items: flex-start;
     }
@@ -329,7 +349,9 @@ const CSS = `
     .hero {
       height: auto; min-height: 100vh; min-height: 100svh;
       align-items: flex-start;
-      padding: 92px 0 4rem;
+      /* Extra top padding: a clear gap between the navbar and the
+         "Top-Rated Homestay" badge so the two never feel cramped */
+      padding: 114px 0 4rem;
     }
     .hero-content { padding: 0 1.25rem; }
     .hero-badge { margin-bottom: 1rem; }
@@ -454,23 +476,21 @@ const CSS = `
     .rooms-arrow.next { right: 8px; }
   }
   @media (max-width: 720px) {
-    /* Mobile rooms slider: cards stack in ONE grid cell — the active card sits
-       centered in normal flow while neighbours park just off-screen. Role
-       changes tween the transform, so the slide animation survives on phones,
-       and no card ends up half-off-screen overlapping the filter chips. */
-    .rooms-slider { display: grid; height: auto; }
+    /* Mobile rooms slider: a real horizontal track. All cards sit in one flex
+       row and the WHOLE row glides to the selected card via --slide-x (set from
+       React), so chip taps / dots / swipes all get the same simple, smooth
+       slide — no blur or scaled-neighbour effects that phones render poorly. */
+    .rooms-slider { display: flex; overflow: hidden; height: auto; }
     .room-card, .room-card.is-active, .room-card.is-left, .room-card.is-right {
-      grid-area: 1 / 1;
       position: relative; top: auto; left: auto;
-      width: 100%; transform: none;
+      flex: 0 0 100%; width: 100%; margin-right: 14px;
+      filter: none; opacity: 1; visibility: visible; pointer-events: none;
+      transform: var(--slide-x, translateX(0));
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .room-card.is-active, .room-card.is-left, .room-card.is-right {
-      filter: none; opacity: 1; visibility: visible;
-    }
-    .room-card.is-active { transform: translateX(0); pointer-events: auto; z-index: 3; }
-    .room-card.is-left   { transform: translateX(-108%); }
-    .room-card.is-right  { transform: translateX(108%); }
-    .room-card:not(.is-active):not(.is-left):not(.is-right) { display: none; }
+    .room-card.is-active { pointer-events: auto; }
+    /* Arrows overlap the card on small screens — dots, swipe and chips are enough */
+    .rooms-arrow { display: none; }
     .room-img { height: 200px; }
     .room-footer { flex-wrap: wrap; }
   }
@@ -713,15 +733,23 @@ const CSS = `
   .gallery-bg { background: var(--ice); padding: 4rem 1.5rem; }
   .gallery-inner { max-width: 1200px; margin: 0 auto; }
   .slider {
-    position: relative; max-width: 1000px; margin: 0 auto;
-    border-radius: var(--radius); overflow: hidden;
+    position: relative;
+    /* Full-bleed breakout: the slider spans the whole viewport width even
+       though it sits inside the padded, max-width gallery container */
+    width: 100vw; max-width: none;
+    margin-left: calc(50% - 50vw);
+    border-radius: 0; overflow: hidden;
     box-shadow: var(--shadow-lg); background: var(--peak);
   }
   .slider-track {
     display: flex;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .slider-slide { position: relative; flex: 0 0 100%; height: 380px; }
+  .slider-slide { position: relative; flex: 0 0 100%; height: 520px; }
+  /* Each slide slowly zooms in while it's on screen (class flips per slide so
+     the animation restarts every time a new photo comes in) */
+  .slider-slide.is-current img.slider-img { animation: galleryZoom 3.4s ease-out both; }
+  @keyframes galleryZoom { from { transform: scale(1); } to { transform: scale(1.08); } }
   /* Blurred copy of the same photo fills the box; the real photo sits on top fully visible */
   .slider-slide img.slider-img-blur {
     position: absolute; inset: 0; width: 100%; height: 100%;
@@ -764,7 +792,7 @@ const CSS = `
   .slider-dot.active { background: var(--gold); transform: scale(1.25); }
 
   @media (max-width: 768px) {
-    .slider-slide { height: 270px; }
+    .slider-slide { height: 320px; }
     .slider-arrow { width: 38px; height: 38px; font-size: 1.3rem; }
     .slider-prev { left: 0.6rem; }
     .slider-next { right: 0.6rem; }
@@ -819,9 +847,18 @@ const CSS = `
   .testi-avatar {
     width: 40px; height: 40px; border-radius: 50%; background: var(--gold);
     color: white; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
   }
+  .testi-avatar-img { object-fit: cover; border: 2px solid var(--gold); }
   .testi-name { color: white; font-weight: 600; font-size: 0.9rem; }
   .testi-loc { color: rgba(255,255,255,0.5); font-size: 0.78rem; }
+  .testi-cta { text-align: center; margin-top: 2rem; }
+  .testi-cta-btn {
+    background: var(--gold);
+    padding: 0.7rem 1.6rem; font-size: 0.9rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  }
+  .testi-cta-btn:hover { background: #e0a845; box-shadow: 0 6px 20px rgba(200,150,62,0.4); }
 
   /* ── BOOKING MODAL ── */
   .modal-overlay {
@@ -895,20 +932,31 @@ const CSS = `
   .footer-col h4 { color: rgba(255,255,255,0.75); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; font-family: 'DM Sans', sans-serif; font-weight: 600; }
   .footer-col a { display: block; color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.85rem; margin-bottom: 0.6rem; transition: color 0.2s; }
   .footer-col a:hover { color: var(--gold); }
+  .footer-social { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+  .footer-social a {
+    width: 38px; height: 38px; border-radius: 50%; margin-bottom: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.7); transition: var(--transition);
+  }
+  .footer-social a:hover { background: var(--gold); border-color: var(--gold); color: white; transform: translateY(-2px); }
   .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
   .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+  .footer-dev { font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-top: 0.35rem; }
   .footer-love { font-size: 0.8rem; color: rgba(255,255,255,0.45); display: flex; align-items: center; }
 
   @media (max-width: 768px) {
-    .footer-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .footer-grid { grid-template-columns: 1fr; }
+    /* Phone footer: brand on its own row, then Explore | Support side by side,
+       then Contact full-width underneath — no endless single-column queue */
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem 1.5rem; }
+    .footer-grid > div:first-child { grid-column: 1 / -1; }
+    .footer-col-contact { grid-column: 1 / -1; }
   }
 
   /* ── FLOATING BOOK NOW ── */
   .book-float {
-    position: fixed; bottom: 2rem; right: 1.5rem; z-index: 999;
+    /* Extra lift so it never covers the footer's "Made with ♥ in the Himalayas" line */
+    position: fixed; bottom: 4.5rem; right: 1.5rem; z-index: 999;
     display: flex; align-items: center; gap: 0.5rem;
     background: var(--gold); color: white; border: none; border-radius: 50px;
     padding: 0.95rem 1.5rem; font-family: 'DM Sans', sans-serif;
@@ -1204,7 +1252,11 @@ function Rooms({ onBook }) {
         ))}
       </div>
       <>
-        <div className="rooms-slider" style={{ touchAction: "pan-y" }}>
+        {/* --slide-x drives the mobile track position (ignored on desktop):
+            shifting the whole row by (card width + gap) per step gives one
+            consistent smooth slide no matter what triggered the change. */}
+        <div className="rooms-slider"
+             style={{ touchAction: "pan-y", "--slide-x": `translateX(calc(${safeActive} * (-100% - 14px)))` }}>
           {rooms.map((room, i) => {
             const pos = ((i - safeActive) % count + count) % count; // 0 = focused, 1 = right peek, count-1 = left peek
             const posClass = pos === 0 ? "is-active" : pos === 1 ? "is-right" : pos === count - 1 ? "is-left" : "";
@@ -1552,10 +1604,16 @@ function Gallery() {
     }
   }, [anim]);
 
-  // Autoplay every 2s unless the user is hovering/touching the slider
+  // Autoplay every 3s. Hover no longer pauses (a cursor merely resting on the
+  // slider kept it frozen forever); touch pauses only while the finger is down
+  // so a swipe never fights a slide change — with a 5s safety resume in case
+  // the touchend/cancel event is lost.
   useEffect(() => {
-    if (paused) return;
-    const t = setInterval(() => move(1), 2000);
+    if (paused) {
+      const r = setTimeout(() => setPaused(false), 5000);
+      return () => clearTimeout(r);
+    }
+    const t = setInterval(() => move(1), 3000);
     return () => clearInterval(t);
   }, [paused]);
 
@@ -1574,16 +1632,15 @@ function Gallery() {
           <p className="section-sub">Every corner of Shivalik Ice Hills tells a story of mountains, warmth and wonder.</p>
         <div
           className="slider"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
           onTouchStart={() => setPaused(true)}
           onTouchEnd={() => setPaused(false)}
+          onTouchCancel={() => setPaused(false)}
         >
           {/* Track = [clone of last] + real slides + [clone of first] → seamless circular loop */}
           <div className="slider-track"
                style={{ transform: `translateX(-${(idx + 1) * 100}%)`, transition: anim ? undefined : "none" }}>
             {[GALLERY[N - 1], ...GALLERY, GALLERY[0]].map((img, i) => (
-              <div className="slider-slide" key={i}>
+              <div className={`slider-slide${i === idx + 1 ? " is-current" : ""}`} key={i}>
                 {/* No lazy-loading here: inside the translating carousel track the
                     browser can defer these forever, leaving slides permanently blank.
                     All 9 gallery photos load eagerly (they're the section's content). */}
@@ -1755,6 +1812,32 @@ function WhyStay() {
   );
 }
 
+// Inline social brand logos (lucide dropped brand icons) — sized/styled like footer lucide icons
+const YouTubeIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/>
+  </svg>
+);
+const FacebookIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+  </svg>
+);
+const InstagramIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+  </svg>
+);
+
+const GoogleReviewsIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 48 48" style={{ verticalAlign: "-3px", marginRight: "7px" }} aria-hidden="true">
+    <path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.2 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/>
+    <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 18.9 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.2 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+    <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+    <path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/>
+  </svg>
+);
+
 function Testimonials() {
   const N = TESTIMONIALS.length;
   const viewportRef = useRef(null);
@@ -1868,7 +1951,9 @@ function Testimonials() {
                   <div className="testi-stars">{"★".repeat(t.rating)}</div>
                   <p className="testi-text">"{t.text}"</p>
                   <div className="testi-author">
-                    <div className="testi-avatar">{t.avatar}</div>
+                    {t.photo
+                      ? <img className="testi-avatar testi-avatar-img" src={t.photo} alt={t.name} loading="lazy" draggable={false} />
+                      : <div className="testi-avatar">{t.avatar}</div>}
                     <div>
                       <div className="testi-name">{t.name}</div>
                       <div className="testi-loc">📍 {t.location}</div>
@@ -1878,6 +1963,11 @@ function Testimonials() {
               </div>
             ))}
           </div>
+        </div>
+        <div className="testi-cta">
+          <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noopener noreferrer" className="btn-primary testi-cta-btn">
+            <GoogleReviewsIcon />Rate us on Google
+          </a>
         </div>
       </div>
     </div>
@@ -1993,8 +2083,14 @@ function Footer({ onBook, onPolicies }) {
               <img src={logoImg} alt="Shivalik Ice Hills logo" className="footer-brand-img" /> Shivalik Ice Hills
             </div>
             <p className="footer-brand-desc">A boutique mountain homestay in Guptkashi, Uttarakhand. The perfect base for Kedarnath pilgrims and Himalayan adventurers.</p>
+            {/* Placeholder handles — swap in the real profile URLs when ready */}
+            <div className="footer-social">
+              <a href="https://www.youtube.com/@shivalikicehills" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YouTubeIcon size={18} /></a>
+              <a href="https://www.facebook.com/shivalikicehills" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FacebookIcon size={18} /></a>
+              <a href="https://www.instagram.com/shivalikicehills" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon size={18} /></a>
+            </div>
           </div>
-          <div className="footer-col">
+          <div className="footer-col footer-col-explore">
             <h4>Explore</h4>
             {[["#rooms", "Rooms"], ["#gallery", "Gallery"], ["#services", "Services"], ["#about", "Our Story"]].map(([h, l]) => (
               <a key={h} href={h}>{l}</a>
@@ -2007,7 +2103,7 @@ function Footer({ onBook, onPolicies }) {
             <a href="#" onClick={e => { e.preventDefault(); onPolicies("cancellation"); }}>Cancellation Policy</a>
             <a href="#" onClick={e => { e.preventDefault(); onPolicies(); }}>Privacy Policy</a>
           </div>
-          <div className="footer-col">
+          <div className="footer-col footer-col-contact">
             <h4>Contact</h4>
             <a href="tel:+919084956304"><Phone size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />+91 9084956304</a>
             <a href="tel:+918439381703"><Phone size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />+91 8439381703</a>
@@ -2017,7 +2113,10 @@ function Footer({ onBook, onPolicies }) {
           </div>
         </div>
         <div className="footer-bottom">
-          <div className="footer-copy">© 2025 Shivalik Ice Hills, Guptkashi, Uttarakhand. All rights reserved.</div>
+          <div>
+            <div className="footer-copy">© 2026 Shivalik Ice Hills, Guptkashi, Uttarakhand. All rights reserved.</div>
+            <div className="footer-dev">Developed and maintained by Sahil Negi</div>
+          </div>
           <div className="footer-love">Made with <Heart size={12} strokeWidth={2.2} color="#e05656" style={{ verticalAlign: "-1px", margin: "0 2px" }} /> in the Himalayas</div>
         </div>
       </div>
