@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/homestayWebsite/static/css/main.e6c13ad2.css",
-    "main.js": "/homestayWebsite/static/js/main.5081c482.js",
+    "main.js": "/homestayWebsite/static/js/main.05823421.js",
     "static/js/453.4e829c9b.chunk.js": "/homestayWebsite/static/js/453.4e829c9b.chunk.js",
     "static/media/front.mp4": "/homestayWebsite/static/media/front.e6b6686ff1eb0bb6dd95.mp4",
     "static/media/homestay-tour.mp4": "/homestayWebsite/static/media/homestay-tour.0f8deb33299475c71fb6.mp4",
@@ -39,11 +39,11 @@
     "static/media/prashant.jpeg": "/homestayWebsite/static/media/prashant.c7e36981fc27f861e06c.jpeg",
     "index.html": "/homestayWebsite/index.html",
     "main.e6c13ad2.css.map": "/homestayWebsite/static/css/main.e6c13ad2.css.map",
-    "main.5081c482.js.map": "/homestayWebsite/static/js/main.5081c482.js.map",
+    "main.05823421.js.map": "/homestayWebsite/static/js/main.05823421.js.map",
     "453.4e829c9b.chunk.js.map": "/homestayWebsite/static/js/453.4e829c9b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.5081c482.js"
+    "static/js/main.05823421.js"
   ]
 }
