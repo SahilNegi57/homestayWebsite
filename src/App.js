@@ -1708,7 +1708,7 @@ const TOUR_VIDEOS = [
   { src: frontVideo,    label: "Valley View from Room",            poster: imgIce1 },
   { src: homestayVideo, label: "Village and Chaukhamba Peak View", poster: roomImgHero },
   { src: videoInside,   label: "Inside the Homestay",              poster: roomImgHero },
-  { src: videoAround,   label: "Inside the Homestay",              poster: imgIce3 },
+  { src: videoAround,   label: "Around the Homestay",              poster: imgIce3 },
 ];
 
 function VideoSection() {
@@ -1790,7 +1790,7 @@ function About() {
           <span className="section-label"><HomeIcon size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Our Story</span>
           <h2 className="section-title">Born from a Love of Mountains</h2>
           <p>Shivalik Ice Hills began as a dream of Ram Prasad Negi — a local Garhwali who wanted to share the magic of his homeland with the world. What started as two rooms in a family home has grown into a beloved boutique homestay.</p>
-          <p>Perched at 4,327 feet above sea level in the sacred town of Guptkashi, we're ideally placed on the route to Kedarnath Dham — one of the holiest shrines in India. Our guests aren't just visitors; they become part of our mountain family.</p>
+          <p>Perched at 5,905 feet above sea level in the sacred town of Guptkashi, we're ideally placed on the route to Kedarnath Dham — one of the holiest shrines in India. Our guests aren't just visitors; they become part of our mountain family.</p>
           <div className="highlights">
             {["28 km from Sonprayag", "On NH-107 Highway", "Mandakini Riverside"].map(h => (
               <span key={h} className="highlight"><MapPin size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "4px" }} />{h}</span>
@@ -2074,7 +2074,7 @@ function Contact() {
             [Phone, "Phone", "+91 9084956304 · +91 8439381703"],
             [Mail, "Email", "shivalikicehills77@gmail.com"],
             [Clock, "Check-in / Check-out", "Check-in: 12:00 PM · Check-out: 11:00 AM"],
-            [Mountain, "Altitude", "4,327 feet above sea level"],
+            [Mountain, "Altitude", "5,905 feet above sea level"],
           ].map(([Icon, title, val]) => (
             <div key={title} className="contact-item">
               <div className="contact-icon"><Icon size={20} strokeWidth={1.8} /></div>
