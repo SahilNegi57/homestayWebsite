@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { BedDouble, Camera, Sparkles, Home as HomeIcon, MessageSquare, Film, Mountain, MountainSnow, ShieldCheck, Recycle, MapPin, Phone, Mail, Clock, MessageCircle, Lock, CheckCircle2, Send, CalendarDays, Star, Handshake, UtensilsCrossed, Helicopter, CarFront, FlameKindling, SquareParking, Leaf, Sun, Flower2, Heart, ChevronLeft, ChevronRight, Users, ScrollText, CalendarX, Baby, PawPrint, Wrench, Ban, AlertTriangle, Play, Pause } from "lucide-react";
+import { BedDouble, Camera, Sparkles, Home as HomeIcon, MessageSquare, Film, Mountain, MountainSnow, ShieldCheck, Recycle, MapPin, Phone, Mail, Clock, MessageCircle, Lock, CheckCircle2, Send, CalendarDays, Star, Handshake, UtensilsCrossed, Helicopter, CarFront, FlameKindling, SquareParking, Leaf, Sun, Flower2, Heart, ChevronLeft, ChevronRight, Users, ScrollText, CalendarX, Baby, PawPrint, Wrench, Ban, AlertTriangle, Play } from "lucide-react";
 // Web-optimized 720p copies (scripts/compress-videos.js) — originals kept in videos/
 import homestayVideo from "./assets/videos-opt/homestay-tour.mp4";
 import frontVideo from "./assets/videos-opt/front.mp4";
 import videoInside from "./assets/videos-opt/1000143760.mp4";
 import videoAround from "./assets/videos-opt/1000143765.mp4";
+// Video-section thumbnails (see src/assets/videos — optimized copies in videos-opt/)
+import secondThumbnail from "./assets/videos-opt/secondthumbnail.jpg";
+import fourthThumbnail from "./assets/videos-opt/fourththumbnail.jpg";
 import logoImg from "./assets/images/logo-opt.png";
 // ─── LOCAL IMAGES (optimized copies — see scripts/optimize-images.js) ──────
 import imgGuest1 from "./assets/images/galllery-opt/guest1.jpg";
@@ -967,17 +970,11 @@ const CSS = `
   }
   .book-float:hover .book-tooltip { opacity: 1; }
 
-  /* Book Now pill inside the Contact column (phones only): parked on the right
-     of the row, right beside the Directions link */
-  .footer-book-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.6rem; }
+  /* Directions row in the Contact column. There is deliberately no second Book
+     Now here: on phones the floating pill itself is what parks beside this row
+     once the footer scrolls into view (see the docking effect in App). */
+  .footer-book-row { display: flex; align-items: center; margin-bottom: 0.6rem; }
   .footer-book-row > a { margin-bottom: 0; }
-  .footer-col .footer-book {
-    display: none; align-items: center; gap: 0.4rem;
-    background: var(--gold); color: white !important; border-radius: 50px;
-    padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 600;
-    box-shadow: 0 4px 14px rgba(200,150,62,0.45);
-  }
-  .footer-col .footer-book:active { background: #e0a845; }
 
   @media (max-width: 768px) {
     /* Phone footer: brand on its own row, then Explore | Support side by side,
@@ -985,18 +982,17 @@ const CSS = `
     .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem 1.5rem; }
     .footer-grid > div:first-child { grid-column: 1 / -1; }
     .footer-col-contact { grid-column: 1 / -1; }
-    /* Show the in-footer Book Now and hide the floating one — no double button,
-       and nothing covering the footer text while scrolling */
-    .footer-col .footer-book { display: inline-flex; }
-    .book-float { display: none; }
-    /* Stick the Directions + Book Now row to the viewport bottom while the
-       Contact column scrolls past the end, so Book Now stays reachable */
-    .footer-book-row {
-      position: sticky; bottom: 12px; z-index: 3;
-      background: rgba(10,30,42,0.96);
-      padding: 0.65rem 0.9rem; border-radius: 14px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.35);
-    }
+    /* Phones keep the exact same floating Book Now pill as desktop, riding the
+       bottom-right corner while scrolling. JS adds .docked when the footer's
+       Directions row reaches the viewport, parking the pill right beside that
+       link. No transition on the docked pill — it must track the scroll, not
+       lag behind it. */
+    /* bottom: auto — the inline docked top would otherwise be over-constrained */
+    .book-float.docked { bottom: auto; transition: none; }
+    /* Tail clearance: the floating pill rests 4.5rem up from the bottom edge,
+       so give the copyright / "Made with ♥" lines room to settle above that
+       corner rather than behind it. */
+    .footer { padding-bottom: 4rem; }
   }
 
   /* ── VIDEO SECTION ── */
@@ -1032,30 +1028,18 @@ const CSS = `
     background: rgba(10,30,42,0.65); color: white; font-size: 0.72rem; font-weight: 600;
     padding: 0.3rem 0.7rem; border-radius: 50px; backdrop-filter: blur(6px);
   }
-  /* Custom play/pause overlays — reliable tap targets even where the
-     native control layer fails to render (some mobile browsers) */
+  /* Single centered play chip, shown only while paused. Nothing is drawn over
+     the native controls bar, so play/pause + scrubber stay YouTube-like and
+     never overlap. */
   .video-playbtn {
-    position: absolute; inset: 0; width: 100%; border: 0; cursor: pointer;
-    background: linear-gradient(180deg, rgba(10,30,42,0) 45%, rgba(10,30,42,0.35) 100%);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 2; -webkit-tap-highlight-color: transparent;
-  }
-  .video-playbtn-chip {
-    width: 74px; height: 74px; border-radius: 50%;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 74px; height: 74px; border-radius: 50%; cursor: pointer;
     background: rgba(10,30,42,0.55); border: 2px solid rgba(255,255,255,0.9);
     color: white; display: flex; align-items: center; justify-content: center;
-    backdrop-filter: blur(4px); transition: transform 0.2s ease, background 0.2s ease;
+    backdrop-filter: blur(4px); z-index: 2; -webkit-tap-highlight-color: transparent;
+    transition: transform 0.2s ease, background 0.2s ease;
   }
-  .video-playbtn:hover .video-playbtn-chip { transform: scale(1.08); background: var(--gold); }
-  .video-pausebtn {
-    position: absolute; bottom: 14px; right: 14px; z-index: 2;
-    width: 42px; height: 42px; border-radius: 50%; cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.7); background: rgba(10,30,42,0.6);
-    color: white; display: flex; align-items: center; justify-content: center;
-    backdrop-filter: blur(4px); -webkit-tap-highlight-color: transparent;
-    transition: background 0.2s ease;
-  }
-  .video-pausebtn:hover { background: var(--gold); }
+  .video-playbtn:hover { transform: translate(-50%, -50%) scale(1.08); background: var(--gold); }
 
   /* ── LOCATION HIGHLIGHTS ── */
   .highlights { display: flex; gap: 1rem; margin-top: 1.5rem; }
@@ -1742,9 +1726,9 @@ function Gallery() {
 // Room/valley view leads; posters are property photos so nothing loads until play.
 const TOUR_VIDEOS = [
   { src: frontVideo,    label: "Valley View from Room",            poster: imgIce1 },
-  { src: homestayVideo, label: "Village and Chaukhamba Peak View", poster: roomImgHero },
+  { src: homestayVideo, label: "Village and Chaukhamba Peak View", poster: secondThumbnail },
   { src: videoInside,   label: "Inside the Homestay",              poster: roomImgHero },
-  { src: videoAround,   label: "Around the Homestay",              poster: imgIce3 },
+  { src: videoAround,   label: "Around the Homestay",              poster: fourthThumbnail },
 ];
 
 function VideoSection() {
@@ -1786,15 +1770,10 @@ function VideoSection() {
                        onPlay={() => setPlayingIdx(i)}
                        onPause={() => setPlayingIdx(p => (p === i ? null : p))}
                        onEnded={() => setPlayingIdx(p => (p === i ? null : p))} />
-                {playingIdx === i ? (
-                  <button className="video-pausebtn" onClick={() => videoRefs.current[i]?.pause()}
-                          aria-label={`Pause ${v.label}`}>
-                    <Pause size={18} strokeWidth={2.2} />
-                  </button>
-                ) : (
+                {playingIdx !== i && (
                   <button className="video-playbtn" onClick={() => playVideo(i)}
                           aria-label={`Play ${v.label}`}>
-                    <span className="video-playbtn-chip"><Play size={30} strokeWidth={2} /></span>
+                    <Play size={30} strokeWidth={2} />
                   </button>
                 )}
                 <span className="video-tag">{v.label}</span>
@@ -2189,7 +2168,7 @@ function Contact() {
   );
 }
 
-function Footer({ onBook, onPolicies }) {
+function Footer({ bookRowRef, onPolicies }) {
   return (
     <footer className="footer">
       <div className="footer-inner">
@@ -2225,11 +2204,8 @@ function Footer({ onBook, onPolicies }) {
             <a href="tel:+918439381703"><Phone size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />+91 8439381703</a>
             <a href="mailto:shivalikicehills77@gmail.com"><Mail size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Email Us</a>
             <a href={WA_BOOKING_URL} target="_blank" rel="noopener noreferrer"><MessageCircle size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />WhatsApp</a>
-            <div className="footer-book-row">
+            <div className="footer-book-row" ref={bookRowRef}>
               <a href={MAPS_URL} target="_blank" rel="noopener noreferrer"><MapPin size={13} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Directions</a>
-              <a href={WA_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="footer-book" title="Book on WhatsApp">
-                <CalendarDays size={15} strokeWidth={2} /> Book Now
-              </a>
             </div>
           </div>
         </div>
@@ -2347,12 +2323,58 @@ export default function App() {
     document.body.style.position = "relative";
   }, []);
 
-  const openBooking = (room = null, checkin = "", checkout = "", guests = "1") => {
-    setBooking({ room, checkin, checkout, guests });
-    if (!room) {
-      setTimeout(() => document.getElementById("rooms")?.scrollIntoView({ behavior: "smooth" }), 100);
-    }
-  };
+  // Phones only: the floating Book Now pill keeps riding the bottom-right
+  // corner (identical to desktop) until the footer's Directions row scrolls
+  // into view, then it parks itself right beside that link instead of sitting
+  // on top of the footer text. On desktop nothing here ever fires.
+  const floatBookRef = useRef(null);
+  const footerBookRowRef = useRef(null);
+
+  useEffect(() => {
+    const btn = floatBookRef.current;
+    const anchor = footerBookRowRef.current;
+    if (!btn || !anchor) return;
+    const mq = window.matchMedia("(max-width: 768px)");
+    let frame = 0;
+
+    const place = () => {
+      frame = 0;
+      const reset = () => {
+        btn.classList.remove("docked");
+        btn.style.top = "";
+        btn.style.right = "";
+      };
+      if (!mq.matches) return reset();
+      const r = anchor.getBoundingClientRect();
+      const h = btn.offsetHeight;
+      const vh = window.innerHeight;
+      // Dock as soon as the row reaches the viewport and stay docked while it
+      // scrolls past. The footer's tail (copyright / "Made with ♥") always sits
+      // below this row, so a docked pill can never cover it — the floating pill
+      // in the corner is what the tail would land behind.
+      if (r.top > vh - 8) return reset();
+      const top = r.top + (r.height - h) / 2; // vertically centred on Directions
+      const minTop = 88; // keep it clear of the 80px phone navbar
+      btn.classList.add("docked"); // .docked also pins bottom: auto
+      btn.style.top = `${Math.round(Math.min(Math.max(top, minTop), vh - h - 8))}px`;
+      // Align its right edge with the row's, so it reads as part of that row
+      btn.style.right = `${Math.round(Math.max(12, window.innerWidth - r.right))}px`;
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(place); };
+
+    place();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    if (mq.addEventListener) mq.addEventListener("change", onScroll);
+    else mq.addListener(onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (mq.removeEventListener) mq.removeEventListener("change", onScroll);
+      else mq.removeListener(onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
 
   return (
     <div style={{ width: "100%", maxWidth: "100%", overflowX: "hidden", position: "relative" }}>
@@ -2369,10 +2391,11 @@ export default function App() {
       <VideoSection />
       <Testimonials />
       <Contact />
-      <Footer onBook={openBooking} onPolicies={(section) => setPolicies({ section })} />
+      <Footer bookRowRef={footerBookRowRef} onPolicies={(section) => setPolicies({ section })} />
 
-      {/* Floating Book Now → WhatsApp */}
-      <a href={WA_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="book-float" title="Book on WhatsApp">
+      {/* Floating Book Now → WhatsApp. Stays desktop-only in the corner until
+          the footer's Directions row is on screen (phones), then docks there. */}
+      <a ref={floatBookRef} href={WA_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="book-float" title="Book on WhatsApp">
       <CalendarDays size={19} strokeWidth={2} />
         <span>Book Now</span>
         <span className="book-tooltip">Book instantly on WhatsApp</span>

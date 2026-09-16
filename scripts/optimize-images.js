@@ -4,7 +4,10 @@ const sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
 
-const DIRS = ["src/assets/images/Rooms", "src/assets/images/galllery"];
+// "src/assets/videos" holds the video-section thumbnails (.mp4s are skipped by
+// the image filter below) — their optimized copies land in videos-opt/ next to
+// the compressed clips.
+const DIRS = ["src/assets/images/Rooms", "src/assets/images/galllery", "src/assets/videos"];
 const MAX_W = 1920; // long edge cap — plenty for full-width display
 const JPEG_Q = 74;  // visually transparent for photos
 
