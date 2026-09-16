@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { BedDouble, Camera, Sparkles, Home as HomeIcon, MessageSquare, Film, Mountain, MountainSnow, ShieldCheck, Recycle, MapPin, Phone, Mail, Clock, MessageCircle, Lock, CheckCircle2, Send, CalendarDays, Star, Handshake, UtensilsCrossed, Helicopter, CarFront, FlameKindling, SquareParking, Leaf, Sun, Flower2, Heart, ChevronLeft, ChevronRight, Users, ScrollText, CalendarX, Baby, PawPrint, Wrench, Ban, AlertTriangle } from "lucide-react";
+import { BedDouble, Camera, Sparkles, Home as HomeIcon, MessageSquare, Film, Mountain, MountainSnow, ShieldCheck, Recycle, MapPin, Phone, Mail, Clock, MessageCircle, Lock, CheckCircle2, Send, CalendarDays, Star, Handshake, UtensilsCrossed, Helicopter, CarFront, FlameKindling, SquareParking, Leaf, Sun, Flower2, Heart, ChevronLeft, ChevronRight, Users, ScrollText, CalendarX, Baby, PawPrint, Wrench, Ban, AlertTriangle, Play, Pause } from "lucide-react";
 // Web-optimized 720p copies (scripts/compress-videos.js) — originals kept in videos/
 import homestayVideo from "./assets/videos-opt/homestay-tour.mp4";
 import frontVideo from "./assets/videos-opt/front.mp4";
@@ -948,6 +948,25 @@ const CSS = `
   .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
   .footer-dev { font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-top: 0.35rem; }
   .footer-love { font-size: 0.8rem; color: rgba(255,255,255,0.45); display: flex; align-items: center; }
+  /* ── FLOATING BOOK NOW ── */
+  .book-float {
+    /* Extra lift so it never covers the footer's "Made with ♥ in the Himalayas" line */
+    position: fixed; bottom: 4.5rem; right: 1.5rem; z-index: 999;
+    display: flex; align-items: center; gap: 0.5rem;
+    background: var(--gold); color: white; border: none; border-radius: 50px;
+    padding: 0.95rem 1.5rem; font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 600; letter-spacing: 0.02em;
+    box-shadow: 0 6px 24px rgba(200,150,62,0.5); cursor: pointer; transition: var(--transition);
+    text-decoration: none;
+  }
+  .book-float:hover { background: #e0a845; transform: translateY(-3px); box-shadow: 0 10px 32px rgba(200,150,62,0.6); }
+  .book-tooltip {
+    position: absolute; right: calc(100% + 12px); background: var(--peak); color: white;
+    font-size: 0.78rem; padding: 0.4rem 0.75rem; border-radius: 6px; white-space: nowrap;
+    pointer-events: none; opacity: 0; transition: opacity 0.2s;
+  }
+  .book-float:hover .book-tooltip { opacity: 1; }
+
   /* Book Now pill inside the Contact column (phones only): parked on the right
      of the row, right beside the Directions link */
   .footer-book-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.6rem; }
@@ -970,26 +989,15 @@ const CSS = `
        and nothing covering the footer text while scrolling */
     .footer-col .footer-book { display: inline-flex; }
     .book-float { display: none; }
+    /* Stick the Directions + Book Now row to the viewport bottom while the
+       Contact column scrolls past the end, so Book Now stays reachable */
+    .footer-book-row {
+      position: sticky; bottom: 12px; z-index: 3;
+      background: rgba(10,30,42,0.96);
+      padding: 0.65rem 0.9rem; border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+    }
   }
-
-  /* ── FLOATING BOOK NOW ── */
-  .book-float {
-    /* Extra lift so it never covers the footer's "Made with ♥ in the Himalayas" line */
-    position: fixed; bottom: 4.5rem; right: 1.5rem; z-index: 999;
-    display: flex; align-items: center; gap: 0.5rem;
-    background: var(--gold); color: white; border: none; border-radius: 50px;
-    padding: 0.95rem 1.5rem; font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem; font-weight: 600; letter-spacing: 0.02em;
-    box-shadow: 0 6px 24px rgba(200,150,62,0.5); cursor: pointer; transition: var(--transition);
-    text-decoration: none;
-  }
-  .book-float:hover { background: #e0a845; transform: translateY(-3px); box-shadow: 0 10px 32px rgba(200,150,62,0.6); }
-  .book-tooltip {
-    position: absolute; right: calc(100% + 12px); background: var(--peak); color: white;
-    font-size: 0.78rem; padding: 0.4rem 0.75rem; border-radius: 6px; white-space: nowrap;
-    pointer-events: none; opacity: 0; transition: opacity 0.2s;
-  }
-  .book-float:hover .book-tooltip { opacity: 1; }
 
   /* ── VIDEO SECTION ── */
   .video-bg { background: linear-gradient(135deg, #0a1e2b 0%, var(--peak) 100%); padding: 4rem 1.5rem; }
@@ -1004,7 +1012,11 @@ const CSS = `
     box-shadow: 0 32px 80px rgba(0,0,0,0.5);
     border: 1px solid rgba(255,255,255,0.1); background: #000;
   }
-  .video-track { display: flex; transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1); }
+  /* Track moves via left offset, not transform: Chromium renders native video
+     controls tiny and left-stuck when the track carries an active non-zero
+     transform (slides 2+). Plain left-positioning keeps every slide's
+     controls identical. */
+  .video-track { display: flex; position: relative; transition: left 0.55s cubic-bezier(0.4, 0, 0.2, 1); }
   .video-slide { position: relative; flex: 0 0 100%; aspect-ratio: 16 / 9; }
   .video-slide video {
     position: absolute; inset: 0; width: 100%; height: 100%;
@@ -1020,6 +1032,30 @@ const CSS = `
     background: rgba(10,30,42,0.65); color: white; font-size: 0.72rem; font-weight: 600;
     padding: 0.3rem 0.7rem; border-radius: 50px; backdrop-filter: blur(6px);
   }
+  /* Custom play/pause overlays — reliable tap targets even where the
+     native control layer fails to render (some mobile browsers) */
+  .video-playbtn {
+    position: absolute; inset: 0; width: 100%; border: 0; cursor: pointer;
+    background: linear-gradient(180deg, rgba(10,30,42,0) 45%, rgba(10,30,42,0.35) 100%);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 2; -webkit-tap-highlight-color: transparent;
+  }
+  .video-playbtn-chip {
+    width: 74px; height: 74px; border-radius: 50%;
+    background: rgba(10,30,42,0.55); border: 2px solid rgba(255,255,255,0.9);
+    color: white; display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(4px); transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .video-playbtn:hover .video-playbtn-chip { transform: scale(1.08); background: var(--gold); }
+  .video-pausebtn {
+    position: absolute; bottom: 14px; right: 14px; z-index: 2;
+    width: 42px; height: 42px; border-radius: 50%; cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.7); background: rgba(10,30,42,0.6);
+    color: white; display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(4px); -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s ease;
+  }
+  .video-pausebtn:hover { background: var(--gold); }
 
   /* ── LOCATION HIGHLIGHTS ── */
   .highlights { display: flex; gap: 1rem; margin-top: 1.5rem; }
@@ -1214,7 +1250,7 @@ function Hero() {
         <h1>Stay Where the<br /><span>Himalayas Begin</span></h1>
         <p className="hero-tagline">Best stay for nature lovers & Kedarnath travelers · Guptkashi, Uttarakhand</p>
         <div className="hero-stats">
-          {[["500+", "Happy Guests"], ["6", "Unique Rooms"], ["4,327 ft", "Altitude"], ["4.9★", "Avg Rating"]].map(([n, l]) => (
+          {[["500+", "Happy Guests"], ["6", "Unique Rooms"], ["5,905 ft", "Altitude"], ["4.9★", "Avg Rating"]].map(([n, l]) => (
             <div className="hero-stat" key={l}>
               <div className="hero-stat-num">{n}</div>
               <div className="hero-stat-label">{l}</div>
@@ -1714,8 +1750,19 @@ const TOUR_VIDEOS = [
 function VideoSection() {
   const N = TOUR_VIDEOS.length;
   const [idx, setIdx] = useState(0);
+  const [playingIdx, setPlayingIdx] = useState(null);
   const videoRefs = useRef([]);
   const go = i => setIdx(((i % N) + N) % N);
+
+  // Custom play overlay: some mobile browsers render no usable native
+  // control layer for slides inside the translated track, so playback must
+  // not depend on it. Our own button starts/stops the video instead.
+  const playVideo = i => {
+    const el = videoRefs.current[i];
+    if (!el) return;
+    videoRefs.current.forEach((v, j) => { if (v && j !== i) v.pause(); });
+    el.play().then(() => setPlayingIdx(i)).catch(() => {});
+  };
 
   // Sliding away from a clip stops it — so only one video can play at a time
   useEffect(() => {
@@ -1731,11 +1778,25 @@ function VideoSection() {
           surroundings of Guptkashi.
         </p>
         <div className="video-slider">
-          <div className="video-track" style={{ transform: `translateX(-${idx * 100}%)` }}>
+          <div className="video-track" style={{ left: `-${idx * 100}%` }}>
             {TOUR_VIDEOS.map((v, i) => (
               <div className="video-slide" key={v.src}>
                 <video ref={el => (videoRefs.current[i] = el)}
-                       src={v.src} poster={v.poster} controls preload="metadata" playsInline />
+                       src={v.src} poster={v.poster} controls preload="metadata" playsInline
+                       onPlay={() => setPlayingIdx(i)}
+                       onPause={() => setPlayingIdx(p => (p === i ? null : p))}
+                       onEnded={() => setPlayingIdx(p => (p === i ? null : p))} />
+                {playingIdx === i ? (
+                  <button className="video-pausebtn" onClick={() => videoRefs.current[i]?.pause()}
+                          aria-label={`Pause ${v.label}`}>
+                    <Pause size={18} strokeWidth={2.2} />
+                  </button>
+                ) : (
+                  <button className="video-playbtn" onClick={() => playVideo(i)}
+                          aria-label={`Play ${v.label}`}>
+                    <span className="video-playbtn-chip"><Play size={30} strokeWidth={2} /></span>
+                  </button>
+                )}
                 <span className="video-tag">{v.label}</span>
               </div>
             ))}
