@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { BedDouble, Camera, Sparkles, Home as HomeIcon, MessageSquare, Film, Mountain, MountainSnow, ShieldCheck, Recycle, MapPin, Phone, Mail, Clock, MessageCircle, Lock, CheckCircle2, Send, CalendarDays, Star, Handshake, UtensilsCrossed, Helicopter, CarFront, FlameKindling, SquareParking, Leaf, Sun, Flower2, Heart, ChevronLeft, ChevronRight, Users, ScrollText, CalendarX, Baby, PawPrint, Wrench, Ban, AlertTriangle, Play } from "lucide-react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { BedDouble, Camera, Sparkles, Home as HomeIcon, MessageSquare, Film, Mountain, MountainSnow, ShieldCheck, Recycle, MapPin, Phone, Mail, Clock, MessageCircle, Lock, CheckCircle2, Send, CalendarDays, Star, Handshake, UtensilsCrossed, Helicopter, CarFront, FlameKindling, SquareParking, Leaf, Sun, Flower2, Heart, ChevronLeft, ChevronRight, Users, ScrollText, CalendarX, Baby, PawPrint, Wrench, Ban, AlertTriangle, Play, Hand, ArrowUp } from "lucide-react";
 // Web-optimized 720p copies (scripts/compress-videos.js) — originals kept in videos/
 import homestayVideo from "./assets/videos-opt/homestay-tour.mp4";
 import frontVideo from "./assets/videos-opt/front.mp4";
@@ -401,6 +401,7 @@ const CSS = `
   /* ── Premium center-focus room slider ── */
   .rooms-slider {
     --room-w: 760px;
+    --room-slide: 0.62s;   /* shared by every room-card state so roles never desync */
     position: relative; max-width: 1280px; margin: 0 auto;
     /* Hugs the card height (~470px) so no dead space sits between the heading and slider */
     height: 490px; outline: none;
@@ -412,34 +413,40 @@ const CSS = `
     background: white; border-radius: 20px; overflow: hidden;
     border: 1px solid var(--border);
     box-shadow: var(--shadow-lg);
-    transform: translate(-50%, -50%) scale(0.72);
+    /* 3D translate keeps each card on its own composited layer, so the browser
+       scales the pre-rastered card + photo on the GPU while it glides instead of
+       re-rasterising a 760px card and its image every frame.
+       No will-change: four large always-promoted cards cost more than they save. */
+    transform: translate3d(-50%, -50%, 0) scale(0.72);
     opacity: 0; visibility: hidden; pointer-events: none;
-    /* Smooth glide: transform + blur + opacity all tween together as a card
-       changes role (active ↔ side), so neighbours never snap or pop.
-       No will-change here — promoting 4 large blurred cards tanks scroll perf. */
-    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.6s ease, visibility 0s linear 0.6s,
-                box-shadow 0.6s ease, filter 0.6s ease;
+    /* Only transform + opacity tween. Blur and box-shadow used to tween too, and
+       those two repaint the whole card (plus a 64px shadow halo) per frame —
+       that was what made switching rooms stutter, worst on the first glide.
+       The easing is a standard ease-in-out (was cubic-bezier(0.22, 1, 0.36, 1),
+       which covered ~75% of the distance in the first 150ms and then crawled for
+       the rest — the violent start read as a jerk, the tail as a hang). */
+    transition: transform var(--room-slide, 0.62s) cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.45s ease, visibility 0s linear 0.65s;
   }
   .room-card.is-active {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate3d(-50%, -50%, 0) scale(1);
     opacity: 1; visibility: visible; pointer-events: auto; z-index: 3;
     /* Appearing states flip visibility instantly so cards fade in, not pop */
-    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.6s ease, visibility 0s,
-                box-shadow 0.6s ease, filter 0.6s ease;
+    transition: transform var(--room-slide, 0.62s) cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.45s ease, visibility 0s;
   }
   .room-card.is-left, .room-card.is-right {
     opacity: 0.38; visibility: visible; z-index: 1;
+    /* Blur is switched outright (never tweened — see the transition note above).
+       The shadow is left alone: the card's own opacity already softens it, so
+       there's no shadow swap to pop and no shadow repaint to pay for. */
     filter: blur(2.5px) saturate(0.85);
-    box-shadow: var(--shadow);
     pointer-events: auto; cursor: pointer;
-    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.6s ease, visibility 0s,
-                box-shadow 0.6s ease, filter 0.6s ease;
+    transition: transform var(--room-slide, 0.62s) cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.45s ease, visibility 0s;
   }
-  .room-card.is-left  { transform: translate(calc(-50% - 160px), -50%) scale(0.8); }
-  .room-card.is-right { transform: translate(calc(-50% + 160px), -50%) scale(0.8); }
+  .room-card.is-left  { transform: translate3d(calc(-50% - 160px), -50%, 0) scale(0.8); }
+  .room-card.is-right { transform: translate3d(calc(-50% + 160px), -50%, 0) scale(0.8); }
   .room-card.is-left:hover, .room-card.is-right:hover { opacity: 0.45; filter: blur(1.5px) saturate(0.9); }
   .room-img { position: relative; height: 240px; overflow: hidden; flex-shrink: 0; }
   .room-img img { width: 100%; height: 100%; object-fit: cover; }
@@ -486,14 +493,17 @@ const CSS = `
     /* Mobile rooms slider: a real horizontal track. All cards sit in one flex
        row and the WHOLE row glides to the selected card via --slide-x (set from
        React), so chip taps / dots / swipes all get the same simple, smooth
-       slide — no blur or scaled-neighbour effects that phones render poorly. */
+       slide — no blur or scaled-neighbour effects that phones render poorly.
+       The card transition is also replaced below so nothing here tweens
+       filter/box-shadow, the two properties phones cannot repaint per frame. */
     .rooms-slider { display: flex; overflow: hidden; height: auto; }
     .room-card, .room-card.is-active, .room-card.is-left, .room-card.is-right {
       position: relative; top: auto; left: auto;
       flex: 0 0 100%; width: 100%; margin-right: 14px;
       filter: none; opacity: 1; visibility: visible; pointer-events: none;
-      transform: var(--slide-x, translateX(0));
-      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      /* 3D transform → the whole row is composited and glides on the GPU */
+      transform: var(--slide-x, translate3d(0, 0, 0));
+      transition: transform var(--room-slide, 0.62s) cubic-bezier(0.4, 0, 0.2, 1);
     }
     .room-card.is-active { pointer-events: auto; }
     /* Arrows overlap the card on small screens — dots, swipe and chips are enough */
@@ -747,11 +757,25 @@ const CSS = `
     margin-left: calc(50% - 50vw);
     border-radius: 0; overflow: hidden;
     box-shadow: var(--shadow-lg); background: var(--peak);
+    /* Grab-and-slide by hand: horizontal drags belong to the slider (mouse on
+       laptops, finger on phones), while vertical swipes still scroll the page
+       and the browser's own h-scroll/back gestures are kept out of the way. */
+    touch-action: pan-y;
+    user-select: none; -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Hand cursor on devices with a real pointer (laptops/desktops) — phones keep
+     the native touch behaviour and never get a stale grab cursor painted on. */
+  @media (hover: hover) and (pointer: fine) {
+    .slider { cursor: grab; }
+    .slider.is-dragging { cursor: grabbing; }
   }
   .slider-track {
     display: flex;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
+  /* Photos must never hijack the drag (native image-drag ghost, text selection) */
+  .slider-img, .slider-img-blur { pointer-events: none; -webkit-user-drag: none; }
   .slider-slide { position: relative; flex: 0 0 100%; height: 520px; }
   /* Each slide slowly zooms in while it's on screen (class flips per slide so
      the animation restarts every time a new photo comes in) */
@@ -797,6 +821,20 @@ const CSS = `
     background: rgba(255,255,255,0.45); transition: var(--transition); padding: 0;
   }
   .slider-dot.active { background: var(--gold); transform: scale(1.25); }
+  /* "Swipe to explore" affordance — only surfaced on touch devices, where the
+     grab cursor can't hint that the photos are draggable (see the media query
+     further down). Purely decorative, so it never eats a drag. */
+  .slider-hint {
+    display: none; align-items: center; gap: 0.4rem;
+    position: absolute; top: 0.9rem; right: 0.9rem; z-index: 2;
+    background: rgba(10,30,42,0.55); color: rgba(255,255,255,0.92);
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
+    padding: 0.35rem 0.7rem; border-radius: 50px;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    pointer-events: none;
+    animation: hintNudge 2.6s ease-in-out infinite;
+  }
+  @keyframes hintNudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-6px); } }
 
   @media (max-width: 768px) {
     .slider-slide { height: 320px; }
@@ -805,6 +843,11 @@ const CSS = `
     .slider-next { right: 0.6rem; }
     .slider-dots { bottom: 0.9rem; }
     .slider-caption { padding-bottom: 3rem; }
+  }
+  /* Phones/tablets: no hover, so the drag affordance is the finger itself.
+     A short "swipe to explore" hint replaces the grab cursor there. */
+  @media (hover: none) and (pointer: coarse) {
+    .slider-hint { display: flex; }
   }
 
   @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
@@ -951,6 +994,38 @@ const CSS = `
   .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
   .footer-dev { font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-top: 0.35rem; }
   .footer-love { font-size: 0.8rem; color: rgba(255,255,255,0.45); display: flex; align-items: center; }
+  /* Back to top — a plain circle with an up arrow, at the right end of the
+     footer's bottom row (same footprint as the footer social circles) */
+  .to-top {
+    width: 40px; height: 40px; padding: 0; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.7); border-radius: 50%;
+    cursor: pointer; transition: var(--transition);
+  }
+  .to-top:hover, .to-top:focus-visible { background: var(--gold); border-color: var(--gold); color: white; transform: translateY(-2px); }
+
+  /* Floating twin, bottom-left so it never fights the Book Now pill in the
+     bottom-right corner. It floats over bright photos, so unlike the footer one
+     it carries its own dark fill. JS toggles .show (see App): visible past the
+     hero, gone while the footer's own circle is on screen. */
+  .to-top-float {
+    position: fixed; left: 1.5rem; bottom: 1.5rem; z-index: 998;
+    background: rgba(26,58,74,0.92); border-color: rgba(255,255,255,0.18); color: white;
+    box-shadow: 0 6px 20px rgba(5,16,24,0.35);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(6px);
+    transition: opacity 0.3s ease, visibility 0.3s, transform 0.3s ease,
+                background 0.35s, border-color 0.35s, color 0.35s;
+  }
+  .to-top-float.show { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+  .to-top-float.show:hover, .to-top-float.show:focus-visible { transform: translateY(-2px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .to-top, .to-top-float { transition: none; }
+    .to-top:hover, .to-top:focus-visible,
+    .to-top-float.show:hover, .to-top-float.show:focus-visible { transform: none; }
+  }
   /* ── FLOATING BOOK NOW ── */
   .book-float {
     /* Extra lift so it never covers the footer's "Made with ♥ in the Himalayas" line */
@@ -993,6 +1068,9 @@ const CSS = `
        so give the copyright / "Made with ♥" lines room to settle above that
        corner rather than behind it. */
     .footer { padding-bottom: 4rem; }
+    /* Bottom row wraps on phones — push the button to the right of its own line
+       (scoped to the footer so the floating circle keeps its own corner) */
+    .footer-bottom .to-top { margin-left: auto; }
   }
 
   /* ── VIDEO SECTION ── */
@@ -1312,7 +1390,7 @@ function Rooms({ onBook }) {
             shifting the whole row by (card width + gap) per step gives one
             consistent smooth slide no matter what triggered the change. */}
         <div className="rooms-slider"
-             style={{ touchAction: "pan-y", "--slide-x": `translateX(calc(${safeActive} * (-100% - 14px)))` }}>
+             style={{ touchAction: "pan-y", "--slide-x": `translate3d(calc(${safeActive} * (-100% - 14px)), 0, 0)` }}>
           {rooms.map((room, i) => {
             const pos = ((i - safeActive) % count + count) % count; // 0 = focused, 1 = right peek, count-1 = left peek
             const posClass = pos === 0 ? "is-active" : pos === 1 ? "is-right" : pos === count - 1 ? "is-left" : "";
@@ -1626,6 +1704,22 @@ function Gallery() {
   const [anim, setAnim] = useState(true);   // transition on/off for seamless snapping
   const [paused, setPaused] = useState(false);
 
+  // ── Hand-drag / swipe ──
+  // Pointer events cover mouse (laptops), touch (phones) and pen alike, so the
+  // same code gives a finger-drag on phones and a click-and-drag on desktops
+  // (with a grab hand cursor there). The track follows the hand live and then
+  // snaps to the neighbouring slide on release.
+  const sliderRef = useRef(null);
+  const trackRef = useRef(null);
+  const idxRef = useRef(0);                  // mirror of idx, readable from DOM handlers
+  const drag = useRef({ active: false, startX: 0, dx: 0, id: null });
+  const [dragging, setDragging] = useState(false);
+  const DRAG_THRESHOLD = 0.14;               // fraction of slider width needed to change slide
+  const SMOOTH = "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)"; // keep in sync with .slider-track
+  // Slide transform is written straight to the DOM (like the reviews ticker) so a
+  // drag moves the track on every pointermove without a React re-render per frame.
+  const slideX = (i, dx = 0) => `translateX(calc(-${(i + 1) * 100}% + ${dx}px))`;
+
   const norm = i => ((i % N) + N) % N;
 
   const move = (dir) => {
@@ -1638,6 +1732,16 @@ function Gallery() {
   };
 
   const goTo = (i) => { setAnim(true); setIdx(norm(i)); };
+
+  // Position the track whenever the slide or the animation flag changes — and
+  // hand it back to smooth CSS animation after an instant snap.
+  useLayoutEffect(() => {
+    const t = trackRef.current;
+    idxRef.current = idx;
+    if (!t) return;
+    t.style.transition = anim ? SMOOTH : "none";
+    t.style.transform = slideX(idx);
+  }, [idx, anim]);
 
   // After gliding onto a clone (first-slide clone at the end, last-slide clone at
   // the front), silently jump to the matching real slide with the transition off —
@@ -1661,9 +1765,9 @@ function Gallery() {
   }, [anim]);
 
   // Autoplay every 3s. Hover no longer pauses (a cursor merely resting on the
-  // slider kept it frozen forever); touch pauses only while the finger is down
-  // so a swipe never fights a slide change — with a 5s safety resume in case
-  // the touchend/cancel event is lost.
+  // slider kept it frozen forever); a drag pauses only while the hand/pointer is
+  // down so a swipe never fights a slide change — with a 5s safety resume in
+  // case the pointerup/cancel event is lost.
   useEffect(() => {
     if (paused) {
       const r = setTimeout(() => setPaused(false), 5000);
@@ -1672,6 +1776,61 @@ function Gallery() {
     const t = setInterval(() => move(1), 3000);
     return () => clearInterval(t);
   }, [paused]);
+
+  // ── Drag handlers (mouse on laptops, touch on phones/tablets) ──
+  const onPointerDown = (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;   // right/middle click
+    if (e.target.closest("button")) return;                    // arrows & dots keep their clicks
+    drag.current = { active: true, startX: e.clientX, dx: 0, id: e.pointerId };
+    e.currentTarget.setPointerCapture?.(e.pointerId);          // keep the drag while the hand moves off the slider
+    setDragging(true);
+    setPaused(true);
+  };
+
+  const onPointerMove = (e) => {
+    const d = drag.current;
+    if (!d.active) return;
+    d.dx = e.clientX - d.startX;
+    const t = trackRef.current;
+    if (!t) return;
+    t.style.transition = "none";                 // the track must track the hand 1:1
+    t.style.transform = slideX(idxRef.current, d.dx);
+  };
+
+  const endDrag = (e) => {
+    const d = drag.current;
+    if (!d.active) return;
+    d.active = false;
+    if (e && d.id != null && e.currentTarget?.hasPointerCapture?.(d.id)) {
+      e.currentTarget.releasePointerCapture(d.id);
+    }
+
+    const t = trackRef.current;
+    const width = sliderRef.current?.clientWidth || 1;
+    const dx = d.dx;
+    const cur = idxRef.current;
+    d.dx = 0;
+
+    // A deliberate swipe past the threshold turns the page; a small wobble
+    // (e.g. a click that drifted a pixel or two) springs straight back.
+    const past = Math.abs(dx) > width * DRAG_THRESHOLD;
+    let target = past ? cur + (dx < 0 ? 1 : -1) : cur;
+    if (target > N || target < -1) target = cur;   // no slide lives past the clones
+    // Never settle on a clone (the loop padding slides) or the slider would stall
+    // there — realign to the twin real slide, which is the same photo, unseen.
+    let next = target;
+    if (next === N) next = 0;
+    if (next === -1) next = N - 1;
+    const jumped = next !== target;
+
+    if (t) {
+      t.style.transition = jumped ? "none" : SMOOTH;
+      t.style.transform = slideX(next);
+    }
+    setDragging(false);
+    setPaused(false);
+    if (next !== cur) { setAnim(!jumped); setIdx(next); }
+  };
 
   // Keyboard navigation
   useEffect(() => {
@@ -1687,21 +1846,25 @@ function Gallery() {
           <h2 className="section-title">A Glimpse of Paradise</h2>
           <p className="section-sub">Every corner of Shivalik Ice Hills tells a story of mountains, warmth and wonder.</p>
         <div
-          className="slider"
-          onTouchStart={() => setPaused(true)}
-          onTouchEnd={() => setPaused(false)}
-          onTouchCancel={() => setPaused(false)}
+          ref={sliderRef}
+          className={`slider${dragging ? " is-dragging" : ""}`}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          onLostPointerCapture={endDrag}
         >
-          {/* Track = [clone of last] + real slides + [clone of first] → seamless circular loop */}
-          <div className="slider-track"
-               style={{ transform: `translateX(-${(idx + 1) * 100}%)`, transition: anim ? undefined : "none" }}>
+          {/* Track = [clone of last] + real slides + [clone of first] → seamless circular loop.
+              Its transform/transition are driven imperatively (see slideX / the layout
+              effect above) so a hand-drag can update it every frame for free. */}
+          <div className="slider-track" ref={trackRef}>
             {[GALLERY[N - 1], ...GALLERY, GALLERY[0]].map((img, i) => (
               <div className={`slider-slide${i === idx + 1 ? " is-current" : ""}`} key={i}>
                 {/* No lazy-loading here: inside the translating carousel track the
                     browser can defer these forever, leaving slides permanently blank.
                     All 9 gallery photos load eagerly (they're the section's content). */}
-                <img className="slider-img-blur" src={img.url} alt="" aria-hidden="true" decoding="async" />
-                <img className="slider-img" src={img.url} alt={img.label} decoding="async" />
+                <img className="slider-img-blur" src={img.url} alt="" aria-hidden="true" decoding="async" draggable="false" />
+                <img className="slider-img" src={img.url} alt={img.label} decoding="async" draggable="false" />
                 <div className="slider-caption">
                   <span className="slider-cat">{img.cat}</span>
                   <span className="slider-label">{img.label}</span>
@@ -1709,6 +1872,9 @@ function Gallery() {
               </div>
             ))}
           </div>
+          <span className="slider-hint" aria-hidden="true">
+            <Hand size={13} strokeWidth={2.2} />Swipe to explore
+          </span>
           <button className="slider-arrow slider-prev" onClick={() => move(-1)} aria-label="Previous slide">‹</button>
           <button className="slider-arrow slider-next" onClick={() => move(1)} aria-label="Next slide">›</button>
           <div className="slider-dots">
@@ -2168,7 +2334,15 @@ function Contact() {
   );
 }
 
-function Footer({ bookRowRef, onPolicies }) {
+// Shared by the footer's circle and the floating one that rides the page while
+// you scroll. `html { scroll-behavior: smooth }` is overridden by an explicit
+// behavior option, so ask the media query rather than relying on the CSS.
+function scrollToTop() {
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+}
+
+function Footer({ bookRowRef, toTopRef, onPolicies }) {
   return (
     <footer className="footer">
       <div className="footer-inner">
@@ -2215,6 +2389,9 @@ function Footer({ bookRowRef, onPolicies }) {
             <div className="footer-dev">Developed and maintained by Sahil Negi</div>
           </div>
           <div className="footer-love">Made with <Heart size={12} strokeWidth={2.2} color="#e05656" style={{ verticalAlign: "-1px", margin: "0 2px" }} /> in the Himalayas</div>
+          <button ref={toTopRef} type="button" className="to-top" onClick={scrollToTop} aria-label="Back to top" title="Back to top">
+            <ArrowUp size={17} strokeWidth={2.6} />
+          </button>
         </div>
       </div>
     </footer>
@@ -2329,6 +2506,38 @@ export default function App() {
   // on top of the footer text. On desktop nothing here ever fires.
   const floatBookRef = useRef(null);
   const footerBookRowRef = useRef(null);
+  const floatTopRef = useRef(null);
+  const footerTopRef = useRef(null);
+
+  // Floating back-to-top circle. Same rAF-throttled scroll listener as the
+  // docking pill below: it appears once the hero is behind you and steps aside
+  // the moment the footer's own circle is on screen, so there are never two
+  // "back to top" buttons visible at once.
+  useEffect(() => {
+    const btn = floatTopRef.current;
+    const anchor = footerTopRef.current;
+    if (!btn || !anchor) return;
+    let frame = 0;
+
+    const place = () => {
+      frame = 0;
+      const r = anchor.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const pastHero = window.scrollY > vh * 0.6;
+      const footerCircleOnScreen = r.top < vh && r.bottom > 0;
+      btn.classList.toggle("show", pastHero && !footerCircleOnScreen);
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(place); };
+
+    place();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
 
   useEffect(() => {
     const btn = floatBookRef.current;
@@ -2391,7 +2600,13 @@ export default function App() {
       <VideoSection />
       <Testimonials />
       <Contact />
-      <Footer bookRowRef={footerBookRowRef} onPolicies={(section) => setPolicies({ section })} />
+      <Footer bookRowRef={footerBookRowRef} toTopRef={footerTopRef} onPolicies={(section) => setPolicies({ section })} />
+
+      {/* Floating back-to-top circle. Bottom-left so it never fights the Book
+          Now pill in the bottom-right corner; JS toggles .show. */}
+      <button ref={floatTopRef} type="button" className="to-top to-top-float" onClick={scrollToTop} aria-label="Back to top" title="Back to top">
+        <ArrowUp size={17} strokeWidth={2.6} />
+      </button>
 
       {/* Floating Book Now → WhatsApp. Stays desktop-only in the corner until
           the footer's Directions row is on screen (phones), then docks there. */}
