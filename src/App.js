@@ -31,6 +31,11 @@ import roomImg9 from "./assets/images/Rooms-opt/img-20250324-112649-jpg.jpg";
 import roomImgHero from "./assets/images/Rooms-opt/hero.jpg";
 import roomImg10 from "./assets/images/Rooms-opt/img-20250324-112231-jpg.jpg";
 import roomImg11 from "./assets/images/Rooms-opt/img-20250324-112526-jpg.jpg";
+// Extra local images for Why Stay cards and experience section
+import whyHimalayanImg from "./assets/images/galllery/IMG_20250324_112231.jpg.jpeg";
+import roomCardImg from "./assets/images/Rooms-opt/img-20250324-111957-jpg.jpg";
+import kedarImg from "./assets/images/kedar.jpg";
+import peacefulImg from "./assets/images/galllery-opt/ice4.jpg";
 // Room card images — one per room type, from Rooms/room_front (exact names kept)
 import imgDelux from "./assets/images/Rooms-opt/room_front/delux.jpeg";
 import imgSuperDelux from "./assets/images/Rooms-opt/room_front/superDelux.jpeg";
@@ -91,7 +96,7 @@ const ROOMS = [
     available: true, maxGuests: 3,
     description: "Wake up to breathtaking Kedarnath peaks. Spacious suite with panoramic mountain views, premium bedding, and a private sit-out.",
     amenities: ["Mountain View", "WiFi", "Hot Water", "Heater", "Attached Bath", "Room Service"],
-    images: [imgDelux],
+    images: [roomCardImg],
     badge: "Most Popular"
   },
   {
@@ -824,17 +829,7 @@ const CSS = `
   /* "Swipe to explore" affordance — only surfaced on touch devices, where the
      grab cursor can't hint that the photos are draggable (see the media query
      further down). Purely decorative, so it never eats a drag. */
-  .slider-hint {
-    display: none; align-items: center; gap: 0.4rem;
-    position: absolute; top: 0.9rem; right: 0.9rem; z-index: 2;
-    background: rgba(10,30,42,0.55); color: rgba(255,255,255,0.92);
-    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
-    padding: 0.35rem 0.7rem; border-radius: 50px;
-    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-    pointer-events: none;
-    animation: hintNudge 2.6s ease-in-out infinite;
-  }
-  @keyframes hintNudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-6px); } }
+  /* "Swipe to explore" affordance removed — button stays in the gallery section */ }
 
   @media (max-width: 768px) {
     .slider-slide { height: 320px; }
@@ -844,11 +839,7 @@ const CSS = `
     .slider-dots { bottom: 0.9rem; }
     .slider-caption { padding-bottom: 3rem; }
   }
-  /* Phones/tablets: no hover, so the drag affordance is the finger itself.
-     A short "swipe to explore" hint replaces the grab cursor there. */
-  @media (hover: none) and (pointer: coarse) {
-    .slider-hint { display: flex; }
-  }
+
 
   @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
@@ -1348,7 +1339,9 @@ function Rooms({ onBook }) {
 
   const onChipClick = t => {
     setFilter(t);
-    if (t !== "All") {
+    if (t === "All") {
+      go(0); // reset to first room (Deluxe)
+    } else {
       const idx = rooms.findIndex(r => r.type === t);
       if (idx >= 0) go(idx);
     }
@@ -1872,9 +1865,6 @@ function Gallery() {
               </div>
             ))}
           </div>
-          <span className="slider-hint" aria-hidden="true">
-            <Hand size={13} strokeWidth={2.2} />Swipe to explore
-          </span>
           <button className="slider-arrow slider-prev" onClick={() => move(-1)} aria-label="Previous slide">‹</button>
           <button className="slider-arrow slider-next" onClick={() => move(1)} aria-label="Next slide">›</button>
           <div className="slider-dots">
@@ -1948,6 +1938,9 @@ function VideoSection() {
           </div>
           <button className="slider-arrow slider-prev" onClick={() => go(idx - 1)} aria-label="Previous video">‹</button>
           <button className="slider-arrow slider-next" onClick={() => go(idx + 1)} aria-label="Next video">›</button>
+          <button className="slider-hint" aria-hidden="true" style={{ "margin-left": "8px" }}>
+            <Hand size={13} strokeWidth={2.2} />Swipe to explore
+          </button>
           <div className="video-count">{idx + 1} / {N}</div>
         </div>
       </div>
@@ -2028,11 +2021,11 @@ function WhyStay() {
   const reasons = [
     {
       icon: "🏔️", title: "Himalayan Views", desc: "Wake up to snow-capped Kedarnath peaks right from your window.",
-      img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80", caption: "Kedarnath peaks, from your bed"
+      img: whyHimalayanImg, caption: "Kedarnath peaks, from your bed"
     },
     {
       icon: "🛏️", title: "Comfortable Rooms", desc: "Cozy, heated rooms with premium bedding and 24×7 hot water.",
-      img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1000&q=80", caption: "Warm, cozy & spotless"
+      img: roomCardImg, caption: "Warm, cozy & spotless"
     },
     {
       icon: "🍛", title: "Uttarakhand Cuisine", desc: "Authentic home-cooked Garhwali meals from our organic garden.",
@@ -2040,11 +2033,11 @@ function WhyStay() {
     },
     {
       icon: "📍", title: "Near Kedarnath", desc: "Perfect base on the yatra route — just 28 km from Sonprayag.",
-      img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1000&q=80", caption: "28 km from Sonprayag"
+      img: kedarImg, caption: "28 km from Sonprayag"
     },
     {
       icon: "❤️", title: "Peaceful Environment", desc: "Deodar forests, river sounds and starry skies — pure mountain calm.",
-      img: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1000&q=80", caption: "Deodar forests & stillness"
+      img: peacefulImg, caption: "Deodar forests & stillness"
     },
   ];
 
