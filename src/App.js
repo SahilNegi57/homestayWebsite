@@ -1,5 +1,5 @@
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
-import { BedDouble, Camera, Sparkles, Home as HomeIcon, MessageSquare, Film, Mountain, MountainSnow, ShieldCheck, Recycle, MapPin, Phone, Mail, Clock, MessageCircle, Lock, CheckCircle2, Send, CalendarDays, Star, Handshake, UtensilsCrossed, Helicopter, CarFront, FlameKindling, SquareParking, Leaf, Sun, Flower2, Heart, ChevronLeft, ChevronRight, Users, ScrollText, CalendarX, Baby, PawPrint, Wrench, Ban, AlertTriangle, Play, Hand, ArrowUp } from "lucide-react";
+import { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
+import { BedDouble, Camera, Sparkles, Home as HomeIcon, MessageSquare, Film, Mountain, MountainSnow, ShieldCheck, Recycle, MapPin, Phone, Mail, Clock, MessageCircle, Lock, CheckCircle2, Send, CalendarDays, Star, Handshake, UtensilsCrossed, Helicopter, CarFront, FlameKindling, SquareParking, Leaf, Flower2, Heart, ChevronLeft, ChevronRight, Users, ScrollText, CalendarX, Baby, PawPrint, Wrench, Ban, AlertTriangle, Play, ArrowUp } from "lucide-react";
 // Web-optimized 720p copies (scripts/compress-videos.js) — originals kept in videos/
 import homestayVideo from "./assets/videos-opt/homestay-tour.mp4";
 import frontVideo from "./assets/videos-opt/front.mp4";
@@ -35,9 +35,9 @@ import roomImg11 from "./assets/images/Rooms-opt/img-20250324-112526-jpg.jpg";
 import whyHimalayanImg from "./assets/images/galllery/IMG_20250324_112231.jpg.jpeg";
 import roomCardImg from "./assets/images/Rooms-opt/img-20250324-111957-jpg.jpg";
 import kedarImg from "./assets/images/kedar.jpg";
-import peacefulImg from "./assets/images/galllery-opt/ice4.jpg";
+import peacefulImg from "./assets/images/food.jpg";
+import foodImg from "./assets/images/food.jpg";
 // Room card images — one per room type, from Rooms/room_front (exact names kept)
-import imgDelux from "./assets/images/Rooms-opt/room_front/delux.jpeg";
 import imgSuperDelux from "./assets/images/Rooms-opt/room_front/superDelux.jpeg";
 import imgStandard from "./assets/images/Rooms-opt/room_front/Standard.jpeg";
 import imgShared from "./assets/images/Rooms-opt/room_front/shared.jpeg";
@@ -198,7 +198,29 @@ const CSS = `
     --transition: all 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
   }
 
-  html { scroll-behavior: smooth; }
+  /* Anchor jumps land just clear of the fixed navbar; the glide between them is
+     driven in JS (see glideTo) so one even pace covers any distance. */
+  html { scroll-behavior: smooth; scroll-padding-top: 28px; }
+  /* Phones carry a taller navbar over shallower section padding, so they need a
+     bigger offset to land headings clear of it rather than under it. */
+  @media (max-width: 768px) { html { scroll-padding-top: 56px; } }
+
+  /* ── SCROLL REVEAL ──
+     Blocks marked .reveal ease up as they reach the viewport, so the page
+     arrives rather than snapping past. Only opacity and transform move — the
+     document never changes height, so anchors and scroll positions stay true. */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  /* Reduced motion: no glide and no reveal — everything is simply already there */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
 
   body {
     font-family: 'DM Sans', sans-serif;
@@ -355,6 +377,12 @@ const CSS = `
   .hero-scroll { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); animation: bounce 2s infinite; }
   .hero-scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent); margin: 0 auto 6px; }
   .hero-scroll-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; margin: 0 auto; }
+  /* The Ken Burns pan, the snow and the bouncing cue composite forever, even once
+     the hero is screens above you — work that shows up as jitter while you scroll
+     the rest of the page. Park them the moment the hero leaves the viewport. */
+  .hero.is-idle .hero-bg,
+  .hero.is-idle .hero-snow span,
+  .hero.is-idle .hero-scroll { animation-play-state: paused; }
   @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
   /* Mobile: kill the huge centered dead-space — hero text starts just under the navbar */
   @media (max-width: 768px) {
@@ -637,6 +665,20 @@ const CSS = `
     font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); text-decoration: none; display: inline-block;
   }
   .btn-outline:hover { background: var(--peak); color: white; }
+
+  /* ── PRESS & FOCUS FEEDBACK ──
+     Every control dips the instant it is pressed — the quickest acknowledgement
+     that a tap landed — then eases back on its normal, slower curve. The dip uses
+     the standalone scale property where an element already leans on transform for
+     centring or its hover lift, so the two compose instead of fighting. */
+  .btn-primary:active, .btn-outline:active, .nav-cta:active, .to-top:active,
+  .room-book-btn:active, .filter-chip:active, .testi-cta-btn:active,
+  .book-float:active { transform: translateY(0) scale(0.97); transition-duration: 0.12s; }
+  .slider-arrow:active, .rooms-arrow:active, .video-playbtn:active,
+  .slider-dot:active, .room-dot:active { scale: 0.88; }
+  .rg-item:active img { transform: scale(1.01); }
+  .nav-links a:active, .footer-col a:active { opacity: 0.7; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
   /* ── ABOUT ── */
   .about-bg { background: linear-gradient(135deg, var(--peak) 0%, #0d2535 100%); padding: 4rem 1.5rem; }
@@ -1076,6 +1118,8 @@ const CSS = `
     position: relative; border-radius: var(--radius); overflow: hidden;
     box-shadow: 0 32px 80px rgba(0,0,0,0.5);
     border: 1px solid rgba(255,255,255,0.1); background: #000;
+    /* Horizontal flicks belong to the carousel, vertical ones still scroll */
+    touch-action: pan-y;
   }
   /* Track moves via left offset, not transform: Chromium renders native video
      controls tiny and left-stuck when the track carries an active non-zero
@@ -1239,10 +1283,25 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
+  // rAF-throttled, and only ever calls setState when the class actually has to
+  // flip — the solid navbar is worth one update per crossing, not per frame.
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
+    let frame = 0;
+    let solid = false;
+    const read = () => {
+      frame = 0;
+      const next = window.scrollY > 60;
+      if (next === solid) return;
+      solid = next;
+      setScrolled(next);
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(read); };
+    read();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
   }, []);
 
   const links = [
@@ -1283,8 +1342,23 @@ const HERO_SNOWFLAKES = Array.from({ length: 28 }, (_, i) => ({
 }));
 
 function Hero() {
+  const ref = useRef(null);
+
+  // Park the hero's looping animations while it is off screen (see the CSS):
+  // nothing up there is visible, and keeping it compositing costs the smoothness
+  // of every scroll further down the page.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      el.classList.toggle("is-idle", !entry.isIntersecting);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="hero" id="hero">
+    <section className="hero" id="hero" ref={ref}>
       <div className="hero-bg" />
       <div className="hero-overlay" />
       <div className="hero-snow" aria-hidden="true">
@@ -1365,14 +1439,14 @@ function Rooms({ onBook }) {
   return (
     <section className="section" id="rooms" tabIndex={-1} onKeyDown={onKeyDown}
              onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-      <div className="section-header-row">
+      <div className="section-header-row reveal">
         <div>
           <span className="section-label"><BedDouble size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Our Rooms</span>
           <h2 className="section-title">Find Your Perfect Stay</h2>
           <p className="section-sub">Each room is thoughtfully designed to immerse you in the beauty of the Himalayas.</p>
         </div>
       </div>
-      <div className="filter-bar">
+      <div className="filter-bar reveal">
         {types.map(t => (
           <button key={t} className={`filter-chip${filter === t ? " active" : ""}`}
                   onClick={() => onChipClick(t)}>{t}</button>
@@ -1382,7 +1456,7 @@ function Rooms({ onBook }) {
         {/* --slide-x drives the mobile track position (ignored on desktop):
             shifting the whole row by (card width + gap) per step gives one
             consistent smooth slide no matter what triggered the change. */}
-        <div className="rooms-slider"
+        <div className="rooms-slider reveal"
              style={{ touchAction: "pan-y", "--slide-x": `translate3d(calc(${safeActive} * (-100% - 14px)), 0, 0)` }}>
           {rooms.map((room, i) => {
             const pos = ((i - safeActive) % count + count) % count; // 0 = focused, 1 = right peek, count-1 = left peek
@@ -1468,7 +1542,7 @@ function RoomGalleryPage({ onClose }) {
         {ROOM_PHOTOS.map((src, i) => (
           <button key={i} className="rg-item" style={{ animationDelay: `${i * 70}ms` }}
                   onClick={() => setLightbox(i)} aria-label={`View photo ${i + 1}`}>
-            <img src={src} alt={`Room photo ${i + 1}`} decoding="async"
+            <img src={src} alt={`Room ${i + 1}`} decoding="async"
                  onError={e => { e.currentTarget.style.visibility = "hidden"; }}
                  onLoad={e => { e.currentTarget.style.visibility = ""; }} />
             <span className="rg-view">View</span>
@@ -1480,7 +1554,7 @@ function RoomGalleryPage({ onClose }) {
         <div className="rg-lightbox" onClick={() => setLightbox(-1)}>
           <button className="rg-arrow rg-arrow-prev" aria-label="Previous photo"
                   onClick={e => { e.stopPropagation(); setLightbox(i => (i - 1 + ROOM_PHOTOS.length) % ROOM_PHOTOS.length); }}>‹</button>
-          <img src={ROOM_PHOTOS[lightbox]} alt={`Room photo ${lightbox + 1}`} onClick={e => e.stopPropagation()} />
+          <img src={ROOM_PHOTOS[lightbox]} alt={`Room ${lightbox + 1}`} onClick={e => e.stopPropagation()} />
           <button className="rg-arrow rg-arrow-next" aria-label="Next photo"
                   onClick={e => { e.stopPropagation(); setLightbox(i => (i + 1) % ROOM_PHOTOS.length); }}>›</button>
           <div className="rg-count">{lightbox + 1} / {ROOM_PHOTOS.length}</div>
@@ -1715,14 +1789,14 @@ function Gallery() {
 
   const norm = i => ((i % N) + N) % N;
 
-  const move = (dir) => {
+  const move = useCallback((dir) => {
     setAnim(true);
     setIdx(i => {
       const next = i + dir;
       if (next > N || next < -1) return i;  // ignore while standing on a clone
       return next;
     });
-  };
+  }, [N]);
 
   const goTo = (i) => { setAnim(true); setIdx(norm(i)); };
 
@@ -1768,7 +1842,7 @@ function Gallery() {
     }
     const t = setInterval(() => move(1), 3000);
     return () => clearInterval(t);
-  }, [paused]);
+  }, [paused, move]);
 
   // ── Drag handlers (mouse on laptops, touch on phones/tablets) ──
   const onPointerDown = (e) => {
@@ -1830,11 +1904,11 @@ function Gallery() {
     const fn = (e) => { if (e.key === "ArrowRight") move(1); if (e.key === "ArrowLeft") move(-1); };
     window.addEventListener("keydown", fn);
     return () => window.removeEventListener("keydown", fn);
-  }, []);
+  }, [move]);
 
   return (
     <div className="gallery-bg" id="gallery">
-      <div className="gallery-inner">
+      <div className="gallery-inner reveal">
           <span className="section-label"><Camera size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Gallery</span>
           <h2 className="section-title">A Glimpse of Paradise</h2>
           <p className="section-sub">Every corner of Shivalik Ice Hills tells a story of mountains, warmth and wonder.</p>
@@ -1909,15 +1983,49 @@ function VideoSection() {
     videoRefs.current.forEach((v, i) => { if (v && i !== idx) v.pause(); });
   }, [idx]);
 
+  // Chromium builds the native control layer the first time a clip gets laid
+  // out, and a slide that was still parked off-screen then keeps a bar shrunk
+  // to a stub on the left — the second clip's player looked nothing like the
+  // others. Rebuilding that layer once the clip has slid into place gives every
+  // slide the same full-width player. It takes two steps, because the layer is
+  // only rebuilt when the attribute is really gone for a frame.
+  const firstRun = useRef(true);
+  useEffect(() => {
+    if (firstRun.current) { firstRun.current = false; return; }  // clip on screen at load is already right
+    const el = videoRefs.current[idx];
+    if (!el) return;
+    let on;
+    const off = setTimeout(() => {
+      el.controls = false;
+      on = setTimeout(() => { el.controls = true; }, 50);
+    }, 600); // just past the 0.55s slide
+    return () => { clearTimeout(off); clearTimeout(on); };
+  }, [idx]);
+
+  // Swipe between clips. The hint chip is gone, the gesture stays: only a
+  // clearly horizontal flick counts, so vertical scrolling and taps on the
+  // native player are never mistaken for a slide change.
+  const swipe = useRef(null);
+  const onTouchStart = e => { swipe.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }; };
+  const onTouchEnd = e => {
+    const start = swipe.current;
+    swipe.current = null;
+    if (!start) return;
+    const dx = e.changedTouches[0].clientX - start.x;
+    const dy = e.changedTouches[0].clientY - start.y;
+    if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)) return;
+    go(idx + (dx < 0 ? 1 : -1));
+  };
+
   return (
     <div className="video-bg" id="video">
-      <div className="video-inner">          <span className="section-label"><Film size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Experience</span>
+      <div className="video-inner reveal">          <span className="section-label"><Film size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Experience</span>
         <h2 className="section-title">See It Before You Visit</h2>
         <p className="section-sub">
           Take a real tour of Shivalik Ice Hills and the breathtaking 
           surroundings of Guptkashi.
         </p>
-        <div className="video-slider">
+        <div className="video-slider" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
           <div className="video-track" style={{ left: `-${idx * 100}%` }}>
             {TOUR_VIDEOS.map((v, i) => (
               <div className="video-slide" key={v.src}>
@@ -1938,9 +2046,6 @@ function VideoSection() {
           </div>
           <button className="slider-arrow slider-prev" onClick={() => go(idx - 1)} aria-label="Previous video">‹</button>
           <button className="slider-arrow slider-next" onClick={() => go(idx + 1)} aria-label="Next video">›</button>
-          <button className="slider-hint" aria-hidden="true" style={{ "margin-left": "8px" }}>
-            <Hand size={13} strokeWidth={2.2} />Swipe to explore
-          </button>
           <div className="video-count">{idx + 1} / {N}</div>
         </div>
       </div>
@@ -1954,7 +2059,7 @@ function Services() {
       <span className="section-label"><Sparkles size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Services</span>
       <h2 className="section-title">Everything You Need</h2>
       <p className="section-sub">Beyond comfortable rooms, we offer experiences that make your Himalayan journey unforgettable.</p>
-      <div className="services-grid">
+      <div className="services-grid reveal">
         {SERVICES.map(({ Icon, title, desc }) => (
           <div key={title} className="service-card">
             <span className="service-icon"><Icon size={28} strokeWidth={1.8} /></span>
@@ -1972,7 +2077,7 @@ function Services() {
 function About() {
   return (
     <div className="about-bg" id="about">
-      <div className="about-grid">
+      <div className="about-grid reveal">
         <div className="about-img-stack">
           <div className="about-img-main">
             <img src={imgIce4} alt="Chaukhamba view from Shivalik Ice Hills" />
@@ -2029,15 +2134,15 @@ function WhyStay() {
     },
     {
       icon: "🍛", title: "Uttarakhand Cuisine", desc: "Authentic home-cooked Garhwali meals from our organic garden.",
-      img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=80", caption: "Fresh Garhwali thali"
+      img: foodImg, caption: "Fresh Garhwali thali"
     },
     {
       icon: "📍", title: "Near Kedarnath", desc: "Perfect base on the yatra route — just 28 km from Sonprayag.",
       img: kedarImg, caption: "28 km from Sonprayag"
     },
     {
-      icon: "❤️", title: "Peaceful Environment", desc: "Deodar forests, river sounds and starry skies — pure mountain calm.",
-      img: peacefulImg, caption: "Deodar forests & stillness"
+      icon: "❤️", title: "Peaceful Environment", desc: "Village trails, fresh mountain air, bird chirping and warm locals — pure mountain calm.",
+      img: peacefulImg, caption: "Village trail, fresh air & birdsong"
     },
   ];
 
@@ -2046,7 +2151,7 @@ function WhyStay() {
       <span className="section-label"><Heart size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Why Stay With Us</span>
       <h2 className="section-title">Why Stay With Us?</h2>
       <p className="section-sub">Five reasons travelers choose Shivalik Ice Hills — and keep coming back.</p>
-      <div className="why-grid">
+      <div className="why-grid reveal">
         {reasons.map(({ icon, title, desc, img, caption }) => (
           <div key={title} className="why-card" tabIndex={0}>
             <div className="why-icon">{icon}</div>
@@ -2093,7 +2198,6 @@ const GoogleReviewsIcon = () => (
 );
 
 function Testimonials() {
-  const N = TESTIMONIALS.length;
   const viewportRef = useRef(null);
   const offset = useRef(0);      // current scroll position of the strip (px)
   const wrapWidth = useRef(1);   // width of one full set of reviews (px)
@@ -2101,7 +2205,6 @@ function Testimonials() {
   const vel = useRef(0);         // px/frame from the last drag motion (for momentum)
   const lastX = useRef(0);
   const pausedRef = useRef(false);
-  const [, force] = useState(0); // re-render after we mutate offset
 
   // Keep content on screen: normalise offset into [-wrapWidth, 0).
   const normalize = () => {
@@ -2181,7 +2284,7 @@ function Testimonials() {
 
   return (
     <div className="testimonials-bg">
-      <div className="testimonials-inner">
+      <div className="testimonials-inner reveal">
         <span className="section-label"><MessageSquare size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Reviews</span>
         <h2 className="section-title" style={{ marginBottom: "0.5rem" }}>What Our Guests Say</h2>
         <p style={{ color: "rgba(255,255,255,0.55)", margin: "0 0 1.25rem", fontSize: "1rem" }}>
@@ -2265,7 +2368,7 @@ function Contact() {
       <span className="section-label"><Mail size={14} strokeWidth={2.2} style={{ verticalAlign: "-2px", marginRight: "5px" }} />Contact</span>
       <h2 className="section-title">Get in Touch</h2>
       <p className="section-sub">Have questions? We're always happy to help you plan the perfect mountain getaway.</p>
-      <div className="contact-grid">
+      <div className="contact-grid reveal">
         <div className="contact-info">
           <h3>Reach Us Directly</h3>
           {[
@@ -2327,12 +2430,81 @@ function Contact() {
   );
 }
 
-// Shared by the footer's circle and the floating one that rides the page while
-// you scroll. `html { scroll-behavior: smooth }` is overridden by an explicit
-// behavior option, so ask the media query rather than relying on the CSS.
+// ─── SMOOTH IN-PAGE SCROLL ──────────────────────────────────────────────────
+// Native smooth scrolling covers most of a long jump in a few frames and then
+// trickles the rest of the way — a jerk, then a hang. This drives the glide
+// itself so one even ease-in-out covers whatever the distance, and it hands the
+// page straight back the moment the visitor takes over with wheel, finger or
+// keyboard. `prefers-reduced-motion` skips the glide entirely.
+const reduceMotion = () =>
+  !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+// Roughly cubic-bezier(0.4, 0, 0.2, 1) — the same even curve the room slider uses
+const easeInOut = t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+// Long hops get more time, but never enough to feel like waiting
+const glideDuration = distance => Math.min(900, 380 + distance * 0.25);
+
+let stopGlide = null;   // cancels whatever glide is in flight
+
+function glideTo(targetY) {
+  const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  const endY = Math.max(0, Math.min(maxY, targetY));
+  const startY = window.scrollY;
+  const distance = endY - startY;
+
+  if (stopGlide) stopGlide();
+
+  if (reduceMotion()) {
+    window.scrollTo({ top: endY, behavior: "auto" });
+    return;
+  }
+  if (!distance) return;
+
+  // With `scroll-behavior: smooth` on <html>, every one of our own scrollTo calls
+  // would start an animation of its own — pin the page to instant for the ride.
+  const root = document.documentElement;
+  const prevBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+
+  let frame = 0;
+  const release = () => {
+    root.style.scrollBehavior = prevBehavior;
+    window.removeEventListener("wheel", cancel);
+    window.removeEventListener("touchstart", cancel);
+    window.removeEventListener("keydown", cancel);
+    stopGlide = null;
+  };
+  const cancel = () => { cancelAnimationFrame(frame); release(); };
+  stopGlide = cancel;
+
+  window.addEventListener("wheel", cancel, { passive: true });
+  window.addEventListener("touchstart", cancel, { passive: true });
+  window.addEventListener("keydown", cancel);
+
+  const from = performance.now();
+  const ms = glideDuration(Math.abs(distance));
+  const step = () => {
+    const t = Math.min(1, (performance.now() - from) / ms);
+    window.scrollTo(0, Math.round(startY + distance * easeInOut(t)));
+    if (t < 1) frame = requestAnimationFrame(step);
+    else release();
+  };
+  frame = requestAnimationFrame(step);
+}
+
+// Land an element (or an id) where the CSS offset wants it — just below the
+// fixed navbar, which is what `scroll-padding-top` expresses for the native
+// jumps (deep links, back/forward).
+function glideToElement(target) {
+  const el = typeof target === "string" ? document.getElementById(target) : target;
+  if (!el) return;
+  const offset = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+  glideTo(el.getBoundingClientRect().top + window.scrollY - offset);
+}
+
+// Shared by the footer's circle and the floating one that rides the page
 function scrollToTop() {
-  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+  glideTo(0);
 }
 
 function Footer({ bookRowRef, toTopRef, onPolicies }) {
@@ -2362,8 +2534,10 @@ function Footer({ bookRowRef, toTopRef, onPolicies }) {
             <h4>Support</h4>
             <a href="#contact">Contact Us</a>
             <a href="#rooms">Book a Room</a>
-            <a href="#" onClick={e => { e.preventDefault(); onPolicies("cancellation"); }}>Cancellation Policy</a>
-            <a href="#" onClick={e => { e.preventDefault(); onPolicies(); }}>Privacy Policy</a>
+            {/* Both open the in-app policies page, so the fragments name that page
+                (and its cancellation card) instead of an empty "#". */}
+            <a href="#policy-cancellation" onClick={e => { e.preventDefault(); onPolicies("cancellation"); }}>Cancellation Policy</a>
+            <a href="#policies" onClick={e => { e.preventDefault(); onPolicies(); }}>Privacy Policy</a>
           </div>
           <div className="footer-col footer-col-contact">
             <h4>Contact</h4>
@@ -2396,11 +2570,11 @@ function PolicyPage({ section, onClose }) {
   const [closing, setClosing] = useState(false);
   const targetRef = useRef(null);
 
-  const requestClose = () => {
+  const requestClose = useCallback(() => {
     if (closing) return;
     setClosing(true);
     setTimeout(onClose, 320);
-  };
+  }, [closing, onClose]);
 
   // Lock page scroll while open
   useEffect(() => {
@@ -2418,7 +2592,7 @@ function PolicyPage({ section, onClose }) {
     const fn = e => { if (e.key === "Escape") requestClose(); };
     window.addEventListener("keydown", fn);
     return () => window.removeEventListener("keydown", fn);
-  }, [closing]);
+  }, [requestClose]);
 
   // Scroll to a deep-linked section (e.g. "cancellation") once mounted
   useEffect(() => {
@@ -2431,7 +2605,7 @@ function PolicyPage({ section, onClose }) {
   }, [section]);
 
   return (
-    <div className={`pol-page${closing ? " is-closing" : ""}`} role="dialog" aria-modal="true" aria-label="Hotel policies">
+    <div id="policies" className={`pol-page${closing ? " is-closing" : ""}`} role="dialog" aria-modal="true" aria-label="Hotel policies">
       <div className="rg-topbar">
         <button className="rg-back" aria-label="Back to site" onClick={requestClose}>
           <ChevronLeft size={16} strokeWidth={2.4} /> Back
@@ -2473,9 +2647,53 @@ function PolicyPage({ section, onClose }) {
 // ═══════════════════════════════════════════════════════════════════════════
 // APP
 // ═══════════════════════════════════════════════════════════════════════════════
+// Eases every .reveal block in the moment it reaches the viewport — one observer
+// for the whole page, each block fired once. Where IntersectionObserver is
+// missing, or the visitor prefers less motion, the blocks are simply shown.
+function useScrollReveal() {
+  useEffect(() => {
+    const blocks = document.querySelectorAll(".reveal:not(.is-visible)");
+    if (!blocks.length) return;
+    if (!("IntersectionObserver" in window) || reduceMotion()) {
+      blocks.forEach(el => el.classList.add("is-visible"));
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+    blocks.forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
+
 export default function App() {
   const [booking, setBooking] = useState(null);
   const [policies, setPolicies] = useState(null);
+
+  useScrollReveal();
+
+  // In-page links glide to their section instead of jumping, and the address bar
+  // keeps the fragment so the links stay shareable. Anything that opens a page of
+  // its own (the policy fragments, which only exist once that page is open), asks
+  // for a new tab, or already handled its own click is left to the browser.
+  useEffect(() => {
+    const onClick = e => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const link = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!link) return;
+      const id = decodeURIComponent(link.getAttribute("href").slice(1));
+      if (!id || !document.getElementById(id)) return;
+      e.preventDefault();
+      glideToElement(id);
+      if (window.history && window.history.pushState) window.history.pushState(null, "", `#${id}`);
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
 
   // Inject viewport meta to prevent mobile zoom/overflow issues
   useEffect(() => {

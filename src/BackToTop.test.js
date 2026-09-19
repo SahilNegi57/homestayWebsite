@@ -48,6 +48,22 @@ const scrollPageTo = (y, footerCircleTop = circleRect.top) => {
   });
 };
 
+// The glide to the top is driven frame by frame (App.js → glideTo), so time is
+// mocked and the manual rAF queue is flushed until it lands.
+const runGlide = (click) => {
+  let t = 1000;
+  const now = jest.spyOn(performance, "now").mockImplementation(() => t);
+  click();
+  for (let i = 0; i < 40; i++) {
+    t += 120;
+    flushRaf();
+  }
+  now.mockRestore();
+};
+
+// Every y the window was scrolled to, in order
+const scrollTops = () => scrollTo.mock.calls.map(([, y]) => y);
+
 // App reads matchMedia for reduced motion and for the phone-only Book Now
 // docking, so the stub needs the full listener surface, not just `matches`.
 const stubMatchMedia = () => {
@@ -103,10 +119,15 @@ it("renders a Back to top circle inside the footer", () => {
   expect(footerCircle()).toHaveClass("to-top");
 });
 
-it("scrolls the window back to the top when the footer circle is clicked", () => {
+it("glides the window back to the top when the footer circle is clicked", () => {
   render(<App />);
-  fireEvent.click(footerCircle());
-  expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: "smooth" });
+  scrollPageTo(1000);
+  runGlide(() => fireEvent.click(footerCircle()));
+
+  const tops = scrollTops();
+  expect(tops.length).toBeGreaterThan(3);                       // a glide, not one jump
+  expect(tops.every((y, i) => i === 0 || y <= tops[i - 1])).toBe(true);  // always upward
+  expect(tops[tops.length - 1]).toBe(0);                        // and it lands
 });
 
 it("jumps instantly rather than animating when reduced motion is preferred", () => {
@@ -147,6 +168,7 @@ it("hides the floating circle while the footer's own circle is on screen", () =>
 it("returns to the top from the floating circle too", () => {
   render(<App />);
   scrollPageTo(1000);
-  fireEvent.click(floatingCircle());
-  expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: "smooth" });
+  runGlide(() => fireEvent.click(floatingCircle()));
+
+  expect(scrollTops()[scrollTops().length - 1]).toBe(0);
 });
