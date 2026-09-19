@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/homestayWebsite/static/css/main.e6c13ad2.css",
-    "main.js": "/homestayWebsite/static/js/main.31b40da3.js",
+    "main.js": "/homestayWebsite/static/js/main.4fc5db2d.js",
     "static/js/453.29a7464c.chunk.js": "/homestayWebsite/static/js/453.29a7464c.chunk.js",
     "static/media/front.mp4": "/homestayWebsite/static/media/front.e6b6686ff1eb0bb6dd95.mp4",
     "static/media/IMG_20250324_112231.jpg.jpeg": "/homestayWebsite/static/media/IMG_20250324_112231.jpg.503ba67f6fa0daa672ab.jpeg",
@@ -18,7 +18,6 @@
     "static/media/img-20250324-112644-jpg.jpg": "/homestayWebsite/static/media/img-20250324-112644-jpg.2237cfbd13c687b462ab.jpg",
     "static/media/img-20250324-111957-jpg.jpg": "/homestayWebsite/static/media/img-20250324-111957-jpg.5ad63ee71504b01e9243.jpg",
     "static/media/img-20250324-112045-jpg.jpg": "/homestayWebsite/static/media/img-20250324-112045-jpg.dfc3f14e7e68c1594249.jpg",
-    "static/media/delux.jpeg": "/homestayWebsite/static/media/delux.a3f05efcb9debca81301.jpeg",
     "static/media/img-20250324-112649-jpg.jpg": "/homestayWebsite/static/media/img-20250324-112649-jpg.2a044ecbc05b5cb767ca.jpg",
     "static/media/img-20250324-112626-jpg.jpg": "/homestayWebsite/static/media/img-20250324-112626-jpg.28d1446928f38c228b21.jpg",
     "static/media/Standard.jpeg": "/homestayWebsite/static/media/Standard.ca2ee785eed0255da492.jpeg",
@@ -34,6 +33,7 @@
     "static/media/kedar.jpg": "/homestayWebsite/static/media/kedar.9ab1ec26c2c5f9a63306.jpg",
     "static/media/logo-opt.png": "/homestayWebsite/static/media/logo-opt.22ce73389fbc35f5c185.png",
     "static/media/guest1.jpg": "/homestayWebsite/static/media/guest1.5a6343fffcae343feb1d.jpg",
+    "static/media/food.jpg": "/homestayWebsite/static/media/food.6bb9d5f536740b98ec52.jpg",
     "static/media/ice3.jpg": "/homestayWebsite/static/media/ice3.17fe7fd945f8bea000a2.jpg",
     "static/media/priya.jpeg": "/homestayWebsite/static/media/priya.2c767529029edcad7a6b.jpeg",
     "static/media/Ammi.jpeg": "/homestayWebsite/static/media/Ammi.67fe878a55256107e856.jpeg",
@@ -43,11 +43,11 @@
     "static/media/prashant.jpeg": "/homestayWebsite/static/media/prashant.c7e36981fc27f861e06c.jpeg",
     "index.html": "/homestayWebsite/index.html",
     "main.e6c13ad2.css.map": "/homestayWebsite/static/css/main.e6c13ad2.css.map",
-    "main.31b40da3.js.map": "/homestayWebsite/static/js/main.31b40da3.js.map",
+    "main.4fc5db2d.js.map": "/homestayWebsite/static/js/main.4fc5db2d.js.map",
     "453.29a7464c.chunk.js.map": "/homestayWebsite/static/js/453.29a7464c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.31b40da3.js"
+    "static/js/main.4fc5db2d.js"
   ]
 }
